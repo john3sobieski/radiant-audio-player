@@ -63,8 +63,8 @@ class PlaybackService : MediaSessionService() {
                     .setAudioProcessorChain(SpeedAudioProcessorChain(AudioFxProcessor()))
                     .build()
         }.apply {
-            // Подключает FFmpeg-декодер (ALAC), если его AAR есть в сборке; системные декодеры остаются в приоритете
-            setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+            // Подключает FFmpeg-декодер (ALAC), если его AAR есть в сборке; FFmpeg раньше системных декодеров: у части телефонов есть свой ALAC-декодер, который падает; остальные форматы FFmpeg не берёт, т. к. собран только с ALAC
+            setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
         }
 
         val player = ExoPlayer.Builder(this, renderers)
