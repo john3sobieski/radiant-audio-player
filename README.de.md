@@ -24,7 +24,7 @@ Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deine
 - **Designs:** hell, echtes Schwarz (ideal für OLED-Displays) oder Systemstandard, mit dynamischen Farben ab Android 12.
 - **Energiesparen** (Einstellungen): *Aus*, *Mittel* (kaum Animationen, seltenere Fortschrittsaktualisierungen) oder *Intensiv* (zusätzlich erzwungenes schwarzes Design, Lautstärke auf 40 % begrenzt, nur Mono, EQ/Bass/Höhen/Subsonic/Normalisierung umgangen, Ausgabe nur über Kabel oder Handylautsprecher ohne Bluetooth, manueller Ordnerscan, kleinerer Cover-Cache).
 - **Titeldetails:** Tags, Format, Bitrate, Abtastrate, Kanäle, Dateigröße und mehr.
-- **Formate:** MP3, FLAC, OGG/Opus, M4A/AAC, WAV und alles, was Android sonst noch dekodieren kann.
+- **Formate:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV und alles, was Android sonst noch dekodieren kann.
 
 ## Voraussetzungen
 
@@ -66,6 +66,12 @@ Kotlin, Jetpack Compose (Material 3) und AndroidX Media3 (ExoPlayer).
 ## Mitwirken
 
 Issues und Pull Requests sind willkommen. Bei größeren Änderungen eröffne bitte zuerst ein Issue, um zu besprechen, was du ändern möchtest. Mit dem Einreichen eines Pull Requests erklärst du dich einverstanden, dass dein Beitrag unter derselben Lizenz wie das Projekt bereitgestellt wird.
+
+## Komponenten von Drittanbietern
+
+Die Wiedergabe von ALAC (Apple Lossless) nutzt den FFmpeg-Decoder aus AndroidX Media3. Der Workflow **Build APK** baut ihn aus dem unveränderten Quellcode von [FFmpeg](https://ffmpeg.org) 6.0 (nur der ALAC-Decoder, keine GPL-Komponenten aktiviert) zusammen mit der Media3-1.5.1-Erweiterung (Apache-2.0) und bindet ihn als native Bibliothek in die App ein.
+
+FFmpeg bleibt unter seiner eigenen Lizenz, [LGPL 2.1 oder neuer](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), und nicht unter PolyForm Noncommercial. Der Quellcode ist unter <https://github.com/FFmpeg/FFmpeg> verfügbar (Branch `release/6.0`). Du kannst die App mit deinem eigenen, veränderten FFmpeg neu bauen, indem du den Workflow anpasst. Builds ohne diesen Schritt (zum Beispiel lokal, ohne `.aar` in `app/libs`) funktionieren normal, können aber kein ALAC abspielen.
 
 ## Lizenz
 

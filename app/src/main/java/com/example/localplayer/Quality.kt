@@ -106,6 +106,10 @@ object AudioProbe {
         fun meta(key: Int): Int =
             runCatching { retriever?.extractMetadata(key)?.toIntOrNull() }.getOrNull() ?: 0
 
+        // ALAC лежит в том же контейнере M4A, что и AAC: отличаем по содержимому
+        val alac = if (ext == "m4a") runCatching { readAlac(ctx, uri, fileSize) }.getOrNull() else null
+        if (alac != null) return AudioInfo("ALAC", 0, alac.first, alac.second, true)
+
         val lossless = ext == "flac" || ext == "wav"
         if (lossless) {
             // Точные значения берём прямо из заголовка файла: так работает на любой версии Android
@@ -133,6 +137,52 @@ object AudioProbe {
     }
 
     // ---------- Чтение заголовков ----------
+
+    /**
+     * ALAC в M4A: ищем запись «alac» в описании сэмплов и берём из неё (частота, разрядность).
+     * Блок moov бывает в начале или в конце файла, поэтому смотрим оба края. Если не ALAC, возвращает null.
+     */
+    private fun readAlac(ctx: Context, uri: Uri, fileSize: Long): Pair<Int, Int>? {
+        val chunk = 1 shl 20
+        fun scan(buf: ByteArray, len: Int): Pair<Int, Int>? {
+            val tag = byteArrayOf(0x61, 0x6C, 0x61, 0x63) // "alac"
+            fun indexOf(from: Int): Int {
+                var i = from
+                while (i <= len - 4) {
+                    if (buf[i] == tag[0] && buf[i + 1] == tag[1] && buf[i + 2] == tag[2] && buf[i + 3] == tag[3]) return i
+                    i++
+                }
+                return -1
+            }
+            val first = indexOf(0)
+            if (first < 0) return null
+            // Первая запись «alac» — тип аудио-записи, вторая — вложенный блок с параметрами
+            val cfg = indexOf(first + 4)
+            if (cfg < 0 || cfg + 32 > len) return Pair(0, 0)
+            val bits = buf[cfg + 13].toInt() and 0xFF
+            val rate = ((buf[cfg + 28].toInt() and 0xFF) shl 24) or ((buf[cfg + 29].toInt() and 0xFF) shl 16) or
+                ((buf[cfg + 30].toInt() and 0xFF) shl 8) or (buf[cfg + 31].toInt() and 0xFF)
+            return Pair(rate, bits)
+        }
+        ctx.contentResolver.openInputStream(uri)?.use { ins ->
+            val head = ByteArray(chunk)
+            var n = 0
+            while (n < chunk) { val r = ins.read(head, n, chunk - n); if (r < 0) break; n += r }
+            scan(head, n)?.let { return it }
+        }
+        if (fileSize > 2L * chunk) {
+            ctx.contentResolver.openInputStream(uri)?.use { ins ->
+                var toSkip = fileSize - chunk
+                while (toSkip > 0) { val s = ins.skip(toSkip); if (s <= 0) return null; toSkip -= s }
+                val tail = ByteArray(chunk)
+                var n = 0
+                while (n < chunk) { val r = ins.read(tail, n, chunk - n); if (r < 0) break; n += r }
+                return scan(tail, n)
+            }
+        }
+        return null
+    }
+
 
     private fun InputStream.readFully(buf: ByteArray): Boolean {
         var off = 0

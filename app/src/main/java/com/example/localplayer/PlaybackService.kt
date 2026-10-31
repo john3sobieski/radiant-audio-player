@@ -62,6 +62,9 @@ class PlaybackService : MediaSessionService() {
                     .setEnableAudioTrackPlaybackParams(false)
                     .setAudioProcessorChain(SpeedAudioProcessorChain(AudioFxProcessor()))
                     .build()
+        }.apply {
+            // Подключает FFmpeg-декодер (ALAC), если его AAR есть в сборке; системные декодеры остаются в приоритете
+            setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         }
 
         val player = ExoPlayer.Builder(this, renderers)

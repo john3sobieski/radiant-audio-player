@@ -24,7 +24,7 @@ No ads, no accounts, no internet access required. Everything stays on your devic
 - **Themes:** light, true-black dark (great for OLED screens) or system default, with dynamic colors on Android 12+.
 - **Power saving** (Settings): *Off*, *Medium* (almost no animations, rarer progress updates) or *Intensive* (also forced black theme, volume capped at 40%, mono only, EQ/bass/treble/subsonic/normalization bypassed, wired or phone-speaker output only with no Bluetooth, manual folder scan, smaller cover cache).
 - **Track details:** tags, format, bitrate, sample rate, channels, file size and more.
-- **Formats:** MP3, FLAC, OGG/Opus, M4A/AAC, WAV and anything else Android can decode.
+- **Formats:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV and anything else Android can decode.
 
 ## Requirements
 
@@ -66,6 +66,12 @@ Kotlin, Jetpack Compose (Material 3) and AndroidX Media3 (ExoPlayer).
 ## Contributing
 
 Issues and pull requests are welcome. For larger changes, please open an issue first to discuss what you would like to change. By submitting a pull request you agree that your contribution is provided under the same license as the project.
+
+## Third-party components
+
+ALAC (Apple Lossless) playback uses the FFmpeg decoder from AndroidX Media3. The **Build APK** workflow builds it from the unmodified [FFmpeg](https://ffmpeg.org) 6.0 source (only the ALAC decoder, no GPL components enabled) together with the Media3 1.5.1 extension (Apache-2.0), and links it into the app as a native library.
+
+FFmpeg stays under its own license, [LGPL 2.1 or later](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), not PolyForm Noncommercial. The source code is available at <https://github.com/FFmpeg/FFmpeg> (branch `release/6.0`). You can rebuild the app with your own modified FFmpeg by changing the workflow. Builds made without this step (for example locally, without an `.aar` in `app/libs`) work normally but cannot play ALAC.
 
 ## License
 

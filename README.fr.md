@@ -24,7 +24,7 @@ Pas de publicités, pas de comptes, aucun accès à Internet requis. Tout reste 
 - **Thèmes :** clair, sombre noir pur (idéal pour les écrans OLED) ou celui du système, avec couleurs dynamiques sur Android 12+.
 - **Économie d'énergie** (Paramètres) : *Désactivée*, *Moyenne* (presque aucune animation, mises à jour de la progression moins fréquentes) ou *Intensive* (en plus : thème noir forcé, volume limité à 40 %, mono uniquement, égaliseur/basses/aigus/subsonique/normalisation contournés, sortie filaire ou haut-parleur du téléphone uniquement, sans Bluetooth, analyse manuelle du dossier, cache de pochettes réduit).
 - **Détails du titre :** tags, format, débit, fréquence d'échantillonnage, canaux, taille du fichier et plus encore.
-- **Formats :** MP3, FLAC, OGG/Opus, M4A/AAC, WAV et tout ce qu'Android sait décoder.
+- **Formats :** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV et tout ce qu'Android sait décoder.
 
 ## Configuration requise
 
@@ -66,6 +66,12 @@ Kotlin, Jetpack Compose (Material 3) et AndroidX Media3 (ExoPlayer).
 ## Contribuer
 
 Les issues et les pull requests sont les bienvenues. Pour les changements importants, ouvrez d'abord une issue afin de discuter de ce que vous souhaitez modifier. En soumettant une pull request, vous acceptez que votre contribution soit fournie sous la même licence que le projet.
+
+## Composants tiers
+
+La lecture d'ALAC (Apple Lossless) utilise le décodeur FFmpeg d'AndroidX Media3. Le workflow **Build APK** le compile à partir du code source non modifié de [FFmpeg](https://ffmpeg.org) 6.0 (uniquement le décodeur ALAC, aucun composant GPL) avec l'extension Media3 1.5.1 (Apache-2.0), puis l'intègre à l'application sous forme de bibliothèque native.
+
+FFmpeg reste sous sa propre licence, [LGPL 2.1 ou ultérieure](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), et non sous PolyForm Noncommercial. Le code source est disponible sur <https://github.com/FFmpeg/FFmpeg> (branche `release/6.0`). Vous pouvez recompiler l'application avec votre propre version modifiée de FFmpeg en modifiant le workflow. Les builds réalisés sans cette étape (par exemple en local, sans `.aar` dans `app/libs`) fonctionnent normalement mais ne peuvent pas lire l'ALAC.
 
 ## Licence
 

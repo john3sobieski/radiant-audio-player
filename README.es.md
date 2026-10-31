@@ -24,7 +24,7 @@ Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en
 - **Temas:** claro, oscuro con negro puro (ideal para pantallas OLED) o el predeterminado del sistema, con colores dinámicos en Android 12+.
 - **Ahorro de energía** (Ajustes): *Desactivado*, *Medio* (casi sin animaciones, actualizaciones de progreso menos frecuentes) o *Intensivo* (además tema negro forzado, volumen limitado al 40 %, solo mono, ecualizador/graves/agudos/subsónico/normalización omitidos, salida solo por cable o altavoz del teléfono sin Bluetooth, análisis manual de la carpeta, caché de carátulas más pequeña).
 - **Detalles de la canción:** etiquetas, formato, tasa de bits, frecuencia de muestreo, canales, tamaño del archivo y más.
-- **Formatos:** MP3, FLAC, OGG/Opus, M4A/AAC, WAV y cualquier otro que Android pueda decodificar.
+- **Formatos:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV y cualquier otro que Android pueda decodificar.
 
 ## Requisitos
 
@@ -66,6 +66,12 @@ Kotlin, Jetpack Compose (Material 3) y AndroidX Media3 (ExoPlayer).
 ## Contribuir
 
 Los issues y los pull requests son bienvenidos. Para cambios más grandes, abre primero un issue para comentar qué te gustaría cambiar. Al enviar un pull request aceptas que tu contribución se proporcione bajo la misma licencia que el proyecto.
+
+## Componentes de terceros
+
+La reproducción de ALAC (Apple Lossless) usa el decodificador FFmpeg de AndroidX Media3. El flujo de trabajo **Build APK** lo compila a partir del código fuente sin modificar de [FFmpeg](https://ffmpeg.org) 6.0 (solo el decodificador ALAC, sin componentes GPL) junto con la extensión de Media3 1.5.1 (Apache-2.0), y lo enlaza en la aplicación como biblioteca nativa.
+
+FFmpeg sigue bajo su propia licencia, [LGPL 2.1 o posterior](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), y no bajo PolyForm Noncommercial. El código fuente está disponible en <https://github.com/FFmpeg/FFmpeg> (rama `release/6.0`). Puedes recompilar la aplicación con tu propio FFmpeg modificado cambiando el flujo de trabajo. Las compilaciones hechas sin este paso (por ejemplo, en local, sin un `.aar` en `app/libs`) funcionan con normalidad, pero no pueden reproducir ALAC.
 
 ## Licencia
 

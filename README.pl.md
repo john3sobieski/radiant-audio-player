@@ -24,7 +24,7 @@ Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urzą
 - **Motywy:** jasny, ciemny z prawdziwą czernią (świetny do ekranów OLED) lub systemowy, z kolorami dynamicznymi na Androidzie 12+.
 - **Oszczędzanie energii** (Ustawienia): *Wyłączone*, *Średnie* (prawie bez animacji, rzadsze aktualizacje postępu) lub *Intensywne* (dodatkowo wymuszony czarny motyw, głośność ograniczona do 40%, tylko mono, pominięcie korektora/basów/tonów wysokich/subsonicznego/normalizacji, wyjście tylko przewodowe lub głośnik telefonu bez Bluetooth, ręczne skanowanie folderu, mniejsza pamięć podręczna okładek).
 - **Szczegóły utworu:** tagi, format, bitrate, częstotliwość próbkowania, kanały, rozmiar pliku i więcej.
-- **Formaty:** MP3, FLAC, OGG/Opus, M4A/AAC, WAV i wszystko, co Android potrafi odtworzyć.
+- **Formaty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV i wszystko, co Android potrafi odtworzyć.
 
 ## Wymagania
 
@@ -66,6 +66,12 @@ Kotlin, Jetpack Compose (Material 3) i AndroidX Media3 (ExoPlayer).
 ## Współtworzenie
 
 Issues i pull requesty są mile widziane. W przypadku większych zmian najpierw otwórz issue, aby omówić, co chcesz zmienić. Przesyłając pull request, zgadzasz się, że Twój wkład jest udostępniany na tej samej licencji co projekt.
+
+## Komponenty firm trzecich
+
+Odtwarzanie ALAC (Apple Lossless) korzysta z dekodera FFmpeg z AndroidX Media3. Workflow **Build APK** buduje go z niezmodyfikowanego kodu źródłowego [FFmpeg](https://ffmpeg.org) 6.0 (tylko dekoder ALAC, bez komponentów GPL) wraz z rozszerzeniem Media3 1.5.1 (Apache-2.0) i dołącza do aplikacji jako bibliotekę natywną.
+
+FFmpeg pozostaje na własnej licencji, [LGPL 2.1 lub nowszej](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), a nie PolyForm Noncommercial. Kod źródłowy jest dostępny pod adresem <https://github.com/FFmpeg/FFmpeg> (gałąź `release/6.0`). Możesz przebudować aplikację z własnym, zmodyfikowanym FFmpeg, zmieniając workflow. Kompilacje wykonane bez tego kroku (na przykład lokalnie, bez pliku `.aar` w `app/libs`) działają normalnie, ale nie odtwarzają ALAC.
 
 ## Licencja
 

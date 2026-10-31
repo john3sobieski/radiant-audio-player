@@ -24,7 +24,7 @@
 - **テーマ:** ライト、完全な黒のダーク（OLED 画面に最適）、またはシステム設定に従う。Android 12 以降ではダイナミックカラーに対応します。
 - **省電力**（設定）: *オフ*、*中*（アニメーションをほぼ無効化、進行状況の更新頻度を低下）、*強*（さらに黒テーマを強制、音量を40%に制限、モノラルのみ、EQ・低音・高音・サブソニック・正規化をバイパス、出力は有線または本体スピーカーのみで Bluetooth 不可、フォルダは手動スキャン、カバーキャッシュを縮小）。
 - **トラックの詳細:** タグ、形式、ビットレート、サンプルレート、チャンネル数、ファイルサイズなど。
-- **対応形式:** MP3、FLAC、OGG/Opus、M4A/AAC、WAV、その他 Android でデコードできるすべての形式。
+- **対応形式:** MP3、FLAC、OGG/Opus、M4A/AAC、ALAC、WAV、その他 Android でデコードできるすべての形式。
 
 ## 動作環境
 
@@ -66,6 +66,12 @@ Kotlin、Jetpack Compose（Material 3）、AndroidX Media3（ExoPlayer）。
 ## コントリビュート
 
 Issue と Pull Request を歓迎します。大きな変更の場合は、まず Issue を立てて変更内容を相談してください。Pull Request を送信することで、あなたの貢献がプロジェクトと同じライセンスで提供されることに同意したものとみなされます。
+
+## サードパーティ製コンポーネント
+
+ALAC（Apple Lossless）の再生には、AndroidX Media3 の FFmpeg デコーダーを使用しています。**Build APK** ワークフローが、未改変の [FFmpeg](https://ffmpeg.org) 6.0 のソースコード（ALAC デコーダーのみ、GPL コンポーネントは無効）と Media3 1.5.1 の拡張機能（Apache-2.0）からこれをビルドし、ネイティブライブラリとしてアプリにリンクします。
+
+FFmpeg は PolyForm Noncommercial ではなく、独自のライセンスである [LGPL 2.1 以降](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)のままです。ソースコードは <https://github.com/FFmpeg/FFmpeg>（ブランチ `release/6.0`）で入手できます。ワークフローを変更すれば、独自に改変した FFmpeg でアプリを再ビルドできます。この手順を省いたビルド（たとえば `app/libs` に `.aar` がないローカルビルド）は通常どおり動作しますが、ALAC は再生できません。
 
 ## ライセンス
 

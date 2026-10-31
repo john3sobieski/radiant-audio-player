@@ -23,6 +23,27 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: "8.13"
+      # FFmpeg-декодер для ALAC. Собирается из исходников Media3 (1.5.1) и FFmpeg (6.0), результат кэшируется.
+      - name: Cache FFmpeg decoder
+        id: ffmpeg-cache
+        uses: actions/cache@v4
+        with:
+          path: app/libs
+          key: ffmpeg-decoder-media3-1.5.1-ffmpeg-6.0-alac-v1
+      - name: Build FFmpeg decoder (ALAC)
+        if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update && sudo apt-get install -y nasm
+          git clone --depth 1 --branch 1.5.1 https://github.com/androidx/media.git media3-src
+          git clone --depth 1 --branch release/6.0 https://github.com/FFmpeg/FFmpeg.git ffmpeg-src
+          MODULE="$PWD/media3-src/libraries/decoder_ffmpeg/src/main"
+          ln -s "$PWD/ffmpeg-src" "$MODULE/jni/ffmpeg"
+          (cd "$MODULE/jni" && ./build_ffmpeg.sh "$MODULE" "$ANDROID_NDK_LATEST_HOME" linux-x86_64 21 alac)
+          (cd media3-src && ./gradlew :lib-decoder-ffmpeg:assembleRelease --no-daemon)
+          mkdir -p app/libs
+          AAR=$(find media3-src -type f -name '*.aar' | grep -i ffmpeg | grep -i release | head -n 1)
+          echo "FFmpeg AAR: $AAR"
+          cp "$AAR" app/libs/media3-decoder-ffmpeg.aar
       - name: Prepare signing key
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}

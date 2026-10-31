@@ -24,7 +24,7 @@ Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální aud
 - **Motivy:** světlý, skutečně černý tmavý (skvělý pro OLED displeje) nebo podle systému, s dynamickými barvami na Androidu 12+.
 - **Úspora energie** (Nastavení): *Vypnuto*, *Střední* (téměř žádné animace, řidší aktualizace průběhu) nebo *Intenzivní* (navíc vynucený černý motiv, hlasitost omezená na 40 %, pouze mono, vynechání ekvalizéru/basů/výšek/subsonického filtru/normalizace, výstup pouze přes kabel nebo reproduktor telefonu bez Bluetooth, ruční prohledání složky, menší mezipaměť obalů).
 - **Podrobnosti o skladbě:** tagy, formát, bitrate, vzorkovací frekvence, kanály, velikost souboru a další.
-- **Formáty:** MP3, FLAC, OGG/Opus, M4A/AAC, WAV a cokoli dalšího, co Android dokáže dekódovat.
+- **Formáty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV a cokoli dalšího, co Android dokáže dekódovat.
 
 ## Požadavky
 
@@ -66,6 +66,12 @@ Kotlin, Jetpack Compose (Material 3) a AndroidX Media3 (ExoPlayer).
 ## Přispívání
 
 Issues a pull requesty jsou vítány. U větších změn prosím nejprve otevřete issue a probereme, co chcete změnit. Odesláním pull requestu souhlasíte s tím, že váš příspěvek je poskytnut pod stejnou licencí jako projekt.
+
+## Komponenty třetích stran
+
+Přehrávání ALAC (Apple Lossless) využívá dekodér FFmpeg z AndroidX Media3. Workflow **Build APK** jej sestaví z neupraveného zdrojového kódu [FFmpeg](https://ffmpeg.org) 6.0 (pouze dekodér ALAC, žádné komponenty GPL) spolu s rozšířením Media3 1.5.1 (Apache-2.0) a připojí do aplikace jako nativní knihovnu.
+
+FFmpeg zůstává pod vlastní licencí, [LGPL 2.1 nebo novější](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), nikoli PolyForm Noncommercial. Zdrojový kód je k dispozici na <https://github.com/FFmpeg/FFmpeg> (větev `release/6.0`). Aplikaci můžete sestavit s vlastním upraveným FFmpeg úpravou workflow. Sestavení bez tohoto kroku (například lokální, bez souboru `.aar` v `app/libs`) funguje normálně, ale nepřehraje ALAC.
 
 ## Licence
 

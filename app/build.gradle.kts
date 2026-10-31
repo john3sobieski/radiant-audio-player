@@ -63,6 +63,10 @@ dependencies {
     val media3 = "1.5.1"
     implementation("androidx.media3:media3-exoplayer:$media3")
     implementation("androidx.media3:media3-session:$media3")
+
+    // FFmpeg-декодер Media3 (ALAC). AAR собирается в CI (см. .github/workflows/build.yml) и кладётся в app/libs.
+    // Если файла нет (обычная локальная сборка), приложение собирается и работает без ALAC.
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
 }
 kotlin {
     compilerOptions {
