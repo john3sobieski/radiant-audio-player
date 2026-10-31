@@ -529,6 +529,11 @@ class PlayerViewModel(app: Application) : AndroidViewModel(app) {
         }
         override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
             uiPlaying = isPlaying
+            // Раньше ошибки воспроизведения молча игнорировались: показываем причину (код и цепочку сообщений)
+            val msg = generateSequence<Throwable>(error) { it.cause }
+                .mapNotNull { it.message }.distinct().joinToString(" <- ")
+            android.util.Log.e("Radiant", "Playback error ${error.errorCodeName}: $msg", error)
+            android.widget.Toast.makeText(getApplication<Application>(), "${error.errorCodeName}: $msg".take(300), android.widget.Toast.LENGTH_LONG).show()
         }
         override fun onPlaybackStateChanged(playbackState: Int) {
             if (playbackState == Player.STATE_ENDED) uiPlaying = isPlaying
