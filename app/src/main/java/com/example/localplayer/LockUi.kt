@@ -16,6 +16,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -364,18 +365,8 @@ internal fun CodeInput(
             )
         }
 
-        // Текст ошибки плавно проявляется и гаснет (последний текст запоминаем, чтобы он не пропадал раньше времени)
-        val lastError = remember { mutableStateOf("") }
-        if (error != null) lastError.value = error
-        Box(Modifier.fillMaxWidth().height(32.dp), contentAlignment = Alignment.Center) {
-            AnimatedVisibility(
-                visible = error != null,
-                enter = calmEnter(fadeIn(tween(180))),
-                exit = calmExit(fadeOut(tween(180))),
-            ) {
-                Text(lastError.value, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
-            }
-        }
+        // Текст ошибки плавно проявляется и гаснет
+        ErrorLine(error)
 
         if (type.isPin) {
             Spacer(Modifier.height(8.dp))
@@ -399,6 +390,22 @@ internal fun CodeInput(
         }
         Spacer(Modifier.height(8.dp))
         footer()
+    }
+}
+
+/** Строка ошибки под полем. Последний текст запоминается, чтобы он не пропадал раньше, чем закончится затухание. */
+@Composable
+private fun ErrorLine(error: String?) {
+    val last = remember { mutableStateOf("") }
+    if (error != null) last.value = error
+    Box(Modifier.fillMaxWidth().height(32.dp), contentAlignment = Alignment.Center) {
+        AnimatedVisibility(
+            visible = error != null,
+            enter = calmEnter(fadeIn(tween(180))),
+            exit = calmExit(fadeOut(tween(180))),
+        ) {
+            Text(last.value, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+        }
     }
 }
 
