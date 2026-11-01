@@ -250,4 +250,35 @@
         <item quantity="many">%d треков</item>
         <item quantity="other">%d трека</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Загрузка из облака</string>
+    <string name="cloud_hint">Односторонняя: музыка только скачивается в отдельную папку внутри вашей папки с музыкой. В облаке ничего не загружается, не меняется и не удаляется.</string>
+    <string name="cloud_not_connected">Не подключено</string>
+    <string name="cloud_connected">Подключено</string>
+    <string name="cloud_connect">Подключить</string>
+    <string name="cloud_disconnect">Отключить</string>
+    <string name="cloud_folder_label">Папка в облаке: %1$s</string>
+    <string name="cloud_folder_root">корень</string>
+    <string name="cloud_choose_folder">Выберите папку в облаке</string>
+    <string name="cloud_use_folder">Выбрать эту папку</string>
+    <string name="cloud_no_subfolders">Вложенных папок нет</string>
+    <string name="cloud_download">Скачать в «%1$s»</string>
+    <string name="cloud_need_music_folder">Сначала выберите папку с музыкой выше.</string>
+    <string name="cloud_checking">Проверяю облако…</string>
+    <string name="cloud_progress">Файлов: %1$d из %2$d</string>
+    <string name="cloud_confirm_title">Скачать из %1$s?</string>
+    <string name="cloud_confirm_body">Новых файлов: %1$d (%2$s). Уже есть на устройстве: %3$d.\n\nОни будут сохранены в папку «%4$s» внутри вашей папки с музыкой.</string>
+    <string name="cloud_start">Скачать</string>
+    <string name="cloud_done_title">Загрузка завершена</string>
+    <string name="cloud_cancelled_title">Загрузка отменена</string>
+    <string name="cloud_result">Скачано: %1$d. Уже были: %2$d. Не удалось: %3$d.</string>
+    <string name="cloud_nothing_new">Нового нет: всё из этой папки облака уже на устройстве.</string>
+    <string name="cloud_empty">В этой папке облака нет аудиофайлов.</string>
+    <string name="cloud_error">Что-то пошло не так: %1$s</string>
+    <string name="cloud_connect_failed">Не удалось подключиться: %1$s</string>
+    <string name="cloud_no_browser">Не найден браузер для входа.</string>
+    <string name="cloud_need_write">Для загрузки Radiant нужно разрешение на запись в папку с музыкой. Выберите папку ещё раз.</string>
+    <string name="cloud_notif_channel">Загрузка из облака</string>
+    <string name="cloud_notif_title">Загрузка из %1$s</string>
 </resources>

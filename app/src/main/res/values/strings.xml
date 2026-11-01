@@ -249,4 +249,35 @@
         <item quantity="one">%d track</item>
         <item quantity="other">%d tracks</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Download from the cloud</string>
+    <string name="cloud_hint">One-way: music is only downloaded into a separate folder inside your music folder. Nothing in the cloud is uploaded, changed or deleted.</string>
+    <string name="cloud_not_connected">Not connected</string>
+    <string name="cloud_connected">Connected</string>
+    <string name="cloud_connect">Connect</string>
+    <string name="cloud_disconnect">Disconnect</string>
+    <string name="cloud_folder_label">Cloud folder: %1$s</string>
+    <string name="cloud_folder_root">root</string>
+    <string name="cloud_choose_folder">Choose cloud folder</string>
+    <string name="cloud_use_folder">Use this folder</string>
+    <string name="cloud_no_subfolders">No subfolders</string>
+    <string name="cloud_download">Download to “%1$s”</string>
+    <string name="cloud_need_music_folder">Choose the music folder above first.</string>
+    <string name="cloud_checking">Checking the cloud…</string>
+    <string name="cloud_progress">%1$d of %2$d files</string>
+    <string name="cloud_confirm_title">Download from %1$s?</string>
+    <string name="cloud_confirm_body">New files: %1$d (%2$s). Already on the device: %3$d.\n\nThey will be saved to the “%4$s” folder inside your music folder.</string>
+    <string name="cloud_start">Download</string>
+    <string name="cloud_done_title">Download finished</string>
+    <string name="cloud_cancelled_title">Download cancelled</string>
+    <string name="cloud_result">Downloaded: %1$d. Already there: %2$d. Failed: %3$d.</string>
+    <string name="cloud_nothing_new">Nothing new: everything from this cloud folder is already on your device.</string>
+    <string name="cloud_empty">There are no audio files in this cloud folder.</string>
+    <string name="cloud_error">Something went wrong: %1$s</string>
+    <string name="cloud_connect_failed">Could not connect: %1$s</string>
+    <string name="cloud_no_browser">No web browser found to sign in.</string>
+    <string name="cloud_need_write">To download, Radiant needs permission to write to your music folder. Choose the folder again.</string>
+    <string name="cloud_notif_channel">Cloud download</string>
+    <string name="cloud_notif_title">Downloading from %1$s</string>
 </resources>

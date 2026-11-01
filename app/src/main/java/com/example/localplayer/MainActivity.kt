@@ -2,6 +2,7 @@ package com.example.localplayer
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -52,6 +53,8 @@ class MainActivity : ComponentActivity() {
         AppLock.init(this)
         applySecure(AppLock.locked)
         enableEdgeToEdge()
+        // Возврат из браузера после входа в Dropbox (если приложение было выгружено из памяти)
+        CloudAuth.handleRedirect(this, intent)
 
         if (Build.VERSION.SDK_INT >= 33) {
             notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -81,6 +84,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        CloudAuth.handleRedirect(this, intent)
+    }
+
     private fun applySecure(on: Boolean) {
         if (on) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         else window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
@@ -88,12 +97,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        CloudSync.appVisible = true
         // Каждый вход в приложение (запуск или возврат из фона): проверяем папку на новые и удалённые файлы
         vm.refresh()
     }
 
     override fun onStop() {
         super.onStop()
+        CloudSync.appVisible = false
         CoverStore.flush()
         // Каждый уход в фон закрывает приложение блокировкой. Пересоздание активности (смена языка, поворот)
         // и системное окно выбора папки, которое мы сами открыли, уходом не считаются.

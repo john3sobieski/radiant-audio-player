@@ -250,4 +250,35 @@
         <item quantity="many">%d utworów</item>
         <item quantity="other">%d utworu</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Pobieranie z chmury</string>
+    <string name="cloud_hint">W jedną stronę: muzyka jest tylko pobierana do osobnego folderu wewnątrz Twojego folderu z muzyką. W chmurze nic nie jest wysyłane, zmieniane ani usuwane.</string>
+    <string name="cloud_not_connected">Nie połączono</string>
+    <string name="cloud_connected">Połączono</string>
+    <string name="cloud_connect">Połącz</string>
+    <string name="cloud_disconnect">Rozłącz</string>
+    <string name="cloud_folder_label">Folder w chmurze: %1$s</string>
+    <string name="cloud_folder_root">katalog główny</string>
+    <string name="cloud_choose_folder">Wybierz folder w chmurze</string>
+    <string name="cloud_use_folder">Użyj tego folderu</string>
+    <string name="cloud_no_subfolders">Brak podfolderów</string>
+    <string name="cloud_download">Pobierz do „%1$s”</string>
+    <string name="cloud_need_music_folder">Najpierw wybierz powyżej folder z muzyką.</string>
+    <string name="cloud_checking">Sprawdzanie chmury…</string>
+    <string name="cloud_progress">Pliki: %1$d z %2$d</string>
+    <string name="cloud_confirm_title">Pobrać z %1$s?</string>
+    <string name="cloud_confirm_body">Nowe pliki: %1$d (%2$s). Już na urządzeniu: %3$d.\n\nZostaną zapisane w folderze „%4$s” wewnątrz Twojego folderu z muzyką.</string>
+    <string name="cloud_start">Pobierz</string>
+    <string name="cloud_done_title">Pobieranie zakończone</string>
+    <string name="cloud_cancelled_title">Pobieranie anulowane</string>
+    <string name="cloud_result">Pobrano: %1$d. Już były: %2$d. Błędy: %3$d.</string>
+    <string name="cloud_nothing_new">Brak nowości: wszystko z tego folderu chmury jest już na urządzeniu.</string>
+    <string name="cloud_empty">W tym folderze chmury nie ma plików audio.</string>
+    <string name="cloud_error">Coś poszło nie tak: %1$s</string>
+    <string name="cloud_connect_failed">Nie udało się połączyć: %1$s</string>
+    <string name="cloud_no_browser">Nie znaleziono przeglądarki do zalogowania.</string>
+    <string name="cloud_need_write">Aby pobierać, Radiant potrzebuje uprawnienia do zapisu w folderze z muzyką. Wybierz folder ponownie.</string>
+    <string name="cloud_notif_channel">Pobieranie z chmury</string>
+    <string name="cloud_notif_title">Pobieranie z %1$s</string>
 </resources>

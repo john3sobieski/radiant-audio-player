@@ -14,6 +14,14 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        // Ключ для загрузки из облака (Dropbox App key). Он не секретен (вход идёт через PKCE),
+        // но и не хранятся в репозитории: приходит из переменной окружения (переменная GitHub Actions).
+        // Если ключ не задан, блок загрузки из облака в настройках просто не показывается.
+        val dropboxKey = (System.getenv("DROPBOX_APP_KEY") ?: "").trim()
+        buildConfigField("String", "DROPBOX_APP_KEY", "\"$dropboxKey\"")
+        // Схема адреса, на который Dropbox возвращает в приложение после входа (см. AndroidManifest.xml)
+        manifestPlaceholders["dropboxScheme"] = "db-" + dropboxKey.ifEmpty { "unconfigured" }
     }
 
     // Ключ подписи release хранится вне репозитория: путь и пароль приходят из переменных окружения
@@ -47,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

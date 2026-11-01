@@ -4,13 +4,14 @@
 
 Prosty, natywny odtwarzacz muzyki na Androida dla Twoich **lokalnych plików audio**. Odtwarza muzykę tylko z jednego wybranego przez Ciebie folderu, dzięki czemu dzwonki, wiadomości głosowe i inne dźwięki z telefonu nigdy nie trafiają do biblioteki.
 
-Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urządzeniu.
+Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urządzeniu; internet jest używany tylko wtedy, gdy sam zdecydujesz się pobrać muzykę z własnej chmury (Dropbox).
 
 > **Języki:** angielski, niemiecki, rosyjski, ukraiński, chiński, japoński, francuski, czeski, hiszpański i polski. Wybierz język w **Ustawienia → Język aplikacji** lub zostaw *System*, aby aplikacja korzystała z języka telefonu (jeśli język telefonu nie jest obsługiwany, używany jest angielski).
 
 ## Funkcje
 
 - **Twoja muzyka, Twój folder.** Wybierasz folder raz; Radiant skanuje go wraz z podfolderami i skanuje ponownie przy każdym otwarciu aplikacji. Korzysta z Storage Access Framework systemu Android, więc nie widzi niczego poza tym folderem.
+- **Pobieranie z chmury (opcjonalnie).** W *Ustawienia → Folder z muzyką* możesz połączyć swój Dropbox i pobrać muzykę z wybranego folderu w chmurze do osobnego folderu `Dropbox` wewnątrz folderu z muzyką. Działa tylko w jedną stronę: w chmurze nic nie jest wysyłane, zmieniane ani usuwane, a na urządzeniu nic nie jest usuwane ani nadpisywane. Logowanie odbywa się w przeglądarce, więc aplikacja nigdy nie widzi Twojego hasła.
 - **Biblioteka:** Playlisty, Albumy (grupowane automatycznie na podstawie tagów w plikach) i Utwory, z wyszukiwaniem i sortowaniem w każdej sekcji.
 - **Playlisty:** tworzenie, zmiana nazwy, usuwanie, dodawanie i usuwanie utworów. *Polubione utwory* są zawsze przypięte na górze.
 - **Kolejki:** czwarta sekcja z dokładnie czterema stałymi kolejkami (nie można ich tworzyć ani usuwać). Dodawaj utwory przyciskiem w odtwarzaczu lub z menu „⋮”, usuwaj je i zmieniaj ich kolejność długim przytrzymaniem i przeciągnięciem albo opcjami „przesuń w górę / w dół”.

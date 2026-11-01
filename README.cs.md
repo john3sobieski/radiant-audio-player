@@ -4,13 +4,14 @@
 
 Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální audio soubory**. Přehrává hudbu pouze z jediné složky, kterou si vyberete, takže vyzvánění, hlasové zprávy a další zvuky ve vašem telefonu se nikdy nedostanou do knihovny.
 
-Žádné reklamy, žádné účty, žádný přístup k internetu. Vše zůstává ve vašem zařízení.
+Žádné reklamy, žádné účty, žádný přístup k internetu. Vše zůstává ve vašem zařízení; internet se používá jen tehdy, když sami zvolíte stažení hudby z vlastního cloudu (Dropbox).
 
 > **Jazyky:** angličtina, němčina, ruština, ukrajinština, čínština, japonština, francouzština, čeština, španělština a polština. Vyberte jazyk v **Nastavení → Jazyk aplikace**, nebo nechte *Systém* a aplikace bude používat jazyk telefonu (pokud jazyk telefonu není podporován, použije se angličtina).
 
 ## Funkce
 
 - **Vaše hudba, vaše složka.** Složku vyberete jednou; Radiant prohledá ji i její podsložky a při každém spuštění aplikace ji prohledá znovu. Využívá Storage Access Framework systému Android, takže nevidí nic mimo tuto složku.
+- **Stahování z cloudu (volitelné).** V *Nastavení → Složka s hudbou* můžete připojit svůj Dropbox a stáhnout hudbu z vybrané složky v cloudu do samostatné složky `Dropbox` uvnitř složky s hudbou. Funguje jen jedním směrem: v cloudu se nic nenahrává, nemění ani nemaže a v zařízení se nic nemaže ani nepřepisuje. Přihlášení probíhá v prohlížeči, takže aplikace vaše heslo nikdy nevidí.
 - **Knihovna:** Playlisty, Alba (automaticky seskupená podle tagů v souborech) a Skladby, s vyhledáváním a řazením v každé sekci.
 - **Playlisty:** vytváření, přejmenování, mazání, přidávání a odebírání skladeb. *Oblíbené skladby* jsou vždy připnuty nahoře.
 - **Fronty:** čtvrtá sekce s přesně čtyřmi pevnými frontami (nelze je vytvářet ani mazat). Skladby přidáte tlačítkem v přehrávači nebo v nabídce „⋮“, můžete je odebírat a měnit jejich pořadí dlouhým stisknutím a přetažením nebo pomocí „posunout nahoru / dolů“.

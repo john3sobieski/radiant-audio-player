@@ -4,13 +4,14 @@
 
 Un reproductor de música nativo y sencillo para Android, para tus **archivos de audio locales**. Reproduce música únicamente de la carpeta que elijas, así que los tonos de llamada, los mensajes de voz y otros sonidos de tu teléfono nunca acaban en tu biblioteca.
 
-Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en tu dispositivo.
+Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en tu dispositivo; internet solo se usa si decides descargar música desde tu propia nube (Dropbox).
 
 > **Idiomas:** inglés, alemán, ruso, ucraniano, chino, japonés, francés, checo, español y polaco. Elige uno en **Ajustes → Idioma de la aplicación**, o déjalo en *Sistema* para seguir el idioma del teléfono (se usa inglés si el idioma del teléfono no es compatible).
 
 ## Características
 
 - **Tu música, tu carpeta.** Elige una carpeta una sola vez; Radiant la analiza junto con sus subcarpetas y vuelve a analizarla cada vez que abres la aplicación. Usa el Storage Access Framework de Android, por lo que no puede ver nada fuera de esa carpeta.
+- **Descarga desde la nube (opcional).** En *Ajustes → Carpeta de música* puedes conectar tu Dropbox y descargar música de una carpeta de la nube que elijas a una carpeta aparte `Dropbox` dentro de tu carpeta de música. Funciona en un solo sentido: en la nube no se sube, cambia ni elimina nada, y en el dispositivo no se elimina ni sobrescribe nada. El inicio de sesión se hace en el navegador, así que la aplicación nunca ve tu contraseña.
 - **Biblioteca:** Listas de reproducción, Álbumes (agrupados automáticamente según las etiquetas de los archivos) y Canciones, con búsqueda y ordenación en cada sección.
 - **Listas de reproducción:** crear, renombrar, eliminar, añadir y quitar canciones. *Canciones que me gustan* siempre está fijada arriba.
 - **Colas:** una cuarta sección con exactamente cuatro colas fijas (no se pueden crear ni eliminar). Añade canciones desde el botón del reproductor o el menú «⋮», quítalas y reordénalas con una pulsación larga y arrastrando, o con «subir / bajar».

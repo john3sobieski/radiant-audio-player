@@ -4,13 +4,14 @@
 
 Un lecteur de musique Android natif et simple pour vos **fichiers audio locaux**. Il ne lit la musique que du seul dossier que vous choisissez, de sorte que les sonneries, les messages vocaux et autres sons de votre téléphone n'atterrissent jamais dans votre bibliothèque.
 
-Pas de publicités, pas de comptes, aucun accès à Internet requis. Tout reste sur votre appareil.
+Pas de publicités, pas de comptes, aucun accès à Internet requis. Tout reste sur votre appareil ; Internet n'est utilisé que si vous choisissez de télécharger de la musique depuis votre propre cloud (Dropbox).
 
 > **Langues :** anglais, allemand, russe, ukrainien, chinois, japonais, français, tchèque, espagnol et polonais. Choisissez-en une dans **Paramètres → Langue de l'application**, ou laissez *Système* pour suivre la langue du téléphone (l'anglais est utilisé si la langue du téléphone n'est pas prise en charge).
 
 ## Fonctionnalités
 
 - **Votre musique, votre dossier.** Choisissez un dossier une seule fois ; Radiant l'analyse ainsi que ses sous-dossiers, et le réanalyse à chaque ouverture de l'application. Il utilise le Storage Access Framework d'Android, il ne peut donc rien voir en dehors de ce dossier.
+- **Téléchargement depuis le cloud (facultatif).** Dans *Paramètres → Dossier de musique*, vous pouvez connecter votre Dropbox et télécharger la musique d'un dossier cloud de votre choix dans un dossier distinct `Dropbox` à l'intérieur de votre dossier de musique. Strictement à sens unique : rien n'est envoyé, modifié ou supprimé dans le cloud, et rien n'est supprimé ni écrasé sur l'appareil. La connexion se fait dans le navigateur : l'application ne voit jamais votre mot de passe.
 - **Bibliothèque :** Playlists, Albums (regroupés automatiquement d'après les tags des fichiers) et Titres, avec recherche et tri dans chaque section.
 - **Playlists :** créer, renommer, supprimer, ajouter et retirer des titres. *Titres likés* est toujours épinglée en haut.
 - **Files d'attente :** une quatrième section avec exactement quatre files fixes (elles ne peuvent être ni créées ni supprimées). Ajoutez des titres depuis le bouton du lecteur ou le menu « ⋮ », retirez-les et réorganisez-les par appui long et glissement, ou avec « monter / descendre ».

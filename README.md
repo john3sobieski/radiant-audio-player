@@ -4,13 +4,14 @@
 
 A simple, native Android music player for your **local audio files**. It plays music only from the one folder you choose, so ringtones, voice messages and other sounds on your phone never end up in your library.
 
-No ads, no accounts, no internet access required. Everything stays on your device.
+No ads, no accounts, no internet access required. Everything stays on your device; the internet is used only if you choose to download music from your own cloud (Dropbox).
 
 > **Languages:** English, German, Russian, Ukrainian, Chinese, Japanese, French, Czech, Spanish and Polish. Choose one under **Settings → App language**, or leave it on *System* to follow the phone (English is used if the phone language isn't supported).
 
 ## Features
 
 - **Your music, your folder.** Pick a folder once; Radiant scans it and its subfolders and rescans every time you open the app. It uses Android's Storage Access Framework, so it cannot see anything outside that folder.
+- **Cloud download (optional).** In *Settings → Music folder* you can connect your Dropbox and download music from a cloud folder you choose into a separate `Dropbox` folder inside your music folder. It works one way only: nothing is uploaded, changed or deleted in the cloud, and nothing on your device is deleted or overwritten. You sign in through your browser, so the app never sees your password.
 - **Library:** Playlists, Albums (grouped automatically from file tags) and Tracks, with search and sorting in every section.
 - **Playlists:** create, rename, delete, add and remove tracks. *Liked tracks* is always pinned at the top.
 - **Queues:** a fourth section with exactly four fixed queues (they can't be created or deleted). Add tracks from the player button or the "⋮" menu, remove them, and reorder by long-press drag or "move up / down".

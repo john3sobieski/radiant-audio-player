@@ -249,4 +249,35 @@
         <item quantity="many">%d de pistas</item>
         <item quantity="other">%d pistas</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Descargar desde la nube</string>
+    <string name="cloud_hint">En un solo sentido: la música solo se descarga en una carpeta aparte dentro de tu carpeta de música. En la nube no se sube, cambia ni elimina nada.</string>
+    <string name="cloud_not_connected">No conectado</string>
+    <string name="cloud_connected">Conectado</string>
+    <string name="cloud_connect">Conectar</string>
+    <string name="cloud_disconnect">Desconectar</string>
+    <string name="cloud_folder_label">Carpeta en la nube: %1$s</string>
+    <string name="cloud_folder_root">raíz</string>
+    <string name="cloud_choose_folder">Elegir carpeta en la nube</string>
+    <string name="cloud_use_folder">Usar esta carpeta</string>
+    <string name="cloud_no_subfolders">No hay subcarpetas</string>
+    <string name="cloud_download">Descargar en «%1$s»</string>
+    <string name="cloud_need_music_folder">Primero elige arriba la carpeta de música.</string>
+    <string name="cloud_checking">Comprobando la nube…</string>
+    <string name="cloud_progress">%1$d de %2$d archivos</string>
+    <string name="cloud_confirm_title">¿Descargar desde %1$s?</string>
+    <string name="cloud_confirm_body">Archivos nuevos: %1$d (%2$s). Ya en el dispositivo: %3$d.\n\nSe guardarán en la carpeta «%4$s» dentro de tu carpeta de música.</string>
+    <string name="cloud_start">Descargar</string>
+    <string name="cloud_done_title">Descarga terminada</string>
+    <string name="cloud_cancelled_title">Descarga cancelada</string>
+    <string name="cloud_result">Descargados: %1$d. Ya estaban: %2$d. Con error: %3$d.</string>
+    <string name="cloud_nothing_new">Nada nuevo: todo lo de esta carpeta de la nube ya está en tu dispositivo.</string>
+    <string name="cloud_empty">Esta carpeta de la nube no contiene archivos de audio.</string>
+    <string name="cloud_error">Algo salió mal: %1$s</string>
+    <string name="cloud_connect_failed">No se pudo conectar: %1$s</string>
+    <string name="cloud_no_browser">No se encontró ningún navegador para iniciar sesión.</string>
+    <string name="cloud_need_write">Para descargar, Radiant necesita permiso de escritura en tu carpeta de música. Elige la carpeta de nuevo.</string>
+    <string name="cloud_notif_channel">Descarga desde la nube</string>
+    <string name="cloud_notif_title">Descargando desde %1$s</string>
 </resources>

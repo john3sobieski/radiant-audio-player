@@ -4,13 +4,14 @@
 
 Ein einfacher, nativer Android-Musikplayer für deine **lokalen Audiodateien**. Er spielt Musik nur aus dem einen Ordner ab, den du auswählst, sodass Klingeltöne, Sprachnachrichten und andere Sounds auf deinem Handy nie in deiner Bibliothek landen.
 
-Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deinem Gerät.
+Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deinem Gerät; das Internet wird nur genutzt, wenn du Musik aus deiner eigenen Cloud (Dropbox) herunterladen möchtest.
 
 > **Sprachen:** Englisch, Deutsch, Russisch, Ukrainisch, Chinesisch, Japanisch, Französisch, Tschechisch, Spanisch und Polnisch. Wähle eine unter **Einstellungen → App-Sprache** oder lass sie auf *System*, um der Sprache des Handys zu folgen (wird die Handysprache nicht unterstützt, wird Englisch verwendet).
 
 ## Funktionen
 
 - **Deine Musik, dein Ordner.** Wähle einmal einen Ordner aus; Radiant durchsucht ihn samt Unterordnern und scannt bei jedem Öffnen der App erneut. Es nutzt Androids Storage Access Framework und kann daher nichts außerhalb dieses Ordners sehen.
+- **Download aus der Cloud (optional).** Unter *Einstellungen → Musikordner* kannst du dein Dropbox verbinden und Musik aus einem gewählten Cloud-Ordner in einen eigenen Ordner `Dropbox` innerhalb deines Musikordners herunterladen. Nur in eine Richtung: In der Cloud wird nichts hochgeladen, geändert oder gelöscht, und auf dem Gerät wird nichts gelöscht oder überschrieben. Die Anmeldung läuft im Browser, die App sieht dein Passwort also nie.
 - **Bibliothek:** Playlists, Alben (automatisch anhand der Datei-Tags gruppiert) und Titel, mit Suche und Sortierung in jedem Bereich.
 - **Playlists:** erstellen, umbenennen, löschen, Titel hinzufügen und entfernen. *Gefällt mir* ist immer ganz oben angeheftet.
 - **Warteschlangen:** ein vierter Bereich mit genau vier festen Warteschlangen (sie können nicht erstellt oder gelöscht werden). Titel über die Schaltfläche im Player oder das „⋮“-Menü hinzufügen, entfernen und per langem Drücken und Ziehen oder mit „nach oben / unten“ umsortieren.

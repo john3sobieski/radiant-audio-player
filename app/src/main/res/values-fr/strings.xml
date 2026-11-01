@@ -249,4 +249,35 @@
         <item quantity="many">%d de titres</item>
         <item quantity="other">%d titres</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Téléchargement depuis le cloud</string>
+    <string name="cloud_hint">À sens unique : la musique est seulement téléchargée dans un dossier distinct à l\'intérieur de votre dossier de musique. Rien n\'est envoyé, modifié ou supprimé dans le cloud.</string>
+    <string name="cloud_not_connected">Non connecté</string>
+    <string name="cloud_connected">Connecté</string>
+    <string name="cloud_connect">Se connecter</string>
+    <string name="cloud_disconnect">Se déconnecter</string>
+    <string name="cloud_folder_label">Dossier cloud : %1$s</string>
+    <string name="cloud_folder_root">racine</string>
+    <string name="cloud_choose_folder">Choisir le dossier cloud</string>
+    <string name="cloud_use_folder">Utiliser ce dossier</string>
+    <string name="cloud_no_subfolders">Aucun sous-dossier</string>
+    <string name="cloud_download">Télécharger dans « %1$s »</string>
+    <string name="cloud_need_music_folder">Choisissez d\'abord le dossier de musique ci-dessus.</string>
+    <string name="cloud_checking">Vérification du cloud…</string>
+    <string name="cloud_progress">%1$d fichiers sur %2$d</string>
+    <string name="cloud_confirm_title">Télécharger depuis %1$s ?</string>
+    <string name="cloud_confirm_body">Nouveaux fichiers : %1$d (%2$s). Déjà sur l\'appareil : %3$d.\n\nIls seront enregistrés dans le dossier « %4$s » à l\'intérieur de votre dossier de musique.</string>
+    <string name="cloud_start">Télécharger</string>
+    <string name="cloud_done_title">Téléchargement terminé</string>
+    <string name="cloud_cancelled_title">Téléchargement annulé</string>
+    <string name="cloud_result">Téléchargés : %1$d. Déjà présents : %2$d. Échecs : %3$d.</string>
+    <string name="cloud_nothing_new">Rien de nouveau : tout ce dossier cloud est déjà sur votre appareil.</string>
+    <string name="cloud_empty">Ce dossier cloud ne contient aucun fichier audio.</string>
+    <string name="cloud_error">Un problème est survenu : %1$s</string>
+    <string name="cloud_connect_failed">Connexion impossible : %1$s</string>
+    <string name="cloud_no_browser">Aucun navigateur trouvé pour se connecter.</string>
+    <string name="cloud_need_write">Pour télécharger, Radiant a besoin d\'une autorisation d\'écriture dans votre dossier de musique. Choisissez à nouveau le dossier.</string>
+    <string name="cloud_notif_channel">Téléchargement cloud</string>
+    <string name="cloud_notif_title">Téléchargement depuis %1$s</string>
 </resources>

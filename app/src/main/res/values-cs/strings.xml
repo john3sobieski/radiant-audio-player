@@ -250,4 +250,35 @@
         <item quantity="many">%d skladby</item>
         <item quantity="other">%d skladeb</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Stahování z cloudu</string>
+    <string name="cloud_hint">Jednosměrně: hudba se pouze stahuje do samostatné složky uvnitř vaší složky s hudbou. V cloudu se nic nenahrává, nemění ani nemaže.</string>
+    <string name="cloud_not_connected">Nepřipojeno</string>
+    <string name="cloud_connected">Připojeno</string>
+    <string name="cloud_connect">Připojit</string>
+    <string name="cloud_disconnect">Odpojit</string>
+    <string name="cloud_folder_label">Složka v cloudu: %1$s</string>
+    <string name="cloud_folder_root">kořen</string>
+    <string name="cloud_choose_folder">Vyberte složku v cloudu</string>
+    <string name="cloud_use_folder">Použít tuto složku</string>
+    <string name="cloud_no_subfolders">Žádné podsložky</string>
+    <string name="cloud_download">Stáhnout do „%1$s“</string>
+    <string name="cloud_need_music_folder">Nejdřív nahoře vyberte složku s hudbou.</string>
+    <string name="cloud_checking">Kontroluji cloud…</string>
+    <string name="cloud_progress">Soubory: %1$d z %2$d</string>
+    <string name="cloud_confirm_title">Stáhnout z %1$s?</string>
+    <string name="cloud_confirm_body">Nové soubory: %1$d (%2$s). Už v zařízení: %3$d.\n\nUloží se do složky „%4$s“ uvnitř vaší složky s hudbou.</string>
+    <string name="cloud_start">Stáhnout</string>
+    <string name="cloud_done_title">Stahování dokončeno</string>
+    <string name="cloud_cancelled_title">Stahování zrušeno</string>
+    <string name="cloud_result">Staženo: %1$d. Už tam byly: %2$d. Selhalo: %3$d.</string>
+    <string name="cloud_nothing_new">Nic nového: vše z této složky v cloudu už je ve vašem zařízení.</string>
+    <string name="cloud_empty">V této složce v cloudu nejsou žádné zvukové soubory.</string>
+    <string name="cloud_error">Něco se pokazilo: %1$s</string>
+    <string name="cloud_connect_failed">Nepodařilo se připojit: %1$s</string>
+    <string name="cloud_no_browser">Nebyl nalezen webový prohlížeč pro přihlášení.</string>
+    <string name="cloud_need_write">Ke stahování potřebuje Radiant oprávnění k zápisu do vaší složky s hudbou. Vyberte složku znovu.</string>
+    <string name="cloud_notif_channel">Stahování z cloudu</string>
+    <string name="cloud_notif_title">Stahování z %1$s</string>
 </resources>

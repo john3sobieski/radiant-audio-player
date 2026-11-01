@@ -3,7 +3,11 @@
 
     <!-- Доступ к файлам идёт через выбор папки (SAF), поэтому READ_MEDIA_AUDIO / READ_EXTERNAL_STORAGE не нужны.
          Приложение физически не видит ничего за пределами выбранной вами папки. -->
+    <!-- Интернет нужен только для необязательной загрузки музыки из облака (Dropbox) в настройках.
+         Без неё приложение ничего не отправляет и не принимает по сети. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -21,7 +25,19 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Возврат из браузера после входа в Dropbox (OAuth). Схему подставляет build.gradle.kts. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${dropboxScheme}" />
+            </intent-filter>
         </activity>
+
+        <service
+            android:name=".CloudSyncService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <service
             android:name=".PlaybackService"

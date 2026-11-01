@@ -659,11 +659,18 @@ class PlayerViewModel(app: Application) : AndroidViewModel(app) {
 
     // ---------- Папка и сканирование ----------
 
+    init {
+        // После загрузки из облака в папку появились новые файлы: пересканируем её
+        CloudSync.onDownloaded = { viewModelScope.launch { rescan() } }
+    }
+
     fun selectFolder(uri: Uri) {
         val cr = getApplication<Application>().contentResolver
-        runCatching { cr.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+        // Запись нужна только для загрузки из облака (создание папки и файлов), плеер сам файлы не меняет
+        val rw = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        runCatching { cr.takePersistableUriPermission(uri, rw) }
         folder?.takeIf { it != uri }?.let { old ->
-            runCatching { cr.releasePersistableUriPermission(old, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+            runCatching { cr.releasePersistableUriPermission(old, rw) }
         }
         controller?.apply { stop(); clearMediaItems() }
         currentId = null

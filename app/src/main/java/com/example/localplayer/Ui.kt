@@ -1909,6 +1909,8 @@ private fun SettingsScreen(vm: PlayerViewModel, pickFolder: () -> Unit) {
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            // Загрузка из облака (Dropbox) в отдельную папку внутри папки с музыкой
+            CloudSection(vm, pickFolder)
         }
 
         HorizontalDivider()

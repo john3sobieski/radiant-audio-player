@@ -248,4 +248,35 @@
         <item quantity="one">%d Titel</item>
         <item quantity="other">%d Titel</item>
     </plurals>
+
+    <!-- Cloud download -->
+    <string name="cloud_title">Aus der Cloud laden</string>
+    <string name="cloud_hint">Nur in eine Richtung: Musik wird nur in einen eigenen Ordner innerhalb deines Musikordners heruntergeladen. In der Cloud wird nichts hochgeladen, geändert oder gelöscht.</string>
+    <string name="cloud_not_connected">Nicht verbunden</string>
+    <string name="cloud_connected">Verbunden</string>
+    <string name="cloud_connect">Verbinden</string>
+    <string name="cloud_disconnect">Trennen</string>
+    <string name="cloud_folder_label">Cloud-Ordner: %1$s</string>
+    <string name="cloud_folder_root">Stammordner</string>
+    <string name="cloud_choose_folder">Cloud-Ordner auswählen</string>
+    <string name="cloud_use_folder">Diesen Ordner verwenden</string>
+    <string name="cloud_no_subfolders">Keine Unterordner</string>
+    <string name="cloud_download">In „%1$s“ herunterladen</string>
+    <string name="cloud_need_music_folder">Wähle zuerst oben den Musikordner aus.</string>
+    <string name="cloud_checking">Cloud wird geprüft…</string>
+    <string name="cloud_progress">%1$d von %2$d Dateien</string>
+    <string name="cloud_confirm_title">Von %1$s herunterladen?</string>
+    <string name="cloud_confirm_body">Neue Dateien: %1$d (%2$s). Bereits auf dem Gerät: %3$d.\n\nSie werden im Ordner „%4$s“ innerhalb deines Musikordners gespeichert.</string>
+    <string name="cloud_start">Herunterladen</string>
+    <string name="cloud_done_title">Download abgeschlossen</string>
+    <string name="cloud_cancelled_title">Download abgebrochen</string>
+    <string name="cloud_result">Heruntergeladen: %1$d. Bereits vorhanden: %2$d. Fehlgeschlagen: %3$d.</string>
+    <string name="cloud_nothing_new">Nichts Neues: Alles aus diesem Cloud-Ordner ist schon auf deinem Gerät.</string>
+    <string name="cloud_empty">In diesem Cloud-Ordner gibt es keine Audiodateien.</string>
+    <string name="cloud_error">Etwas ist schiefgelaufen: %1$s</string>
+    <string name="cloud_connect_failed">Verbindung fehlgeschlagen: %1$s</string>
+    <string name="cloud_no_browser">Kein Webbrowser für die Anmeldung gefunden.</string>
+    <string name="cloud_need_write">Zum Herunterladen braucht Radiant Schreibrechte für deinen Musikordner. Wähle den Ordner erneut aus.</string>
+    <string name="cloud_notif_channel">Cloud-Download</string>
+    <string name="cloud_notif_title">Download von %1$s</string>
 </resources>
