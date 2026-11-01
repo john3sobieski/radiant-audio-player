@@ -297,8 +297,8 @@ fun App(vm: PlayerViewModel) {
                     // Непрозрачный фон, чтобы при переходе экраны не просвечивали друг через друга
                     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                         when (val s = state.screen) {
-                            null -> LibraryScreen(vm) { folderPicker.launch(null) }
-                            Screen.Settings -> SettingsScreen(vm) { folderPicker.launch(null) }
+                            null -> LibraryScreen(vm) { AppLock.skipNextLock(); folderPicker.launch(null) }
+                            Screen.Settings -> SettingsScreen(vm) { AppLock.skipNextLock(); folderPicker.launch(null) }
                             Screen.Equalizer -> EqualizerScreen(vm, fromPlayer = false)
                             Screen.Player, Screen.PlayerEqualizer, Screen.Lyrics -> Unit // рисуются отдельными слоями ниже
                             is Screen.AlbumScreen -> AlbumScreen(vm, s.key)
@@ -2033,6 +2033,39 @@ private fun SettingsScreen(vm: PlayerViewModel, pickFolder: () -> Unit) {
                 onDismiss = { showLanguage = false },
             )
         }
+        HorizontalDivider()
+
+        // ----- Безопасность -----
+        Text(
+            stringResource(R.string.security_title),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 4.dp),
+        )
+        val lockType = AppLock.type
+        var showLockType by remember { mutableStateOf(false) }
+        SwitchRow(
+            title = stringResource(R.string.lock_title),
+            subtitle = stringResource(lockType.label),
+            checked = lockType != LockType.NONE,
+            // Включение: сначала выбор вида блокировки; выключение: нужно ввести текущий код
+            onChange = { on -> if (on) showLockType = true else AppLock.startDisable() },
+        )
+        if (lockType != LockType.NONE) {
+            ListItem(
+                modifier = Modifier.clickable { AppLock.startChange() },
+                headlineContent = { Text(stringResource(R.string.lock_change)) },
+            )
+        }
+        if (showLockType) {
+            LockTypeDialog(
+                onSelect = { type ->
+                    showLockType = false
+                    AppLock.startSetup(type)
+                },
+                onDismiss = { showLockType = false },
+            )
+        }
+        Spacer(Modifier.height(8.dp))
         HorizontalDivider()
 
         // ----- Кэш и сброс -----

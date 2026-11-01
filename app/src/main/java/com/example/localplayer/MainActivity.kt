@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
@@ -13,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -22,6 +25,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +45,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PowerSave.load(this)
+        // Холодный старт при включённой блокировке: приложение сразу закрыто экраном ввода кода
+        AppLock.init(this)
+        applySecure(AppLock.locked)
         enableEdgeToEdge()
 
         if (Build.VERSION.SDK_INT >= 33) {
@@ -48,10 +55,26 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+            // Защита от скриншотов и записи экрана только на экране ввода кода
+            val secure = AppLock.locked
+            SideEffect { applySecure(secure) }
             AppTheme(vm.themeMode) {
-                App(vm)
+                if (AppLock.locked) {
+                    LockScreen()
+                } else {
+                    Box(Modifier.fillMaxSize()) {
+                        App(vm)
+                        // Создание кода / подтверждение перед отключением блокировки: слой поверх всего приложения
+                        AppLock.flow?.let { LockFlowOverlay(it) }
+                    }
+                }
             }
         }
+    }
+
+    private fun applySecure(on: Boolean) {
+        if (on) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        else window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun onStart() {
@@ -63,6 +86,9 @@ class MainActivity : ComponentActivity() {
     override fun onStop() {
         super.onStop()
         CoverStore.flush()
+        // Каждый уход в фон закрывает приложение блокировкой. Пересоздание активности (смена языка, поворот)
+        // и системное окно выбора папки, которое мы сами открыли, уходом не считаются.
+        if (!isChangingConfigurations && !AppLock.consumeSkip()) AppLock.lockNow()
     }
 }
 

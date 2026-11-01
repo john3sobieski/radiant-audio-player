@@ -26,7 +26,7 @@ jobs:
       # FFmpeg-декодер для ALAC. Собирается из исходников Media3 (1.5.1) и FFmpeg (6.0), результат кэшируется.
       - name: Cache FFmpeg decoder
         id: ffmpeg-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: app/libs
           key: ffmpeg-decoder-media3-1.5.1-ffmpeg-6.0-alac-v1
