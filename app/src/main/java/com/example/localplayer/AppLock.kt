@@ -41,14 +41,14 @@ enum class Attempt { OK, WRONG, BLOCKED }
  *
  *  - Сам код и recovery-код нигде не хранятся: только соль и PBKDF2-хэш.
  *  - [locked] — читается в Compose; живёт, пока жив процесс. После смерти процесса приложение снова стартует заблокированным.
- *  - Recovery-код — 6 случайных слов. Они записываются в .txt, который пользователь сам сохраняет на телефоне;
+ *  - Recovery-код — 12 случайных слов. Они записываются в .txt, который пользователь сам сохраняет на телефоне;
  *    на экране блокировки этот файл выбирается через «Забыл пароль» и снимает блокировку.
  */
 object AppLock {
 
     const val CUSTOM_MIN = 4
     const val CUSTOM_MAX = 64
-    const val RECOVERY_WORDS = 6
+    const val RECOVERY_WORDS = 12
 
     private const val PREFS = "app_lock"
     private const val K_TYPE = "type"
@@ -190,14 +190,15 @@ object AppLock {
     /** [fileText] — содержимое выбранного recovery-файла. */
     suspend fun verifyRecovery(ctx: Context, fileText: String): Boolean {
         val normalized = normalizeRecovery(fileText)
-        if (normalized.split(' ').size != RECOVERY_WORDS) return false
+        // Длину не сверяем жёстко: файлы, созданные раньше (6 слов), тоже должны подходить; верность решает хэш
+        if (normalized.isEmpty()) return false
         return matches(ctx, K_R_SALT, K_R_HASH, normalized)
     }
 
-    /** Новые 6 случайных слов для recovery-файла. */
+    /** Новые 12 случайных слов для recovery-файла. */
     fun newRecoveryWords(): List<String> {
-        val rnd = SecureRandom()
-        return List(RECOVERY_WORDS) { WORDS[rnd.nextInt(WORDS.size)] }
+        // Слова в файле не повторяются
+        return WORDS.toList().shuffled(SecureRandom()).take(RECOVERY_WORDS)
     }
 
     /** Содержимое recovery-файла. */
@@ -255,6 +256,46 @@ object AppLock {
         "summer", "sunset", "swan", "table", "temple", "tennis", "thunder", "ticket", "tiger", "timber",
         "tomato", "torch", "tower", "trail", "tulip", "tunnel", "turtle", "umbrella", "valley", "velvet",
         "violet", "voyage", "walnut", "wander", "water", "whale", "willow", "window", "winter", "wizard",
-        "wolf", "yacht", "yellow", "zebra", "zephyr",
+        "wolf", "yacht", "yellow", "zebra", "zephyr", "abbey", "acre", "adobe", "almond", "aloe", "anvil",
+        "apron", "aqua", "arch", "aspen", "aster", "avocado", "azure", "badger", "bagel", "bamboo", "banner",
+        "barley", "barrel", "beam", "beetle", "bell", "biscuit", "blossom", "bluebird", "bolt", "boulder",
+        "bowl", "branch", "brass", "broom", "buffalo", "butter", "button", "cabbage", "cake", "canal",
+        "candy", "canoe", "canvas", "cape", "caramel", "carrot", "cashew", "cave", "celery", "cello",
+        "chapel", "cheese", "chestnut", "chime", "chimney", "cider", "cinnamon", "clam", "clove", "coast",
+        "cocoa", "coconut", "compass", "cookie", "cork", "cove", "coyote", "crab", "cradle", "crater",
+        "creek", "crest", "crimson", "crisp", "crow", "cube", "cuckoo", "cupcake", "currant", "dandelion",
+        "deer", "dew", "dingo", "dock", "dome", "dove", "dune", "dusk", "ebony", "elm", "emerald", "fable",
+        "fabric", "fawn", "fern", "festival", "finch", "fjord", "flax", "fleece", "flute", "fog", "fork",
+        "fountain", "freckle", "fudge", "gadget", "gale", "gazelle", "gecko", "geyser", "gift", "giraffe",
+        "glade", "glider", "goblet", "gopher", "gourd", "grain", "grove", "gull", "gumdrop", "hamlet",
+        "hammock", "hare", "hawk", "hedge", "hickory", "hill", "hollow", "hornet", "hummus", "icicle",
+        "igloo", "indigo", "iris", "jade", "jam", "jar", "jester", "jewel", "jigsaw", "jolly", "juniper",
+        "kayak", "kernel", "kiwi", "knight", "koala", "lace", "lamb", "lark", "latte", "lava", "lawn",
+        "leaf", "ledger", "lemur", "lentil", "lilac", "linen", "lime", "llama", "locust", "lotus", "lucky",
+        "lumber", "lynx", "magpie", "mallet", "mammoth", "mantle", "marsh", "mason", "meteor", "millet",
+        "mint", "mist", "mitten", "mocha", "moss", "moth", "mule", "mustard", "nacho", "nest", "nickel",
+        "nimbus", "noodle", "oak", "oat", "obsidian", "octopus", "omega", "opal", "orca", "osprey", "owl",
+        "paddock", "pansy", "papaya", "parsley", "pasta", "patch", "peacock", "peanut", "pelican", "pickle",
+        "pine", "pistachio", "pixel", "plank", "plateau", "plover", "polar", "pollen", "poppy", "porch",
+        "puffin", "pulse", "quail", "quill", "quince", "quiver", "raccoon", "radish", "raft", "rain",
+        "ranger", "reef", "ribbon", "ridge", "robin", "rope", "rose", "rowan", "ruby", "rust", "saffron",
+        "sage", "sailor", "salsa", "sand", "sapphire", "satin", "sawmill", "scone", "seagull", "sequoia",
+        "sesame", "shamrock", "shark", "sheep", "shore", "shrimp", "sierra", "skate", "skylark", "sloth",
+        "snail", "sock", "sorbet", "sparrow", "spice", "sponge", "sprout", "spruce", "stag", "starfish",
+        "steam", "stork", "straw", "stream", "sundial", "sunrise", "swallow", "swift", "syrup", "tango",
+        "tapestry", "teal", "thistle", "thorn", "thyme", "toast", "toffee", "topaz", "trout", "trumpet",
+        "tuba", "tundra", "twig", "urchin", "vanilla", "vase", "vine", "violin", "vista", "waffle", "wagon",
+        "walrus", "wasp", "wave", "weasel", "wheat", "whisper", "wicker", "wildcat", "windmill", "wren",
+        "yarn", "yodel", "yoga", "zenith", "zest", "zinc", "zucchini", "aurora", "basalt", "bishop",
+        "blizzard", "bonfire", "bramble", "breezy", "brisk", "cairn", "cobweb", "cosmos", "crescent",
+        "cypress", "dagger", "dapper", "dazzle", "dolmen", "dynamo", "eclipse", "ferret", "fiddle",
+        "firefly", "fizz", "flicker", "gadfly", "garnet", "gleam", "glimmer", "gondola", "granola", "harp",
+        "haven", "hazelnut", "helium", "herald", "hoopoe", "hush", "ignite", "inlet", "jovial", "karma",
+        "kestrel", "kindle", "lattice", "legend", "lyric", "mariner", "marmot", "meringue", "mimic", "mirth",
+        "monsoon", "mulberry", "nectarine", "nomad", "oriole", "paprika", "parade", "pavilion", "pewter",
+        "pinecone", "plume", "pumice", "quasar", "quiet", "rhubarb", "riddle", "rustic", "sailboat",
+        "sandbar", "scarab", "seashell", "serene", "shimmer", "sickle", "skiff", "solstice", "sparkle",
+        "spindle", "stellar", "sturdy", "sundown", "tambourine", "tidal", "tinsel", "trellis", "twilight",
+        "umber", "unicorn", "upland", "velour", "verdant", "vortex", "wharf", "whistle", "wisp", "yonder",
     )
 }

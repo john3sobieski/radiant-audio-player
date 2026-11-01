@@ -22,9 +22,28 @@ Pas de publicités, pas de comptes, aucun accès à Internet requis. Tout reste 
 - **Réglages du son :** mono/stéréo, normalisation du volume, renforcement des basses et des aigus, filtre subsonique et égaliseur 12 bandes avec 10 préréglages. L'égaliseur peut appliquer une même courbe à tous les titres ou mémoriser une courbe distincte pour chaque titre.
 - **Langue de l'interface :** *Paramètres → Langue de l'application* ouvre une fenêtre avec *Système* en haut et les dix langues en dessous par ordre alphabétique. Le changement s'applique immédiatement, sans interrompre la lecture.
 - **Thèmes :** clair, sombre noir pur (idéal pour les écrans OLED) ou celui du système, avec couleurs dynamiques sur Android 12+.
+- **Verrouillage de l'application** (Réglages → Sécurité, désactivé par défaut) : un code à 4 chiffres, à 6 chiffres ou personnalisé est demandé à chaque ouverture. Si vous l'oubliez, un fichier de récupération de 12 mots aléatoires déverrouille l'application. Détails dans la section *Verrouillage de l'application* ci-dessous.
 - **Économie d'énergie** (Paramètres) : *Désactivée*, *Moyenne* (presque aucune animation, mises à jour de la progression moins fréquentes) ou *Intensive* (en plus : thème noir forcé, volume limité à 40 %, mono uniquement, égaliseur/basses/aigus/subsonique/normalisation contournés, sortie filaire ou haut-parleur du téléphone uniquement, sans Bluetooth, analyse manuelle du dossier, cache de pochettes réduit).
 - **Détails du titre :** tags, format, débit, fréquence d'échantillonnage, canaux, taille du fichier et plus encore.
 - **Formats :** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV et tout ce qu'Android sait décoder.
+
+## Verrouillage de l'application
+
+Protection facultative de l'application, **désactivée par défaut**. Activez-la dans **Réglages → Sécurité**.
+
+- **Trois types de code :** 4 chiffres, 6 chiffres ou un code personnalisé (lettres latines et chiffres, 4 à 64 caractères, sans espaces).
+- **Quand il est demandé :** à chaque lancement et chaque fois que l'application revient de l'arrière-plan. La rotation de l'écran ou le changement de langue ne la verrouillent pas.
+- **Écran de verrouillage :** un fond blanc uni ou noir pur (selon le thème) avec un champ de code. Les codes à chiffres utilisent un clavier minimaliste à l'écran ; un code personnalisé utilise le clavier système habituel. Le bouton en forme d'œil affiche ou masque la saisie. Les captures d'écran et l'enregistrement de l'écran sont bloqués uniquement sur cet écran.
+- **Modifier ou désactiver :** *Réglages → Sécurité → Changer le code*, ou désactivez le verrouillage. Dans les deux cas, le code actuel est demandé d'abord.
+
+### Comment fonctionne la protection
+
+- **Le code n'est jamais enregistré.** Radiant ne conserve qu'un sel aléatoire et une empreinte PBKDF2-HMAC-SHA256 (30 000 itérations), comparée en temps constant.
+- **Protection contre la force brute.** Après 5 codes erronés consécutifs, il faut patienter : 30 secondes, puis 1, 2, 4… minutes, jusqu'à 15 minutes. La pause persiste après un redémarrage de l'application. Dans le pire des cas, avec la pause la plus longue, essayer les 10 000 codes à 4 chiffres prend environ 3 semaines, et les 1 000 000 de codes à 6 chiffres plus de 5 ans. Les codes courts tirent leur force de cette limite plutôt que de l'entropie : un code à 4 chiffres vaut environ 13 bits, un code à 6 chiffres environ 20 bits. Pour plus, choisissez un code personnalisé : chaque caractère aléatoire apporte environ 6 bits, soit environ 48 bits pour 8 caractères.
+- **Fichier de récupération à forte entropie.** À la création d'un code, Radiant génère **12 mots aléatoires** parmi une liste intégrée de 700 mots anglais, tirés avec un générateur aléatoire cryptographiquement sûr. Cela représente 700¹² ≈ 2¹¹³ combinaisons, soit environ **113 bits d'entropie**, hors de portée de la force brute. Vous enregistrez les mots dans un fichier `.txt` où vous le souhaitez. Le verrouillage ne s'active qu'une fois le fichier écrit, et l'application ne garde qu'une empreinte des mots, pas les mots eux-mêmes.
+- **Code oublié ?** Touchez *Mot de passe oublié* sur l'écran de verrouillage et choisissez le fichier de récupération. S'il correspond, le verrouillage est désactivé et vous pouvez le réactiver avec un nouveau code et un nouveau fichier. Changer le code crée aussi un nouveau fichier ; l'ancien cesse de fonctionner.
+- **Gardez le fichier en lieu sûr.** Toute personne qui le possède peut retirer le verrouillage : ne le laissez pas à portée d'autrui. Si vous perdez à la fois le code et le fichier, la seule issue est d'effacer les données de l'application, ce qui supprime aussi les playlists et les réglages. Personne, développeur compris, ne peut récupérer le code : il n'y a ni compte ni serveur.
+- **Ce que le verrouillage ne fait pas.** Il protège l'interface de l'application, pas les fichiers audio de votre stockage. La musique continue pendant le verrouillage et les commandes de la notification restent actives.
 
 ## Configuration requise
 

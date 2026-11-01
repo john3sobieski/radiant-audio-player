@@ -7,6 +7,38 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -284,7 +316,8 @@ private fun readSmallText(ctx: Context, uri: Uri): String? = runCatching {
  *    как только набрана последняя цифра.
  *  - Свой код: только поле (латиница и цифры, без пробелов) и системная клавиатура; код уходит по кнопке «Готово».
  *
- * Изменение [resetKey] очищает поле и трясёт его (неверный код). Ввод очищает ошибку через [onEdit].
+ * Символы в поле появляются с анимацией. Изменение [resetKey] очищает поле и трясёт его (неверный код).
+ * Ввод очищает ошибку через [onEdit].
  */
 @Composable
 internal fun CodeInput(
@@ -315,33 +348,32 @@ internal fun CodeInput(
         if (type.isPin) {
             PinField(code, visible, error != null, { visible = !visible }, fieldModifier)
         } else {
-            val focus = remember { FocusRequester() }
-            LaunchedEffect(Unit) { focus.requestFocus() }
-            OutlinedTextField(
-                value = code,
-                onValueChange = { v ->
-                    if (!busy) {
-                        val clean = v.filter { AppLock.isAllowedChar(it) }.take(AppLock.CUSTOM_MAX)
-                        if (clean != code) {
-                            code = clean
-                            onEdit()
-                        }
+            CustomField(
+                code = code,
+                visible = visible,
+                isError = error != null,
+                onChange = { clean ->
+                    if (!busy && clean != code) {
+                        code = clean
+                        onEdit()
                     }
                 },
-                singleLine = true,
-                isError = error != null,
-                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(MASK_CHAR),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { if (code.isNotEmpty() && !busy) onSubmit(code) }),
-                trailingIcon = { EyeButton(visible) { visible = !visible } },
-                shape = RoundedCornerShape(16.dp),
-                modifier = fieldModifier.focusRequester(focus),
+                onDone = { if (code.isNotEmpty() && !busy) onSubmit(code) },
+                onToggle = { visible = !visible },
+                modifier = fieldModifier,
             )
         }
 
+        // Текст ошибки плавно проявляется и гаснет (последний текст запоминаем, чтобы он не пропадал раньше времени)
+        val lastError = remember { mutableStateOf("") }
+        if (error != null) lastError.value = error
         Box(Modifier.fillMaxWidth().height(32.dp), contentAlignment = Alignment.Center) {
-            if (error != null) {
-                Text(error, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+            AnimatedVisibility(
+                visible = error != null,
+                enter = calmEnter(fadeIn(tween(180))),
+                exit = calmExit(fadeOut(tween(180))),
+            ) {
+                Text(lastError.value, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
             }
         }
 
@@ -373,35 +405,182 @@ internal fun CodeInput(
 @Composable
 private fun EyeButton(visible: Boolean, onClick: () -> Unit) {
     IconButton(onClick = onClick) {
-        Icon(
-            if (visible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-            stringResource(if (visible) R.string.lock_hide_code else R.string.lock_show_code),
-        )
+        Crossfade(targetState = visible, animationSpec = tween(if (PowerSave.reduceMotion) 0 else 180), label = "eye") { v ->
+            Icon(
+                if (v) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                stringResource(if (v) R.string.lock_hide_code else R.string.lock_show_code),
+            )
+        }
     }
 }
 
-/** Поле кода из цифр: звёздочки (или сам код, если нажат глаз) по центру, глаз справа. */
+/** Поле кода из цифр: звёздочки (или сам код, если нажат глаз) по центру, глаз справа. Символы появляются с анимацией. */
 @Composable
 private fun PinField(code: String, visible: Boolean, isError: Boolean, onToggle: () -> Unit, modifier: Modifier) {
-    val borderColor = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline
+    val borderColor by animateColorAsState(
+        if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline,
+        mtween(150),
+        label = "pinBorder",
+    )
     Row(
         modifier
             .height(56.dp)
             .border(1.dp, borderColor, RoundedCornerShape(16.dp)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Пустышка такой же ширины, как кнопка глаза: текст остаётся ровно по центру поля
+        // Пустышка такой же ширины, как кнопка глаза: символы остаются ровно по центру поля
         Spacer(Modifier.width(48.dp))
-        Text(
-            if (visible) code else MASK_CHAR.toString().repeat(code.length),
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
+        AnimatedChars(
+            code = code,
+            visible = visible,
             style = MaterialTheme.typography.headlineSmall,
-            letterSpacing = 6.sp,
-            maxLines = 1,
+            centered = true,
+            showCursor = false,
+            modifier = Modifier.weight(1f),
         )
         EyeButton(visible, onToggle)
     }
+}
+
+/**
+ * Поле для своего кода. Ввод принимает скрытый BasicTextField (он нужен для системной клавиатуры),
+ * а символы рисуются поверх с анимацией и мигающим курсором. Рамка плавно меняет цвет при фокусе и ошибке.
+ */
+@Composable
+private fun CustomField(
+    code: String,
+    visible: Boolean,
+    isError: Boolean,
+    onChange: (String) -> Unit,
+    onDone: () -> Unit,
+    onToggle: () -> Unit,
+    modifier: Modifier,
+) {
+    val focus = remember { FocusRequester() }
+    var focused by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { focus.requestFocus() }
+
+    val scheme = MaterialTheme.colorScheme
+    val borderColor by animateColorAsState(
+        when {
+            isError -> scheme.error
+            focused -> scheme.primary
+            else -> scheme.outline
+        },
+        mtween(150),
+        label = "fieldBorder",
+    )
+    val borderWidth by animateDpAsState(if (focused || isError) 2.dp else 1.dp, mtween(150), label = "fieldBorderWidth")
+    val style = MaterialTheme.typography.titleLarge
+
+    Row(
+        modifier
+            .height(56.dp)
+            .border(borderWidth, borderColor, RoundedCornerShape(16.dp)),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            Modifier.weight(1f).fillMaxHeight().padding(start = 16.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            BasicTextField(
+                // Курсор всегда в конце: символы в поле дописываются, а не вставляются в середину
+                value = TextFieldValue(code, TextRange(code.length)),
+                onValueChange = { v -> onChange(v.text.filter { AppLock.isAllowedChar(it) }.take(AppLock.CUSTOM_MAX)) },
+                singleLine = true,
+                textStyle = TextStyle(color = Color.Transparent, fontSize = 22.sp),
+                cursorBrush = SolidColor(Color.Transparent),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { onDone() }),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focus)
+                    .onFocusChanged { focused = it.isFocused },
+            )
+            AnimatedChars(
+                code = code,
+                visible = visible,
+                style = style,
+                centered = false,
+                showCursor = focused,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        EyeButton(visible, onToggle)
+    }
+}
+
+/**
+ * Введённые символы: каждый новый «всплывает» (масштаб, прозрачность, небольшой сдвиг с пружиной).
+ * При нажатии на глаз «*» и символ плавно перетекают друг в друга.
+ */
+@Composable
+private fun AnimatedChars(
+    code: String,
+    visible: Boolean,
+    style: TextStyle,
+    centered: Boolean,
+    showCursor: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val scroll = rememberScrollState()
+    if (!centered) {
+        // Длинный код прокручивается, чтобы конец (и курсор) всегда был виден
+        LaunchedEffect(code.length) {
+            delay(32)
+            scroll.animateScrollTo(scroll.maxValue)
+        }
+    }
+    Row(
+        // enabled = false: пальцем не прокручивается, касания достаются полю под ним
+        if (centered) modifier else modifier.horizontalScroll(scroll, enabled = false),
+        horizontalArrangement = Arrangement.spacedBy(4.dp, if (centered) Alignment.CenterHorizontally else Alignment.Start),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        code.forEachIndexed { index, c ->
+            key(index) { CodeChar(if (visible) c else MASK_CHAR, style) }
+        }
+        if (showCursor) BlinkingCursor()
+    }
+}
+
+@Composable
+private fun CodeChar(ch: Char, style: TextStyle) {
+    val reduce = PowerSave.reduceMotion
+    val enter = remember { Animatable(if (reduce) 1f else 0f) }
+    LaunchedEffect(Unit) { enter.animateTo(1f, spring(dampingRatio = 0.5f, stiffness = 450f)) }
+    AnimatedContent(
+        targetState = ch,
+        transitionSpec = {
+            if (reduce) EnterTransition.None togetherWith ExitTransition.None
+            else fadeIn(tween(160)) togetherWith fadeOut(tween(120))
+        },
+        modifier = Modifier.graphicsLayer {
+            val v = enter.value
+            alpha = v.coerceIn(0f, 1f)
+            scaleX = 0.4f + 0.6f * v
+            scaleY = 0.4f + 0.6f * v
+            translationY = (1f - v) * 12.dp.toPx()
+        },
+        label = "codeChar",
+    ) { c -> Text(c.toString(), style = style) }
+}
+
+@Composable
+private fun BlinkingCursor() {
+    val color = MaterialTheme.colorScheme.primary
+    val blink = rememberInfiniteTransition(label = "cursor").animateFloat(
+        initialValue = 1f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(tween(530), RepeatMode.Reverse),
+        label = "cursorAlpha",
+    )
+    Box(
+        Modifier
+            .size(width = 2.dp, height = 24.dp)
+            .graphicsLayer { alpha = if (PowerSave.reduceMotion) 1f else blink.value }
+            .background(color),
+    )
 }
 
 /** Минималистичная цифровая клавиатура: цифры без подложек, внизу ноль и «удалить». */
@@ -432,13 +611,29 @@ private fun DigitKey(digit: Char, enabled: Boolean, onClick: () -> Unit) {
     }
 }
 
+/**
+ * Клавиша без стандартной «ряби»: при нажатии пружинно «вдавливается» и на миг подсвечивается мягким кругом,
+ * после отпускания возвращается с лёгким отскоком.
+ */
 @Composable
 private fun PadKey(enabled: Boolean, onClick: () -> Unit, content: @Composable () -> Unit) {
+    val source = remember { MutableInteractionSource() }
+    val pressed by source.collectIsPressedAsState()
+    val reduce = PowerSave.reduceMotion
+    val scaleSpec: AnimationSpec<Float> = if (reduce) snap() else spring(dampingRatio = 0.45f, stiffness = 700f)
+    val glowSpec: AnimationSpec<Float> = if (reduce) snap() else tween(if (pressed) 50 else 320)
+    val scale = animateFloatAsState(if (pressed) 0.82f else 1f, scaleSpec, label = "keyScale")
+    val glow = animateFloatAsState(if (pressed) 0.16f else 0f, glowSpec, label = "keyGlow")
+    val tint = MaterialTheme.colorScheme.onSurface
     Box(
         Modifier
             .size(PAD_KEY)
-            .clip(CircleShape)
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick),
+            .graphicsLayer {
+                scaleX = scale.value
+                scaleY = scale.value
+            }
+            .drawBehind { drawCircle(tint.copy(alpha = glow.value)) }
+            .clickable(interactionSource = source, indication = null, enabled = enabled, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) { content() }
 }
@@ -486,7 +681,19 @@ private fun LockTypeRow(title: Int, subtitle: Int, onClick: () -> Unit) {
 @Composable
 fun LockFlowOverlay(flow: LockFlow) {
     BackHandler { AppLock.endFlow() }
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+    val enter = remember { Animatable(if (PowerSave.reduceMotion) 1f else 0f) }
+    LaunchedEffect(Unit) {
+        if (enter.value < 1f) enter.animateTo(1f, tween(240))
+    }
+    Surface(
+        Modifier
+            .fillMaxSize()
+            .graphicsLayer {
+                alpha = enter.value
+                translationY = (1f - enter.value) * 40.dp.toPx()
+            },
+        color = MaterialTheme.colorScheme.background,
+    ) {
         Box(Modifier.fillMaxSize().systemBarsPadding().imePadding()) {
             when (flow) {
                 is LockFlow.Setup -> SetupContent(flow.type)
@@ -551,9 +758,24 @@ private fun SetupContent(type: LockType) {
     }
 
     FlowColumn {
-        if (step < 2) {
+      // Шаги плавно сменяют друг друга: вперёд — вправо-налево, назад (код не совпал) — наоборот
+      AnimatedContent(
+        targetState = step,
+        transitionSpec = {
+            val dir = if (targetState > initialState) 1 else -1
+            if (PowerSave.reduceMotion) {
+                EnterTransition.None togetherWith ExitTransition.None
+            } else {
+                (slideInHorizontally(tween(280)) { it / 3 * dir } + fadeIn(tween(280))) togetherWith
+                    (slideOutHorizontally(tween(220)) { -it / 3 * dir } + fadeOut(tween(160)))
+            }
+        },
+        label = "setupStep",
+      ) { s ->
+       Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        if (s < 2) {
             Text(
-                stringResource(if (step == 0) R.string.lock_set_title else R.string.lock_confirm_title),
+                stringResource(if (s == 0) R.string.lock_set_title else R.string.lock_confirm_title),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
             )
@@ -567,7 +789,7 @@ private fun SetupContent(type: LockType) {
                 )
             }
             Spacer(Modifier.height(24.dp))
-            key(step) {
+            key(s) {
                 CodeInput(
                     type = type,
                     resetKey = 0,
@@ -575,7 +797,7 @@ private fun SetupContent(type: LockType) {
                     error = error?.let { stringResource(it) },
                     onEdit = { error = null },
                     onSubmit = { code ->
-                        if (step == 0) {
+                        if (s == 0) {
                             if (!type.isPin && code.length < AppLock.CUSTOM_MIN) {
                                 error = R.string.lock_too_short
                             } else {
@@ -627,6 +849,8 @@ private fun SetupContent(type: LockType) {
                 modifier = Modifier.widthIn(max = 360.dp).fillMaxWidth(),
             ) { Text(stringResource(R.string.lock_recovery_save)) }
         }
+       }
+      }
     }
 }
 

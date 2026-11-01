@@ -22,7 +22,7 @@
     <string name="lock_disable_title">Saisissez votre code pour désactiver le verrouillage</string>
     <string name="lock_forgot">Mot de passe oublié</string>
     <string name="lock_recovery_title">Enregistrer le fichier de récupération</string>
-    <string name="lock_recovery_body">Un fichier texte de 6 mots sera créé. Enregistrez-le dans un endroit sûr sur votre téléphone. Si vous oubliez votre code, touchez « Mot de passe oublié » sur l\'écran de verrouillage et choisissez ce fichier. Sans le code ni le fichier, l\'accès ne pourra pas être rétabli.</string>
+    <string name="lock_recovery_body">Un fichier texte de 12 mots sera créé. Enregistrez-le dans un endroit sûr sur votre téléphone. Si vous oubliez votre code, touchez « Mot de passe oublié » sur l\'écran de verrouillage et choisissez ce fichier. Sans le code ni le fichier, l\'accès ne pourra pas être rétabli.</string>
     <string name="lock_recovery_save">Enregistrer le fichier</string>
     <string name="lock_recovery_failed">Impossible d\'enregistrer le fichier. Choisissez un autre emplacement.</string>
     <string name="lock_recovery_wrong">Ce n\'est pas le bon fichier de récupération</string>

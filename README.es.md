@@ -22,9 +22,28 @@ Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en
 - **Ajustes de sonido:** mono/estéreo, normalización de volumen, refuerzo de graves y agudos, filtro subsónico y un ecualizador de 12 bandas con 10 preajustes. El ecualizador puede aplicar una misma curva a todas las canciones o recordar una curva distinta para cada una.
 - **Idioma de la interfaz:** *Ajustes → Idioma de la aplicación* abre una ventana con *Sistema* arriba y los diez idiomas debajo, en orden alfabético. El cambio se aplica al instante, sin interrumpir la reproducción.
 - **Temas:** claro, oscuro con negro puro (ideal para pantallas OLED) o el predeterminado del sistema, con colores dinámicos en Android 12+.
+- **Bloqueo de la aplicación** (Ajustes → Seguridad, desactivado por defecto): se pide un código de 4 dígitos, de 6 dígitos o personalizado cada vez que abres la app. Si lo olvidas, un archivo de recuperación con 12 palabras aleatorias la desbloquea. Los detalles están en la sección *Bloqueo de la aplicación* más abajo.
 - **Ahorro de energía** (Ajustes): *Desactivado*, *Medio* (casi sin animaciones, actualizaciones de progreso menos frecuentes) o *Intensivo* (además tema negro forzado, volumen limitado al 40 %, solo mono, ecualizador/graves/agudos/subsónico/normalización omitidos, salida solo por cable o altavoz del teléfono sin Bluetooth, análisis manual de la carpeta, caché de carátulas más pequeña).
 - **Detalles de la canción:** etiquetas, formato, tasa de bits, frecuencia de muestreo, canales, tamaño del archivo y más.
 - **Formatos:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV y cualquier otro que Android pueda decodificar.
+
+## Bloqueo de la aplicación
+
+Protección opcional de la app, **desactivada por defecto**. Actívala en **Ajustes → Seguridad**.
+
+- **Tres tipos de código:** 4 dígitos, 6 dígitos o un código personalizado (letras latinas y dígitos, de 4 a 64 caracteres, sin espacios).
+- **Cuándo lo pide:** en cada inicio y cada vez que la app vuelve desde segundo plano. Girar la pantalla o cambiar el idioma no la bloquea.
+- **Pantalla de bloqueo:** un fondo blanco liso o negro puro (según el tema) con un campo de código. Los códigos numéricos usan un teclado minimalista en pantalla; un código personalizado usa el teclado normal del sistema. El botón del ojo muestra u oculta lo escrito. Las capturas y la grabación de pantalla se bloquean solo en esta pantalla.
+- **Cambiar o desactivar:** *Ajustes → Seguridad → Cambiar código*, o desactiva el bloqueo. En ambos casos se pide primero el código actual.
+
+### Cómo funciona la protección
+
+- **El código nunca se guarda.** Radiant solo conserva una sal aleatoria y un hash PBKDF2-HMAC-SHA256 (30 000 iteraciones), comparado en tiempo constante.
+- **Protección contra fuerza bruta.** Tras cada 5 códigos incorrectos seguidos hay que esperar: 30 segundos, luego 1, 2, 4… minutos, hasta 15 minutos. La pausa se mantiene aunque reinicies la app. En el peor caso, con la pausa más larga, probar los 10 000 códigos de 4 dígitos lleva unas 3 semanas, y los 1 000 000 de códigos de 6 dígitos más de 5 años. Los códigos cortos obtienen su fuerza de este límite y no de la entropía: un código de 4 dígitos son unos 13 bits y uno de 6 dígitos unos 20 bits. Para más, elige un código personalizado: cada carácter aleatorio aporta unos 6 bits, así que 8 caracteres aleatorios son unos 48 bits.
+- **Archivo de recuperación con alta entropía.** Al crear un código, Radiant genera **12 palabras aleatorias** de una lista integrada de 700 palabras en inglés, elegidas con un generador aleatorio criptográficamente seguro. Son 700¹² ≈ 2¹¹³ combinaciones, unos **113 bits de entropía**, fuera del alcance de la fuerza bruta. Guardas las palabras en un archivo `.txt` donde quieras. El bloqueo solo se activa cuando el archivo se ha escrito, y la app conserva únicamente un hash de las palabras, no las palabras.
+- **¿Olvidaste el código?** Toca *Olvidé la contraseña* en la pantalla de bloqueo y elige el archivo de recuperación. Si coincide, el bloqueo se desactiva y puedes volver a activarlo con un código y un archivo nuevos. Cambiar el código también crea un archivo nuevo, y el anterior deja de funcionar.
+- **Guarda bien el archivo.** Quien lo tenga puede quitar el bloqueo, así que no lo dejes donde otros puedan encontrarlo. Si pierdes el código y el archivo, la única salida es borrar los datos de la app, lo que también elimina listas y ajustes. Nadie, ni siquiera el desarrollador, puede recuperar el código: no hay cuentas ni servidores.
+- **Lo que no hace.** El bloqueo protege la interfaz de la app, no los archivos de audio de tu almacenamiento. La música sigue sonando con la app bloqueada y los controles de la notificación siguen funcionando.
 
 ## Requisitos
 

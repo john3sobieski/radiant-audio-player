@@ -22,9 +22,28 @@ Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deine
 - **Klangeinstellungen:** Mono/Stereo, Lautstärkenormalisierung, Bass- und Höhenanhebung, Subsonic-Filter und ein 12-Band-Equalizer mit 10 Voreinstellungen. Der Equalizer kann eine Kurve auf alle Titel anwenden oder sich für jeden Titel eine eigene Kurve merken.
 - **Oberflächensprache:** *Einstellungen → App-Sprache* öffnet ein Fenster mit *System* ganz oben und den zehn Sprachen alphabetisch darunter. Die Änderung wird sofort übernommen, ohne die Wiedergabe zu unterbrechen.
 - **Designs:** hell, echtes Schwarz (ideal für OLED-Displays) oder Systemstandard, mit dynamischen Farben ab Android 12.
+- **App-Sperre** (Einstellungen → Sicherheit, standardmäßig aus): Ein 4-stelliger, 6-stelliger oder eigener Code wird bei jedem Öffnen der App abgefragt. Wenn du ihn vergisst, entsperrt eine Wiederherstellungsdatei mit 12 zufälligen Wörtern die App. Details stehen unten im Abschnitt *App-Sperre*.
 - **Energiesparen** (Einstellungen): *Aus*, *Mittel* (kaum Animationen, seltenere Fortschrittsaktualisierungen) oder *Intensiv* (zusätzlich erzwungenes schwarzes Design, Lautstärke auf 40 % begrenzt, nur Mono, EQ/Bass/Höhen/Subsonic/Normalisierung umgangen, Ausgabe nur über Kabel oder Handylautsprecher ohne Bluetooth, manueller Ordnerscan, kleinerer Cover-Cache).
 - **Titeldetails:** Tags, Format, Bitrate, Abtastrate, Kanäle, Dateigröße und mehr.
 - **Formate:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV und alles, was Android sonst noch dekodieren kann.
+
+## App-Sperre
+
+Optionaler Schutz für die App, **standardmäßig ausgeschaltet**. Einschalten unter **Einstellungen → Sicherheit**.
+
+- **Drei Codearten:** 4 Ziffern, 6 Ziffern oder ein eigener Code (lateinische Buchstaben und Ziffern, 4–64 Zeichen, keine Leerzeichen).
+- **Wann gefragt wird:** bei jedem Start und jedes Mal, wenn die App aus dem Hintergrund zurückkehrt. Bildschirmdrehung oder Sprachwechsel sperren sie nicht.
+- **Sperrbildschirm:** ein schlichter weißer oder rein schwarzer Hintergrund (je nach Design) mit einem Codefeld. Ziffern-Codes nutzen eine minimalistische Bildschirmtastatur, ein eigener Code die normale Systemtastatur. Mit dem Auge blendest du die Eingabe ein oder aus. Screenshots und Bildschirmaufnahmen sind nur auf diesem Bildschirm blockiert.
+- **Ändern oder ausschalten:** *Einstellungen → Sicherheit → Code ändern* oder die Sperre ausschalten. Beides verlangt zuerst den aktuellen Code.
+
+### So funktioniert der Schutz
+
+- **Der Code wird nie gespeichert.** Radiant speichert nur ein zufälliges Salt und einen PBKDF2-HMAC-SHA256-Hash (30.000 Iterationen), der in konstanter Zeit verglichen wird.
+- **Schutz vor Brute-Force.** Nach jeweils 5 falschen Codes in Folge musst du warten: 30 Sekunden, dann 1, 2, 4 … Minuten, höchstens 15 Minuten. Die Pause bleibt auch nach einem Neustart der App bestehen. Im ungünstigsten Fall dauert es bei der längsten Pause etwa 3 Wochen, alle 10.000 vierstelligen Codes durchzuprobieren, und über 5 Jahre für alle 1.000.000 sechsstelligen. Kurze Codes beziehen ihre Stärke aus dieser Begrenzung, nicht aus Entropie: Ein 4-stelliger Code hat etwa 13 Bit, ein 6-stelliger etwa 20 Bit. Für mehr wähle einen eigenen Code: Jedes zufällige Zeichen bringt etwa 6 Bit, 8 zufällige Zeichen also etwa 48 Bit.
+- **Wiederherstellungsdatei mit hoher Entropie.** Beim Erstellen eines Codes erzeugt Radiant **12 zufällige Wörter** aus einer eingebauten Liste von 700 englischen Wörtern, ausgewählt mit einem kryptografisch sicheren Zufallsgenerator. Das sind 700¹² ≈ 2¹¹³ Kombinationen, rund **113 Bit Entropie** und damit außerhalb jeder Brute-Force-Reichweite. Du speicherst die Wörter als `.txt`-Datei an einem Ort deiner Wahl. Die Sperre wird erst eingeschaltet, nachdem die Datei geschrieben wurde, und die App behält nur einen Hash der Wörter, nicht die Wörter selbst.
+- **Code vergessen?** Tippe auf dem Sperrbildschirm auf *Passwort vergessen* und wähle die Wiederherstellungsdatei. Passt sie, wird die Sperre ausgeschaltet, und du kannst sie mit neuem Code und neuer Datei wieder einschalten. Auch beim Ändern des Codes entsteht eine neue Datei; die alte funktioniert dann nicht mehr.
+- **Bewahre die Datei sicher auf.** Wer sie hat, kann die Sperre entfernen – lege sie also nicht dort ab, wo andere sie finden. Gehen Code und Datei beide verloren, hilft nur das Löschen der App-Daten, wodurch auch Wiedergabelisten und Einstellungen verschwinden. Niemand, auch nicht der Entwickler, kann den Code wiederherstellen: Es gibt keine Konten und keine Server.
+- **Was die Sperre nicht tut.** Sie schützt die Oberfläche der App, nicht die Audiodateien auf deinem Speicher. Die Musik läuft bei gesperrter App weiter, und die Steuerung in der Benachrichtigung funktioniert weiterhin.
 
 ## Voraussetzungen
 

@@ -22,7 +22,7 @@
     <string name="lock_disable_title">Zadejte kód pro vypnutí zámku</string>
     <string name="lock_forgot">Zapomenuté heslo</string>
     <string name="lock_recovery_title">Uložte soubor pro obnovení</string>
-    <string name="lock_recovery_body">Vytvoří se textový soubor se 6 slovy. Uložte ho na bezpečné místo v telefonu. Pokud kód zapomenete, klepněte na obrazovce zámku na „Zapomenuté heslo“ a vyberte tento soubor. Bez kódu a souboru nelze přístup obnovit.</string>
+    <string name="lock_recovery_body">Vytvoří se textový soubor se 12 slovy. Uložte ho na bezpečné místo v telefonu. Pokud kód zapomenete, klepněte na obrazovce zámku na „Zapomenuté heslo“ a vyberte tento soubor. Bez kódu a souboru nelze přístup obnovit.</string>
     <string name="lock_recovery_save">Uložit soubor</string>
     <string name="lock_recovery_failed">Soubor se nepodařilo uložit. Zkuste jiné umístění.</string>
     <string name="lock_recovery_wrong">Toto není správný soubor pro obnovení</string>

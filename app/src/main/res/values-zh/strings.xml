@@ -22,7 +22,7 @@
     <string name="lock_disable_title">输入密码以关闭应用锁</string>
     <string name="lock_forgot">忘记密码</string>
     <string name="lock_recovery_title">保存恢复文件</string>
-    <string name="lock_recovery_body">将创建一个包含 6 个单词的文本文件。请把它保存在手机上的安全位置。如果忘记密码，请在锁屏界面点击“忘记密码”并选择此文件。没有密码和该文件，将无法恢复访问。</string>
+    <string name="lock_recovery_body">将创建一个包含 12 个单词的文本文件。请把它保存在手机上的安全位置。如果忘记密码，请在锁屏界面点击“忘记密码”并选择此文件。没有密码和该文件，将无法恢复访问。</string>
     <string name="lock_recovery_save">保存文件</string>
     <string name="lock_recovery_failed">无法保存文件，请换一个位置。</string>
     <string name="lock_recovery_wrong">这不是正确的恢复文件</string>

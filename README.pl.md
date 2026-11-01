@@ -22,9 +22,28 @@ Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urzą
 - **Ustawienia dźwięku:** mono/stereo, normalizacja głośności, podbicie basów i wysokich tonów, filtr subsoniczny oraz 12-pasmowy korektor z 10 presetami. Korektor może stosować jedną krzywą do wszystkich utworów lub zapamiętywać osobną krzywą dla każdego utworu.
 - **Język interfejsu:** *Ustawienia → Język aplikacji* otwiera okno z pozycją *System* na górze i dziesięcioma językami poniżej w kolejności alfabetycznej. Zmiana działa od razu, bez przerywania odtwarzania.
 - **Motywy:** jasny, ciemny z prawdziwą czernią (świetny do ekranów OLED) lub systemowy, z kolorami dynamicznymi na Androidzie 12+.
+- **Blokada aplikacji** (Ustawienia → Bezpieczeństwo, domyślnie wyłączona): 4-cyfrowy, 6-cyfrowy lub własny kod jest wymagany przy każdym otwarciu aplikacji. Jeśli go zapomnisz, aplikację odblokuje plik odzyskiwania z 12 losowymi słowami. Szczegóły w sekcji *Blokada aplikacji* poniżej.
 - **Oszczędzanie energii** (Ustawienia): *Wyłączone*, *Średnie* (prawie bez animacji, rzadsze aktualizacje postępu) lub *Intensywne* (dodatkowo wymuszony czarny motyw, głośność ograniczona do 40%, tylko mono, pominięcie korektora/basów/tonów wysokich/subsonicznego/normalizacji, wyjście tylko przewodowe lub głośnik telefonu bez Bluetooth, ręczne skanowanie folderu, mniejsza pamięć podręczna okładek).
 - **Szczegóły utworu:** tagi, format, bitrate, częstotliwość próbkowania, kanały, rozmiar pliku i więcej.
 - **Formaty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV i wszystko, co Android potrafi odtworzyć.
+
+## Blokada aplikacji
+
+Opcjonalna ochrona aplikacji, **domyślnie wyłączona**. Włączysz ją w **Ustawienia → Bezpieczeństwo**.
+
+- **Trzy rodzaje kodu:** 4 cyfry, 6 cyfr lub własny kod (litery łacińskie i cyfry, 4–64 znaki, bez spacji).
+- **Kiedy pyta:** przy każdym uruchomieniu i za każdym razem, gdy aplikacja wraca z tła. Obrót ekranu ani zmiana języka jej nie blokują.
+- **Ekran blokady:** jednolite białe lub czysto czarne tło (zależnie od motywu) z polem na kod. Kody cyfrowe używają minimalistycznej klawiatury ekranowej, własny kod – zwykłej klawiatury systemowej. Przycisk oka pokazuje lub ukrywa wpisane znaki. Zrzuty ekranu i nagrywanie ekranu są blokowane tylko na tym ekranie.
+- **Zmiana lub wyłączenie:** *Ustawienia → Bezpieczeństwo → Zmień kod* albo wyłącz blokadę. W obu przypadkach najpierw trzeba podać aktualny kod.
+
+### Jak działa ochrona
+
+- **Kod nigdy nie jest zapisywany.** Radiant przechowuje tylko losową sól i skrót PBKDF2-HMAC-SHA256 (30 000 iteracji), porównywany w stałym czasie.
+- **Ochrona przed zgadywaniem.** Po każdych 5 błędnych kodach z rzędu trzeba czekać: 30 sekund, potem 1, 2, 4… minuty, maksymalnie 15 minut. Przerwa zostaje także po ponownym uruchomieniu aplikacji. W najgorszym razie przy najdłuższej przerwie sprawdzenie wszystkich 10 000 kodów 4-cyfrowych zajmuje około 3 tygodni, a wszystkich 1 000 000 kodów 6-cyfrowych ponad 5 lat. Krótkie kody czerpią siłę z tego ograniczenia, a nie z entropii: kod 4-cyfrowy to około 13 bitów, 6-cyfrowy około 20 bitów. Aby uzyskać więcej, wybierz własny kod: każdy losowy znak dodaje około 6 bitów, więc 8 losowych znaków to około 48 bitów.
+- **Plik odzyskiwania o wysokiej entropii.** Przy tworzeniu kodu Radiant generuje **12 losowych słów** z wbudowanej listy 700 angielskich słów, wybranych kryptograficznie bezpiecznym generatorem liczb losowych. To 700¹² ≈ 2¹¹³ kombinacji, około **113 bitów entropii**, czyli poza zasięgiem zgadywania. Słowa zapisujesz jako plik `.txt` w dowolnym miejscu. Blokada włącza się dopiero po zapisaniu pliku, a aplikacja przechowuje tylko skrót słów, nie same słowa.
+- **Zapomniałeś kodu?** Na ekranie blokady kliknij *Nie pamiętam hasła* i wybierz plik odzyskiwania. Jeśli pasuje, blokada zostaje wyłączona i możesz włączyć ją ponownie z nowym kodem i nowym plikiem. Zmiana kodu także tworzy nowy plik, a stary przestaje działać.
+- **Przechowuj plik bezpiecznie.** Każdy, kto go ma, może zdjąć blokadę, więc nie zostawiaj go tam, gdzie inni go znajdą. Jeśli stracisz i kod, i plik, jedyne wyjście to wyczyszczenie danych aplikacji, co usuwa też playlisty i ustawienia. Nikt, także twórca, nie odzyska kodu: nie ma kont ani serwerów.
+- **Czego blokada nie robi.** Chroni interfejs aplikacji, a nie pliki audio w pamięci telefonu. Muzyka gra dalej przy zablokowanej aplikacji, a przyciski w powiadomieniu nadal działają.
 
 ## Wymagania
 

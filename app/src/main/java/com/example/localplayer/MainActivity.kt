@@ -14,6 +14,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
@@ -59,13 +62,19 @@ class MainActivity : ComponentActivity() {
             val secure = AppLock.locked
             SideEffect { applySecure(secure) }
             AppTheme(vm.themeMode) {
-                if (AppLock.locked) {
-                    LockScreen()
-                } else {
-                    Box(Modifier.fillMaxSize()) {
-                        App(vm)
-                        // Создание кода / подтверждение перед отключением блокировки: слой поверх всего приложения
-                        AppLock.flow?.let { LockFlowOverlay(it) }
+                Crossfade(
+                    targetState = AppLock.locked,
+                    animationSpec = if (PowerSave.reduceMotion) snap() else tween(250),
+                    label = "appLock",
+                ) { locked ->
+                    if (locked) {
+                        LockScreen()
+                    } else {
+                        Box(Modifier.fillMaxSize()) {
+                            App(vm)
+                            // Создание кода / подтверждение перед отключением блокировки: слой поверх всего приложения
+                            AppLock.flow?.let { LockFlowOverlay(it) }
+                        }
                     }
                 }
             }

@@ -23,7 +23,7 @@
     <string name="lock_disable_title">Enter your code to turn off the lock</string>
     <string name="lock_forgot">Forgot password</string>
     <string name="lock_recovery_title">Save the recovery file</string>
-    <string name="lock_recovery_body">A text file with 6 words will be created. Save it somewhere safe on your phone. If you forget your code, tap “Forgot password” on the lock screen and choose this file. Without the code and the file, access can’t be restored.</string>
+    <string name="lock_recovery_body">A text file with 12 words will be created. Save it somewhere safe on your phone. If you forget your code, tap “Forgot password” on the lock screen and choose this file. Without the code and the file, access can’t be restored.</string>
     <string name="lock_recovery_save">Save file</string>
     <string name="lock_recovery_failed">Couldn’t save the file. Try another location.</string>
     <string name="lock_recovery_wrong">This isn’t the right recovery file</string>

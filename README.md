@@ -22,9 +22,28 @@ No ads, no accounts, no internet access required. Everything stays on your devic
 - **Sound settings:** mono/stereo, volume normalization, bass and treble boost, subsonic filter, and a 12-band equalizer with 10 presets. The equalizer can apply one curve to all tracks or remember a separate curve for each track.
 - **Interface language:** *Settings → App language* opens a window with *System* pinned on top and the ten languages below it in alphabetical order. The change applies at once, without interrupting playback.
 - **Themes:** light, true-black dark (great for OLED screens) or system default, with dynamic colors on Android 12+.
+- **App lock** (Settings → Security, off by default): a 4-digit, 6-digit or custom code is asked every time you open the app. If you forget it, a recovery file with 12 random words unlocks the app. Details are in the *App lock* section below.
 - **Power saving** (Settings): *Off*, *Medium* (almost no animations, rarer progress updates) or *Intensive* (also forced black theme, volume capped at 40%, mono only, EQ/bass/treble/subsonic/normalization bypassed, wired or phone-speaker output only with no Bluetooth, manual folder scan, smaller cover cache).
 - **Track details:** tags, format, bitrate, sample rate, channels, file size and more.
 - **Formats:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV and anything else Android can decode.
+
+## App lock
+
+Optional protection for the app, **off by default**. Turn it on under **Settings → Security**.
+
+- **Three kinds of code:** 4 digits, 6 digits, or a custom code (Latin letters and digits, 4–64 characters, no spaces).
+- **When it asks:** on every launch and every time the app comes back from the background. Rotating the screen or changing the app language does not lock it.
+- **Lock screen:** a plain white or pure black background (following the theme) with a code field. Digit codes use a minimalist on-screen keypad; a custom code uses the normal system keyboard. The eye button shows or hides what you typed. Screenshots and screen recording are blocked on this screen only.
+- **Change or turn off:** *Settings → Security → Change code*, or switch the lock off. Both ask for the current code first.
+
+### How the protection works
+
+- **No code is ever stored.** Radiant keeps only a random salt and a PBKDF2-HMAC-SHA256 hash (30,000 iterations), compared in constant time.
+- **Brute-force protection.** After every 5 wrong codes in a row you have to wait: 30 seconds, then 1, 2, 4… minutes, up to 15 minutes. The pause survives restarting the app. In the worst case at the longest pause, trying all 10,000 four-digit codes takes about 3 weeks, and all 1,000,000 six-digit codes over 5 years. Short codes get their strength from this limit rather than from entropy: a 4-digit code is about 13 bits and a 6-digit code about 20 bits. For more, choose a custom code: every random letter or digit adds about 6 bits, so 8 random characters are about 48 bits.
+- **High-entropy recovery file.** When you create a code, Radiant generates **12 random words** from a built-in list of 700 English words, picked with a cryptographically secure random generator. That is 700¹² ≈ 2¹¹³ combinations, about **113 bits of entropy**, which is far out of reach of brute force. You save the words as a `.txt` file wherever you like. The lock turns on only after the file has been written, and the app keeps just a hash of the words, not the words themselves.
+- **Forgot the code?** Tap *Forgot password* on the lock screen and pick the recovery file. If it matches, the lock is turned off and you can enable it again with a new code and a new file. Changing the code also creates a new file, and the old one stops working.
+- **Keep the file safe.** Anyone who has it can remove the lock, so don't leave it where others can find it. If you lose both the code and the file, the only way back is clearing the app's data, which also deletes playlists and settings. Nobody, including the developer, can recover the code: there are no accounts and no servers.
+- **What it does not do.** The lock protects the app's interface, not the audio files on your storage. Music keeps playing while the app is locked, and the notification controls keep working.
 
 ## Requirements
 

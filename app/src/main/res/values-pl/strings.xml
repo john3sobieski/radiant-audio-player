@@ -22,7 +22,7 @@
     <string name="lock_disable_title">Wpisz kod, aby wyłączyć blokadę</string>
     <string name="lock_forgot">Nie pamiętam hasła</string>
     <string name="lock_recovery_title">Zapisz plik odzyskiwania</string>
-    <string name="lock_recovery_body">Zostanie utworzony plik tekstowy z 6 słowami. Zapisz go w bezpiecznym miejscu w telefonie. Jeśli zapomnisz kodu, kliknij „Nie pamiętam hasła” na ekranie blokady i wybierz ten plik. Bez kodu i pliku nie da się odzyskać dostępu.</string>
+    <string name="lock_recovery_body">Zostanie utworzony plik tekstowy z 12 słowami. Zapisz go w bezpiecznym miejscu w telefonie. Jeśli zapomnisz kodu, kliknij „Nie pamiętam hasła” na ekranie blokady i wybierz ten plik. Bez kodu i pliku nie da się odzyskać dostępu.</string>
     <string name="lock_recovery_save">Zapisz plik</string>
     <string name="lock_recovery_failed">Nie udało się zapisać pliku. Spróbuj innej lokalizacji.</string>
     <string name="lock_recovery_wrong">To nie jest właściwy plik odzyskiwania</string>

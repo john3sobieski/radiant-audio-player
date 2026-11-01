@@ -22,7 +22,7 @@
     <string name="lock_disable_title">Gib deinen Code ein, um die Sperre auszuschalten</string>
     <string name="lock_forgot">Passwort vergessen</string>
     <string name="lock_recovery_title">Wiederherstellungsdatei speichern</string>
-    <string name="lock_recovery_body">Es wird eine Textdatei mit 6 Wörtern erstellt. Speichere sie an einem sicheren Ort auf deinem Handy. Wenn du deinen Code vergisst, tippe auf dem Sperrbildschirm auf „Passwort vergessen“ und wähle diese Datei. Ohne Code und Datei lässt sich der Zugriff nicht wiederherstellen.</string>
+    <string name="lock_recovery_body">Es wird eine Textdatei mit 12 Wörtern erstellt. Speichere sie an einem sicheren Ort auf deinem Handy. Wenn du deinen Code vergisst, tippe auf dem Sperrbildschirm auf „Passwort vergessen“ und wähle diese Datei. Ohne Code und Datei lässt sich der Zugriff nicht wiederherstellen.</string>
     <string name="lock_recovery_save">Datei speichern</string>
     <string name="lock_recovery_failed">Die Datei konnte nicht gespeichert werden. Wähle einen anderen Speicherort.</string>
     <string name="lock_recovery_wrong">Das ist nicht die richtige Wiederherstellungsdatei</string>

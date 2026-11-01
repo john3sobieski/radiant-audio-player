@@ -22,7 +22,7 @@
     <string name="lock_disable_title">Introduce tu código para desactivar el bloqueo</string>
     <string name="lock_forgot">Olvidé la contraseña</string>
     <string name="lock_recovery_title">Guarda el archivo de recuperación</string>
-    <string name="lock_recovery_body">Se creará un archivo de texto con 6 palabras. Guárdalo en un lugar seguro de tu teléfono. Si olvidas el código, toca «Olvidé la contraseña» en la pantalla de bloqueo y elige este archivo. Sin el código y el archivo no se podrá recuperar el acceso.</string>
+    <string name="lock_recovery_body">Se creará un archivo de texto con 12 palabras. Guárdalo en un lugar seguro de tu teléfono. Si olvidas el código, toca «Olvidé la contraseña» en la pantalla de bloqueo y elige este archivo. Sin el código y el archivo no se podrá recuperar el acceso.</string>
     <string name="lock_recovery_save">Guardar archivo</string>
     <string name="lock_recovery_failed">No se pudo guardar el archivo. Prueba con otra ubicación.</string>
     <string name="lock_recovery_wrong">Este no es el archivo de recuperación correcto</string>

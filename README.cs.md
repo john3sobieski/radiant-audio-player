@@ -22,9 +22,28 @@ Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální aud
 - **Nastavení zvuku:** mono/stereo, normalizace hlasitosti, zesílení basů a výšek, subsonický filtr a 12pásmový ekvalizér s 10 předvolbami. Ekvalizér může použít jednu křivku pro všechny skladby, nebo si pamatovat samostatnou křivku pro každou skladbu.
 - **Jazyk rozhraní:** *Nastavení → Jazyk aplikace* otevře okno s položkou *Systém* nahoře a deseti jazyky pod ní v abecedním pořadí. Změna se projeví okamžitě, bez přerušení přehrávání.
 - **Motivy:** světlý, skutečně černý tmavý (skvělý pro OLED displeje) nebo podle systému, s dynamickými barvami na Androidu 12+.
+- **Zámek aplikace** (Nastavení → Zabezpečení, ve výchozím stavu vypnutý): 4místný, 6místný nebo vlastní kód se vyžaduje při každém otevření aplikace. Pokud ho zapomenete, aplikaci odemkne soubor pro obnovení s 12 náhodnými slovy. Podrobnosti jsou níže v sekci *Zámek aplikace*.
 - **Úspora energie** (Nastavení): *Vypnuto*, *Střední* (téměř žádné animace, řidší aktualizace průběhu) nebo *Intenzivní* (navíc vynucený černý motiv, hlasitost omezená na 40 %, pouze mono, vynechání ekvalizéru/basů/výšek/subsonického filtru/normalizace, výstup pouze přes kabel nebo reproduktor telefonu bez Bluetooth, ruční prohledání složky, menší mezipaměť obalů).
 - **Podrobnosti o skladbě:** tagy, formát, bitrate, vzorkovací frekvence, kanály, velikost souboru a další.
 - **Formáty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV a cokoli dalšího, co Android dokáže dekódovat.
+
+## Zámek aplikace
+
+Volitelná ochrana aplikace, **ve výchozím stavu vypnutá**. Zapnete ji v **Nastavení → Zabezpečení**.
+
+- **Tři druhy kódu:** 4 číslice, 6 číslic nebo vlastní kód (latinská písmena a číslice, 4–64 znaků, bez mezer).
+- **Kdy se ptá:** při každém spuštění a pokaždé, když se aplikace vrátí z pozadí. Otočení displeje ani změna jazyka ji nezamknou.
+- **Zamčená obrazovka:** jednolité bílé nebo čistě černé pozadí (podle motivu) s polem pro kód. Číselné kódy používají minimalistickou klávesnici na obrazovce, vlastní kód běžnou systémovou klávesnici. Tlačítko oka zobrazí nebo skryje zadané znaky. Snímky obrazovky a nahrávání obrazovky jsou blokované jen na této obrazovce.
+- **Změna nebo vypnutí:** *Nastavení → Zabezpečení → Změnit kód*, nebo zámek vypněte. V obou případech se nejdřív zadává aktuální kód.
+
+### Jak ochrana funguje
+
+- **Kód se nikdy neukládá.** Radiant uchovává jen náhodnou sůl a hash PBKDF2-HMAC-SHA256 (30 000 iterací), který se porovnává v konstantním čase.
+- **Ochrana proti hrubé síle.** Po každých 5 chybných kódech za sebou je nutné počkat: 30 sekund, potom 1, 2, 4… minuty, nejvýše 15 minut. Pauza přetrvá i po restartu aplikace. V nejhorším případě při nejdelší pauze zkoušení všech 10 000 čtyřmístných kódů trvá asi 3 týdny a všech 1 000 000 šestimístných přes 5 let. Krátké kódy čerpají sílu z tohoto omezení, ne z entropie: 4místný kód má asi 13 bitů, 6místný asi 20 bitů. Pro větší odolnost zvolte vlastní kód: každý náhodný znak přidá asi 6 bitů, tedy 8 náhodných znaků je asi 48 bitů.
+- **Soubor pro obnovení s vysokou entropií.** Při vytvoření kódu Radiant vygeneruje **12 náhodných slov** z vestavěného seznamu 700 anglických slov, vybraných kryptograficky bezpečným generátorem náhodných čísel. To je 700¹² ≈ 2¹¹³ kombinací, zhruba **113 bitů entropie**, což je mimo dosah hrubé síly. Slova uložíte jako soubor `.txt` kamkoli chcete. Zámek se zapne až po zapsání souboru a aplikace uchovává jen hash slov, ne slova samotná.
+- **Zapomněli jste kód?** Na zamčené obrazovce klepněte na *Zapomenuté heslo* a vyberte soubor pro obnovení. Pokud odpovídá, zámek se vypne a můžete ho znovu zapnout s novým kódem a novým souborem. Změna kódu také vytvoří nový soubor a ten starý přestane fungovat.
+- **Soubor dobře uschovejte.** Kdokoli, kdo ho má, může zámek odstranit, proto ho nenechávejte tam, kde ho najdou jiní. Pokud ztratíte kód i soubor, zbývá jen smazat data aplikace, čímž zmizí i playlisty a nastavení. Nikdo, ani vývojář, kód obnovit nemůže: nejsou žádné účty ani servery.
+- **Co zámek nedělá.** Chrání rozhraní aplikace, ne zvukové soubory v úložišti. Hudba hraje dál, i když je aplikace zamčená, a tlačítka v oznámení fungují.
 
 ## Požadavky
 
