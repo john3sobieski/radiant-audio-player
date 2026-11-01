@@ -260,10 +260,10 @@
     <string name="cloud_disconnect">Відключити</string>
     <string name="cloud_folder_label">Тека в хмарі: %1$s</string>
     <string name="cloud_folder_root">корінь</string>
-    <string name="cloud_choose_folder">Виберіть теку в хмарі</string>
+    <string name="cloud_choose_folder">Вибрати теку в хмарі</string>
     <string name="cloud_use_folder">Вибрати цю теку</string>
     <string name="cloud_no_subfolders">Вкладених тек немає</string>
-    <string name="cloud_download">Завантажити в «%1$s»</string>
+    <string name="cloud_download">Завантажити з %1$s</string>
     <string name="cloud_need_music_folder">Спочатку виберіть теку з музикою вище.</string>
     <string name="cloud_checking">Перевіряю хмару…</string>
     <string name="cloud_progress">Файлів: %1$d з %2$d</string>

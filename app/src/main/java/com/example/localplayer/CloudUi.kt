@@ -129,11 +129,19 @@ private fun ProviderCard(vm: PlayerViewModel, id: CloudId) {
                     Icon(Icons.Default.FolderOpen, null)
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        stringResource(R.string.cloud_folder_label, folderText),
+                        stringResource(R.string.cloud_choose_folder),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
+                // Текущая папка в облаке: подпись под кнопкой выбора
+                Text(
+                    stringResource(R.string.cloud_folder_label, folderText),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
                 Button(
                     onClick = { vm.folder?.let { CloudSync.prepare(ctx, it, id) } },
                     enabled = vm.folder != null && !busy,
@@ -141,7 +149,7 @@ private fun ProviderCard(vm: PlayerViewModel, id: CloudId) {
                 ) {
                     Icon(Icons.Default.CloudDownload, null)
                     Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.cloud_download, id.folderName), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(stringResource(R.string.cloud_download, id.title), maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
                 if (vm.folder == null) {
                     Text(

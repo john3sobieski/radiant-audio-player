@@ -260,7 +260,7 @@
     <string name="cloud_choose_folder">クラウドのフォルダを選択</string>
     <string name="cloud_use_folder">このフォルダを使う</string>
     <string name="cloud_no_subfolders">サブフォルダはありません</string>
-    <string name="cloud_download">「%1$s」にダウンロード</string>
+    <string name="cloud_download">%1$s からダウンロード</string>
     <string name="cloud_need_music_folder">先に上で音楽フォルダを選んでください。</string>
     <string name="cloud_checking">クラウドを確認中…</string>
     <string name="cloud_progress">%2$d 件中 %1$d 件</string>

@@ -262,7 +262,7 @@
     <string name="cloud_choose_folder">Choose cloud folder</string>
     <string name="cloud_use_folder">Use this folder</string>
     <string name="cloud_no_subfolders">No subfolders</string>
-    <string name="cloud_download">Download to “%1$s”</string>
+    <string name="cloud_download">Download from %1$s</string>
     <string name="cloud_need_music_folder">Choose the music folder above first.</string>
     <string name="cloud_checking">Checking the cloud…</string>
     <string name="cloud_progress">%1$d of %2$d files</string>

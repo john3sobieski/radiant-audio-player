@@ -262,7 +262,7 @@
     <string name="cloud_choose_folder">Elegir carpeta en la nube</string>
     <string name="cloud_use_folder">Usar esta carpeta</string>
     <string name="cloud_no_subfolders">No hay subcarpetas</string>
-    <string name="cloud_download">Descargar en «%1$s»</string>
+    <string name="cloud_download">Descargar desde %1$s</string>
     <string name="cloud_need_music_folder">Primero elige arriba la carpeta de música.</string>
     <string name="cloud_checking">Comprobando la nube…</string>
     <string name="cloud_progress">%1$d de %2$d archivos</string>

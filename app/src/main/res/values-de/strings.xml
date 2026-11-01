@@ -261,7 +261,7 @@
     <string name="cloud_choose_folder">Cloud-Ordner auswählen</string>
     <string name="cloud_use_folder">Diesen Ordner verwenden</string>
     <string name="cloud_no_subfolders">Keine Unterordner</string>
-    <string name="cloud_download">In „%1$s“ herunterladen</string>
+    <string name="cloud_download">Von %1$s herunterladen</string>
     <string name="cloud_need_music_folder">Wähle zuerst oben den Musikordner aus.</string>
     <string name="cloud_checking">Cloud wird geprüft…</string>
     <string name="cloud_progress">%1$d von %2$d Dateien</string>

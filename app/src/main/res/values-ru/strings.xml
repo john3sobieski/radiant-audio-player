@@ -260,10 +260,10 @@
     <string name="cloud_disconnect">Отключить</string>
     <string name="cloud_folder_label">Папка в облаке: %1$s</string>
     <string name="cloud_folder_root">корень</string>
-    <string name="cloud_choose_folder">Выберите папку в облаке</string>
+    <string name="cloud_choose_folder">Выбрать папку в облаке</string>
     <string name="cloud_use_folder">Выбрать эту папку</string>
     <string name="cloud_no_subfolders">Вложенных папок нет</string>
-    <string name="cloud_download">Скачать в «%1$s»</string>
+    <string name="cloud_download">Скачать из %1$s</string>
     <string name="cloud_need_music_folder">Сначала выберите папку с музыкой выше.</string>
     <string name="cloud_checking">Проверяю облако…</string>
     <string name="cloud_progress">Файлов: %1$d из %2$d</string>
