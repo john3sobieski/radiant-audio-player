@@ -286,13 +286,13 @@
     <string name="menu_create_stems">Створити стеми</string>
     <string name="stems_title">Створити стеми</string>
     <string name="stems_section_title">Стеми (ШІ)</string>
-    <string name="stems_hint">Розділяє трек на вокал, інструментал, ударні та бас за допомогою Open-Unmix. Працює на пристрої й не в реальному часі: зазвичай кілька хвилин на трек. Результат зберігається у WAV у теці «%1$s» всередині вашої теки з музикою.</string>
+    <string name="stems_hint">Розділяє трек на вокал, ударні, бас та решту за допомогою Open-Unmix, а потім зводить обрані вами частини в один трек. Працює на пристрої й не в реальному часі: зазвичай кілька хвилин на трек. Результат — WAV-файл у теці «%1$s» всередині вашої теки з музикою.</string>
     <string name="stem_vocals">Вокал</string>
     <string name="stem_instrumental">Інструментал</string>
     <string name="stem_drums">Ударні</string>
     <string name="stem_bass">Бас</string>
     <string name="stems_choose">Оберіть стеми</string>
-    <string name="stems_choose_hint">Інструментал — це трек без вокалу. Кожна додаткова модель (вокал, ударні, бас) подовжує обробку.</string>
+    <string name="stems_choose_hint">Позначені частини зводяться в один трек. Наприклад, усе, крім басу, дає повний трек без басу.</string>
     <string name="stems_models_title">ШІ-моделі</string>
     <string name="stems_models_missing">Потрібно завантажити моделі: %1$s (%2$s).</string>
     <string name="stems_model_installed">Встановлено</string>
@@ -326,4 +326,5 @@
     <string name="stems_err_no_space">Не вистачає вільного місця для тимчасових файлів.</string>
     <string name="stems_err_no_decoder">Цей пристрій не вміє декодувати формат (%1$s).</string>
     <string name="stems_license">Моделі: Open-Unmix umxhq, експорт в ONNX від MixDirective (ліцензія MIT, © 2019 Inria). Перше завантаження потребує інтернету, далі все працює без мережі.</string>
+    <string name="stem_other">Решта</string>
 </resources>

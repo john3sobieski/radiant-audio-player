@@ -30,8 +30,8 @@ internal object StemSpec {
     const val HOP = 1024
     const val BINS = N_FFT / 2 + 1
 
-    /** Полезная часть блока: 860 шагов STFT ≈ 19,97 с. Блок целиком проходит через сеть за один вызов. */
-    const val CORE = HOP * 860
+    /** Полезная часть блока: 512 шагов STFT ≈ 11,9 с. Блок целиком проходит через каждую сеть за один вызов. */
+    const val CORE = HOP * 512
 
     /** Контекст с каждой стороны блока (≈ 2 с): двунаправленная LSTM к краям куска работает хуже, поэтому края отбрасываются. */
     const val CONTEXT = HOP * 86
@@ -148,20 +148,24 @@ internal class StemStft {
     }
 
     /**
-     * Обратное преобразование кадра из [lRe]..[rIm] с наложением в [accL]/[accR] (оконная функция применяется ещё раз).
-     * В [env] копится сумма квадратов окна: на неё делится результат в конце блока.
+     * Обратное преобразование кадра из переданных спектров (бины 0..N/2) с наложением в [accL]/[accR]
+     * (оконная функция применяется ещё раз). Результат нужно разделить на [addEnvelope].
      */
-    fun synthesize(frame: Int, len: Int, accL: FloatArray, accR: FloatArray, env: FloatArray?) {
+    fun synthesize(
+        frame: Int, len: Int,
+        sLRe: DoubleArray, sLIm: DoubleArray, sRRe: DoubleArray, sRIm: DoubleArray,
+        accL: FloatArray, accR: FloatArray,
+    ) {
         val half = n / 2
         // Z = L + i·R для всех бинов; верхняя половина восстанавливается из эрмитовой симметрии
         for (k in 0..half) {
-            re[k] = lRe[k] - rIm[k]
-            im[k] = lIm[k] + rRe[k]
+            re[k] = sLRe[k] - sRIm[k]
+            im[k] = sLIm[k] + sRRe[k]
         }
         for (k in half + 1 until n) {
             val j = n - k
-            re[k] = lRe[j] + rIm[j]
-            im[k] = rRe[j] - lIm[j]
+            re[k] = sLRe[j] + sRIm[j]
+            im[k] = sRRe[j] - sLIm[j]
         }
         // Обратное БПФ через прямое со сменой местами действительной и мнимой частей
         fft(im, re)
@@ -173,7 +177,16 @@ internal class StemStft {
             val w = window[i]
             accL[idx] += (re[i] * scale * w).toFloat()
             accR[idx] += (im[i] * scale * w).toFloat()
-            if (env != null) env[idx] += (w * w).toFloat()
+        }
+    }
+
+    /** Добавляет к [env] квадрат окна кадра: на сумму делится результат наложения в конце блока. */
+    fun addEnvelope(frame: Int, len: Int, env: FloatArray) {
+        val start = frame * hop - n / 2
+        for (i in 0 until n) {
+            val idx = start + i
+            if (idx < 0 || idx >= len) continue
+            env[idx] += (window[i] * window[i]).toFloat()
         }
     }
 }
@@ -200,58 +213,87 @@ internal fun interface StemOutput {
 }
 
 /**
- * Один проход одной сетью по всему треку. Память не зависит от длины трека: в каждый момент в работе один блок.
+ * Разделение трека несколькими сетями сразу с выдачей ОДНОГО трека: суммы выбранных стемов. Память не зависит от длины
+ * трека: в каждый момент в работе один блок.
  *
  * Блок = [StemSpec.CORE] отсчётов полезной части + [StemSpec.CONTEXT] контекста с обеих сторон. Спектр микса считается
- * дважды (до сети и после), зато комплексный спектр не нужно хранить: так блоку нужно вдвое меньше памяти.
+ * дважды (до сетей и после), зато комплексный спектр не нужно хранить.
+ *
+ * Как оценки сетей превращаются в маску:
+ *  - [normalize] = true («мягкая маска», как в штатном пайплайне Open-Unmix): маска сети j = v_j² / Σ v_k². Маски всех
+ *    сетей в сумме дают единицу, поэтому стемы складываются обратно в оригинал, и «всё, кроме баса» — это ровно микс без
+ *    баса. Нужны оценки ВСЕХ сетей. Бины, где ни одна сеть ничего не оценила (выше ~16 кГц), целиком отдаются сети
+ *    [residual] («остальное»), если она есть.
+ *  - [normalize] = false: каждая маска сама по себе, выход / вход (0..1); сумма выбранных ограничивается единицей.
+ * Итоговая маска = сумма масок выбранных сетей; она применяется к спектру микса за одно обратное преобразование.
  */
-internal class StemPass(private val src: PcmSource, private val model: MaskModel) {
-
+internal class StemPass(
+    private val src: PcmSource,
+    private val models: List<MaskModel>,
+    private val normalize: Boolean,
+    private val residual: Int = -1,
+) {
+    private val m = models.size
+    private val bins = StemSpec.BINS
     private val stft = StemStft()
     private val segL = FloatArray(StemSpec.MAX_SEGMENT)
     private val segR = FloatArray(StemSpec.MAX_SEGMENT)
     private val accL = FloatArray(StemSpec.MAX_SEGMENT)
     private val accR = FloatArray(StemSpec.MAX_SEGMENT)
     private val env = FloatArray(StemSpec.MAX_SEGMENT)
-    private val tensor: FloatBuffer =
-        ByteBuffer.allocateDirect(2 * StemSpec.BINS * StemSpec.MAX_FRAMES * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
+    private val tensorSize = 2 * bins * StemSpec.MAX_FRAMES
+
+    private fun directBuffer(): FloatBuffer =
+        ByteBuffer.allocateDirect(tensorSize * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
+
+    private val tensor: FloatBuffer = directBuffer()
+    private val est: Array<FloatBuffer> = Array(m) { directBuffer() }
+
+    private val tLRe = DoubleArray(bins)
+    private val tLIm = DoubleArray(bins)
+    private val tRRe = DoubleArray(bins)
+    private val tRIm = DoubleArray(bins)
+    private val eL = FloatArray(m)
+    private val eR = FloatArray(m)
 
     /**
-     * [stem] получает «выход сети × микс», [complement] — остаток «микс − стем» (так получается инструментал из вокала).
-     * [onChunk] вызывается после каждого блока: (сделано, всего). [cancelled] проверяется перед каждым блоком.
+     * [select] — какие сети входят в итоговый трек; результат уходит в [output]. [onStep] вызывается после каждого запуска
+     * сети: (сделано, всего), всего = блоки × сети. [cancelled] проверяется перед каждым запуском сети.
      */
     fun run(
-        stem: StemOutput?,
-        complement: StemOutput?,
-        onChunk: (done: Int, total: Int) -> Unit,
+        select: List<Boolean>,
+        output: StemOutput,
+        onStep: (done: Int, total: Int) -> Unit,
         cancelled: () -> Boolean,
     ) {
+        require(select.size == m)
         val total = src.frames
         val chunks = StemSpec.chunkCount(total)
-        onChunk(0, chunks)
+        val steps = chunks * m
+        onStep(0, steps)
         for (c in 0 until chunks) {
-            if (cancelled()) throw java.util.concurrent.CancellationException()
             val coreStart = c.toLong() * StemSpec.CORE
             val coreLen = min(StemSpec.CORE.toLong(), total - coreStart).toInt()
             val segStart = maxOf(0L, coreStart - StemSpec.CONTEXT)
             val segEnd = min(total, coreStart + coreLen + StemSpec.CONTEXT)
             val len = (segEnd - segStart).toInt()
             val coreOffset = (coreStart - segStart).toInt()
-            processSegment(segStart, len, coreOffset, coreLen, stem, complement)
-            onChunk(c + 1, chunks)
+            processSegment(segStart, len, coreOffset, coreLen, select, output, cancelled) { j ->
+                onStep(c * m + j + 1, steps)
+            }
         }
     }
 
     private fun processSegment(
         segStart: Long, len: Int, coreOffset: Int, coreLen: Int,
-        stem: StemOutput?, complement: StemOutput?,
+        select: List<Boolean>, output: StemOutput,
+        cancelled: () -> Boolean, onModel: (Int) -> Unit,
     ) {
-        val bins = StemSpec.BINS
         src.read(segStart, len, segL, segR)
         val frames = stft.frameCount(len)
         val count = 2 * bins * frames
 
-        // 1. Амплитудная спектрограмма -> сеть
+        // 1. Амплитудная спектрограмма микса
         tensor.clear()
         tensor.limit(count)
         for (f in 0 until frames) {
@@ -262,29 +304,42 @@ internal class StemPass(private val src: PcmSource, private val model: MaskModel
             }
         }
 
+        // 2. Каждая сеть оценивает свой стем; оценки сохраняются (маски нужны по всем сразу)
+        for (j in 0 until m) {
+            if (cancelled()) throw java.util.concurrent.CancellationException()
+            models[j].run(tensor, frames) { out ->
+                est[j].clear()
+                est[j].limit(count)
+                est[j].put(out)
+            }
+            onModel(j)
+        }
+
+        // 3. Суммарная маска выбранных стемов -> спектр -> обратное преобразование
         java.util.Arrays.fill(accL, 0, len, 0f)
         java.util.Arrays.fill(accR, 0, len, 0f)
         java.util.Arrays.fill(env, 0, len, 0f)
-
-        // 2. Маска = выход / вход (0..1) применяется к комплексному спектру микса, затем обратное преобразование
-        model.run(tensor, frames) { out ->
-            for (f in 0 until frames) {
-                stft.analyze(segL, segR, len, f)
-                for (k in 0 until bins) {
-                    val inL = tensor.get(k * frames + f)
-                    val inR = tensor.get((bins + k) * frames + f)
-                    val mL = ratio(out.get(k * frames + f), inL)
-                    val mR = ratio(out.get((bins + k) * frames + f), inR)
-                    stft.lRe[k] *= mL
-                    stft.lIm[k] *= mL
-                    stft.rRe[k] *= mR
-                    stft.rIm[k] *= mR
+        for (f in 0 until frames) {
+            stft.analyze(segL, segR, len, f)
+            for (k in 0 until bins) {
+                val iL = k * frames + f
+                val iR = (bins + k) * frames + f
+                for (j in 0 until m) {
+                    eL[j] = est[j].get(iL)
+                    eR[j] = est[j].get(iR)
                 }
-                stft.synthesize(f, len, accL, accR, env)
+                val gL = gain(eL, tensor.get(iL), select)
+                val gR = gain(eR, tensor.get(iR), select)
+                tLRe[k] = stft.lRe[k] * gL
+                tLIm[k] = stft.lIm[k] * gL
+                tRRe[k] = stft.rRe[k] * gR
+                tRIm[k] = stft.rIm[k] * gR
             }
+            stft.synthesize(f, len, tLRe, tLIm, tRRe, tRIm, accL, accR)
+            stft.addEnvelope(f, len, env)
         }
 
-        // 3. Нормировка на сумму квадратов окна
+        // 4. Нормировка на сумму квадратов окна и отдача полезной части
         for (i in 0 until len) {
             val e = env[i]
             if (e > 1e-6f) {
@@ -292,19 +347,25 @@ internal class StemPass(private val src: PcmSource, private val model: MaskModel
                 accR[i] /= e
             }
         }
-
-        stem?.write(accL, accR, coreOffset, coreLen)
-        if (complement != null) {
-            for (i in coreOffset until coreOffset + coreLen) {
-                accL[i] = segL[i] - accL[i]
-                accR[i] = segR[i] - accR[i]
-            }
-            complement.write(accL, accR, coreOffset, coreLen)
-        }
+        output.write(accL, accR, coreOffset, coreLen)
     }
 
-    private fun ratio(out: Float, input: Float): Float =
-        if (input > 1e-9f) (out / input).coerceIn(0f, 1f) else 0f
+    /** Итоговая маска одного бина одного канала: сумма масок выбранных сетей ([v] — оценки сетей, [input] — амплитуда микса). */
+    private fun gain(v: FloatArray, input: Float, select: List<Boolean>): Float {
+        var g = 0f
+        if (normalize) {
+            var sum = 0f
+            for (j in 0 until m) sum += v[j] * v[j]
+            if (sum > 1e-16f) {
+                for (j in 0 until m) if (select[j]) g += v[j] * v[j] / sum
+            } else if (residual >= 0 && select[residual]) {
+                g = 1f
+            }
+            return g.coerceIn(0f, 1f)
+        }
+        if (input > 1e-9f) for (j in 0 until m) if (select[j]) g += v[j] / input
+        return g.coerceIn(0f, 1f)
+    }
 }
 
 // =====================================================================

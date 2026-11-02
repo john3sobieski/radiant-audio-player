@@ -285,13 +285,13 @@
     <string name="menu_create_stems">Create stems</string>
     <string name="stems_title">Create stems</string>
     <string name="stems_section_title">Stems (AI)</string>
-    <string name="stems_hint">Splits a track into vocals, instrumental, drums and bass with Open-Unmix. It runs on the device, not in real time: usually a few minutes per track. Results are saved as WAV files in the “%1$s” folder inside your music folder.</string>
+    <string name="stems_hint">Splits a track into vocals, drums, bass and the rest with Open-Unmix, then mixes the parts you choose into one track. It runs on the device, not in real time: usually a few minutes per track. The result is a WAV file in the “%1$s” folder inside your music folder.</string>
     <string name="stem_vocals">Vocals</string>
     <string name="stem_instrumental">Instrumental</string>
     <string name="stem_drums">Drums</string>
     <string name="stem_bass">Bass</string>
     <string name="stems_choose">Choose stems</string>
-    <string name="stems_choose_hint">Instrumental is the track without vocals. Every extra model (vocals, drums, bass) makes processing longer.</string>
+    <string name="stems_choose_hint">The checked parts are mixed into one track. For example, everything except Bass gives the full track without bass.</string>
     <string name="stems_models_title">AI models</string>
     <string name="stems_models_missing">Models to download: %1$s (%2$s).</string>
     <string name="stems_model_installed">Installed</string>
@@ -325,4 +325,5 @@
     <string name="stems_err_no_space">Not enough free space for temporary files.</string>
     <string name="stems_err_no_decoder">This device cannot decode the format (%1$s).</string>
     <string name="stems_license">Models: Open-Unmix umxhq, ONNX export by MixDirective (MIT license, © 2019 Inria). The first download needs internet; afterwards everything works offline.</string>
+    <string name="stem_other">Other</string>
 </resources>

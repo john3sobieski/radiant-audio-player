@@ -283,13 +283,13 @@
     <string name="menu_create_stems">创建分轨</string>
     <string name="stems_title">创建分轨</string>
     <string name="stems_section_title">分轨（AI）</string>
-    <string name="stems_hint">使用 Open-Unmix 将曲目拆分为人声、伴奏、鼓和贝斯。在设备本地运行，非实时：通常每首曲目需要几分钟。结果以 WAV 文件保存到音乐文件夹内的“%1$s”文件夹。</string>
+    <string name="stems_hint">使用 Open-Unmix 将曲目拆分为人声、鼓、贝斯和其余部分，然后把你选中的部分混合成一首曲目。在设备本地运行，非实时：通常每首曲目需要几分钟。结果是音乐文件夹内“%1$s”文件夹中的一个 WAV 文件。</string>
     <string name="stem_vocals">人声</string>
     <string name="stem_instrumental">伴奏</string>
     <string name="stem_drums">鼓</string>
     <string name="stem_bass">贝斯</string>
     <string name="stems_choose">选择分轨</string>
-    <string name="stems_choose_hint">伴奏即去掉人声的曲目。每多选一个模型（人声、鼓、贝斯），处理时间就会更长。</string>
+    <string name="stems_choose_hint">勾选的部分会混合成一首曲目。例如，选择除贝斯以外的全部，就得到去掉贝斯的完整曲目。</string>
     <string name="stems_models_title">AI 模型</string>
     <string name="stems_models_missing">需要下载的模型：%1$s（%2$s）。</string>
     <string name="stems_model_installed">已安装</string>
@@ -323,4 +323,5 @@
     <string name="stems_err_no_space">剩余空间不足，无法存放临时文件。</string>
     <string name="stems_err_no_decoder">此设备无法解码该格式（%1$s）。</string>
     <string name="stems_license">模型：Open-Unmix umxhq，MixDirective 导出的 ONNX 版本（MIT 许可，© 2019 Inria）。首次下载需要联网，之后完全离线可用。</string>
+    <string name="stem_other">其他</string>
 </resources>

@@ -286,13 +286,13 @@
     <string name="menu_create_stems">Vytvořit stemy</string>
     <string name="stems_title">Vytvořit stemy</string>
     <string name="stems_section_title">Stemy (AI)</string>
-    <string name="stems_hint">Rozdělí skladbu na zpěv, instrumentální stopu, bicí a basu pomocí Open-Unmix. Běží v zařízení a ne v reálném čase: obvykle několik minut na skladbu. Výsledky se ukládají jako soubory WAV do složky „%1$s“ uvnitř složky s hudbou.</string>
+    <string name="stems_hint">Rozdělí skladbu na zpěv, bicí, basu a zbytek pomocí Open-Unmix a vybrané části pak smíchá do jedné skladby. Běží v zařízení a ne v reálném čase: obvykle několik minut na skladbu. Výsledkem je soubor WAV ve složce „%1$s“ uvnitř složky s hudbou.</string>
     <string name="stem_vocals">Zpěv</string>
     <string name="stem_instrumental">Instrumentál</string>
     <string name="stem_drums">Bicí</string>
     <string name="stem_bass">Basa</string>
     <string name="stems_choose">Vyberte stemy</string>
-    <string name="stems_choose_hint">Instrumentál je skladba bez zpěvu. Každý další model (zpěv, bicí, basa) zpracování prodlužuje.</string>
+    <string name="stems_choose_hint">Zaškrtnuté části se smíchají do jedné skladby. Například vše kromě basy dá celou skladbu bez basy.</string>
     <string name="stems_models_title">Modely AI</string>
     <string name="stems_models_missing">Modely ke stažení: %1$s (%2$s).</string>
     <string name="stems_model_installed">Nainstalováno</string>
@@ -326,4 +326,5 @@
     <string name="stems_err_no_space">Není dost volného místa pro dočasné soubory.</string>
     <string name="stems_err_no_decoder">Toto zařízení neumí dekódovat formát (%1$s).</string>
     <string name="stems_license">Modely: Open-Unmix umxhq, export do ONNX od MixDirective (licence MIT, © 2019 Inria). První stažení vyžaduje internet, poté vše funguje offline.</string>
+    <string name="stem_other">Zbytek</string>
 </resources>

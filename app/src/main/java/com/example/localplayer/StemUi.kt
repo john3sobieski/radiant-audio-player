@@ -66,11 +66,18 @@ fun StemStartDialog(vm: PlayerViewModel, track: Track, onDismiss: () -> Unit) {
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 Text(track.title, style = MaterialTheme.typography.bodyLarge, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Spacer(Modifier.height(12.dp))
-                Text(
-                    stringResource(R.string.stems_choose),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        stringResource(R.string.stems_choose),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.weight(1f),
+                    )
+                    // Быстрый выбор: всё, кроме вокала
+                    TextButton(onClick = { selected = Stem.INSTRUMENTAL }, enabled = !busy) {
+                        Text(stringResource(R.string.stem_instrumental))
+                    }
+                }
                 Stem.entries.forEach { s ->
                     Row(
                         Modifier.fillMaxWidth().heightIn(min = 48.dp)

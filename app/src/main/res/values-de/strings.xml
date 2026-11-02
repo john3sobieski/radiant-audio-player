@@ -284,13 +284,13 @@
     <string name="menu_create_stems">Stems erstellen</string>
     <string name="stems_title">Stems erstellen</string>
     <string name="stems_section_title">Stems (KI)</string>
-    <string name="stems_hint">Zerlegt einen Titel mit Open-Unmix in Gesang, Instrumental, Schlagzeug und Bass. Läuft auf dem Gerät und nicht in Echtzeit: meist einige Minuten pro Titel. Die Ergebnisse werden als WAV-Dateien im Ordner „%1$s“ in deinem Musikordner gespeichert.</string>
+    <string name="stems_hint">Zerlegt einen Titel mit Open-Unmix in Gesang, Schlagzeug, Bass und den Rest und mischt die gewählten Teile zu einem Titel zusammen. Läuft auf dem Gerät und nicht in Echtzeit: meist einige Minuten pro Titel. Das Ergebnis ist eine WAV-Datei im Ordner „%1$s“ in deinem Musikordner.</string>
     <string name="stem_vocals">Gesang</string>
     <string name="stem_instrumental">Instrumental</string>
     <string name="stem_drums">Schlagzeug</string>
     <string name="stem_bass">Bass</string>
     <string name="stems_choose">Stems auswählen</string>
-    <string name="stems_choose_hint">Instrumental ist der Titel ohne Gesang. Jedes zusätzliche Modell (Gesang, Schlagzeug, Bass) verlängert die Verarbeitung.</string>
+    <string name="stems_choose_hint">Die markierten Teile werden zu einem Titel gemischt. Alles außer Bass ergibt zum Beispiel den vollständigen Titel ohne Bass.</string>
     <string name="stems_models_title">KI-Modelle</string>
     <string name="stems_models_missing">Zu ladende Modelle: %1$s (%2$s).</string>
     <string name="stems_model_installed">Installiert</string>
@@ -324,4 +324,5 @@
     <string name="stems_err_no_space">Nicht genug freier Speicher für temporäre Dateien.</string>
     <string name="stems_err_no_decoder">Dieses Gerät kann das Format (%1$s) nicht dekodieren.</string>
     <string name="stems_license">Modelle: Open-Unmix umxhq, ONNX-Export von MixDirective (MIT-Lizenz, © 2019 Inria). Der erste Download braucht Internet, danach funktioniert alles offline.</string>
+    <string name="stem_other">Rest</string>
 </resources>

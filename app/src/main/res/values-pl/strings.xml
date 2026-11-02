@@ -286,13 +286,13 @@
     <string name="menu_create_stems">Utwórz stemy</string>
     <string name="stems_title">Utwórz stemy</string>
     <string name="stems_section_title">Stemy (AI)</string>
-    <string name="stems_hint">Dzieli utwór na wokal, podkład, perkusję i bas za pomocą Open-Unmix. Działa na urządzeniu i nie w czasie rzeczywistym: zwykle kilka minut na utwór. Wyniki są zapisywane jako pliki WAV w folderze „%1$s” wewnątrz folderu z muzyką.</string>
+    <string name="stems_hint">Dzieli utwór na wokal, perkusję, bas i resztę za pomocą Open-Unmix, a potem miksuje wybrane części w jeden utwór. Działa na urządzeniu i nie w czasie rzeczywistym: zwykle kilka minut na utwór. Wynik to plik WAV w folderze „%1$s” wewnątrz folderu z muzyką.</string>
     <string name="stem_vocals">Wokal</string>
     <string name="stem_instrumental">Podkład</string>
     <string name="stem_drums">Perkusja</string>
     <string name="stem_bass">Bas</string>
     <string name="stems_choose">Wybierz stemy</string>
-    <string name="stems_choose_hint">Podkład to utwór bez wokalu. Każdy dodatkowy model (wokal, perkusja, bas) wydłuża przetwarzanie.</string>
+    <string name="stems_choose_hint">Zaznaczone części są miksowane w jeden utwór. Na przykład wszystko oprócz basu daje pełny utwór bez basu.</string>
     <string name="stems_models_title">Modele AI</string>
     <string name="stems_models_missing">Modele do pobrania: %1$s (%2$s).</string>
     <string name="stems_model_installed">Zainstalowany</string>
@@ -326,4 +326,5 @@
     <string name="stems_err_no_space">Za mało wolnego miejsca na pliki tymczasowe.</string>
     <string name="stems_err_no_decoder">To urządzenie nie potrafi zdekodować formatu (%1$s).</string>
     <string name="stems_license">Modele: Open-Unmix umxhq, eksport do ONNX przez MixDirective (licencja MIT, © 2019 Inria). Pierwsze pobranie wymaga internetu, potem wszystko działa offline.</string>
+    <string name="stem_other">Reszta</string>
 </resources>

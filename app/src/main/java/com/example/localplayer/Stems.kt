@@ -24,22 +24,36 @@ import java.io.BufferedOutputStream
 import java.io.File
 
 /**
- * Стемы, которые умеет делать плеер. Вокал, ударные и бас дают сети Open-Unmix напрямую; инструментал — это остаток
- * «микс − вокал», поэтому для него нужна только сеть вокала (и его сумма с вокалом в точности равна оригиналу).
- * [tag] попадает в имя файла и от языка не зависит, чтобы повторный запуск перезаписывал те же файлы.
+ * Компоненты трека: четыре непересекающихся стема Open-Unmix, которые в сумме дают оригинал. Пользователь отмечает любые
+ * из них, и они сводятся в ОДИН трек: «всё, кроме баса» — полный трек без баса, «всё, кроме вокала» — инструментал.
  */
-enum class Stem(@StringRes val label: Int, val model: StemModel, val tag: String, val complement: Boolean = false) {
+enum class Stem(@StringRes val label: Int, val model: StemModel, val tag: String) {
     VOCALS(R.string.stem_vocals, StemModel.VOCALS, "Vocals"),
-    INSTRUMENTAL(R.string.stem_instrumental, StemModel.VOCALS, "Instrumental", complement = true),
     DRUMS(R.string.stem_drums, StemModel.DRUMS, "Drums"),
     BASS(R.string.stem_bass, StemModel.BASS, "Bass"),
+    OTHER(R.string.stem_other, StemModel.OTHER, "Other");
+
+    companion object {
+        /** Быстрый выбор «инструментал»: всё, кроме вокала. */
+        val INSTRUMENTAL = setOf(DRUMS, BASS, OTHER)
+
+        /** Имя результата по набору: «No Bass», «Vocals + Drums»… Не зависит от языка, чтобы повтор перезаписывал тот же файл. */
+        fun fileTag(selected: Set<Stem>): String {
+            val missing = entries.filter { it !in selected }
+            return when {
+                missing.isEmpty() -> "Full mix"
+                missing.size == 1 -> "No ${missing[0].tag}"
+                else -> entries.filter { it in selected }.joinToString(" + ") { it.tag }
+            }
+        }
+    }
 }
 
-/** Итог работы (диалог). */
+/** Итог работы (диалог). [file] — имя созданного файла. */
 class StemNotice(
     val kind: Kind,
     val detail: String = "",
-    val saved: List<Stem> = emptyList(),
+    val file: String = "",
     val folder: String = "",
 ) {
     enum class Kind { DONE, CANCELLED, ERROR, NEED_WRITE, IMPORT_REJECTED }
@@ -57,11 +71,9 @@ class StemNotice(
 
     fun message(ctx: Context): String {
         val c = AppLocale.localized(ctx)
-        val list = saved.joinToString(", ") { c.getString(it.label) }
         return when (kind) {
-            Kind.DONE -> c.getString(R.string.stems_done_body, folder, list)
-            Kind.CANCELLED ->
-                if (saved.isEmpty()) c.getString(R.string.stems_cancelled_body) else c.getString(R.string.stems_done_body, folder, list)
+            Kind.DONE -> c.getString(R.string.stems_done_body, folder, file)
+            Kind.CANCELLED -> c.getString(R.string.stems_cancelled_body)
             Kind.ERROR -> c.getString(R.string.cloud_error, detail)
             Kind.NEED_WRITE -> c.getString(R.string.stems_need_write)
             Kind.IMPORT_REJECTED -> c.getString(R.string.stems_import_bad, detail)
@@ -102,12 +114,8 @@ object Stems {
     var track by mutableStateOf<Track?>(null)
         private set
 
-    /** Какая сеть работает (проход [passIndex] из [passTotal]); блок [chunkDone] из [chunkTotal] в этом проходе. */
+    /** Какая сеть работает сейчас; полностью готово блоков [chunkDone] из [chunkTotal]. */
     var currentModel by mutableStateOf<StemModel?>(null)
-        private set
-    var passIndex by mutableIntStateOf(0)
-        private set
-    var passTotal by mutableIntStateOf(0)
         private set
     var chunkDone by mutableIntStateOf(0)
         private set
@@ -146,9 +154,12 @@ object Stems {
         installed = StemModel.entries.filter { StemModelStore.isInstalled(app, it) }.toSet()
     }
 
-    /** Каких моделей не хватает для выбранных стемов. */
+    /**
+     * Каких моделей не хватает. Нужны всегда все четыре: маски нормируются между сетями (v² / Σv²), поэтому выбранные
+     * стемы в сумме дают точный оригинал, и ни один не получается тише, чем должен.
+     */
     fun missingFor(stems: Set<Stem>): List<StemModel> =
-        StemModel.entries.filter { m -> stems.any { it.model == m } && m !in installed }
+        if (stems.isEmpty()) emptyList() else StemModel.entries.filter { it !in installed }
 
     fun deleteModels(ctx: Context) {
         if (busy) return
@@ -170,8 +181,8 @@ object Stems {
 
     fun loadSelection(ctx: Context): Set<Stem> {
         val saved = ctx.applicationContext.getSharedPreferences("settings", Context.MODE_PRIVATE).getString("stem_selection", null)
-            ?: return setOf(Stem.VOCALS, Stem.INSTRUMENTAL)
-        return saved.split(',').mapNotNull { n -> Stem.entries.firstOrNull { it.name == n } }.toSet()
+            ?: return Stem.INSTRUMENTAL
+        return saved.split(',').mapNotNull { n -> Stem.entries.firstOrNull { it.name == n } }.toSet().ifEmpty { Stem.INSTRUMENTAL }
     }
 
     fun saveSelection(ctx: Context, stems: Set<Stem>) {
@@ -203,8 +214,6 @@ object Stems {
         etaSeconds = -1L
         chunkDone = 0
         chunkTotal = 0
-        passIndex = 0
-        passTotal = 0
         currentModel = null
         phase = first
         return try {
@@ -281,8 +290,8 @@ object Stems {
             Phase.SEPARATING -> c.getString(
                 R.string.stems_stage_separate,
                 currentModel?.let { c.getString(it.label) }.orEmpty(),
-                passIndex + 1,
-                passTotal,
+                (chunkDone + 1).coerceAtMost(chunkTotal.coerceAtLeast(1)),
+                chunkTotal,
             )
         }
     }
@@ -354,7 +363,8 @@ object Stems {
         val mixFile = File(cache, "mix.f32")
         val mirror = LocalMirror(app, req.tree, FOLDER)
         val base = trackBaseName(t)
-        val saved = ArrayList<Stem>()
+        val fileTag = Stem.fileTag(req.stems)
+        var saved = false
         try {
             // Временный файл с исходным звуком: 8 байт на отсчёт
             val need = (t.durationMs / 1000.0 * StemSpec.SAMPLE_RATE * 8 * 1.1).toLong() + 64L * 1024 * 1024
@@ -365,67 +375,60 @@ object Stems {
             if (frames < 1) throw StemException(StemException.Reason.EMPTY)
 
             phase = Phase.SEPARATING
-            val models = StemModel.entries.filter { m -> req.stems.any { it.model == m } }
+            val models = StemModel.entries.toList()
             val chunks = StemSpec.chunkCount(frames)
-            val totalUnits = models.size * chunks
-            passTotal = models.size
+            val steps = models.size * chunks
             chunkTotal = chunks
             val started = SystemClock.elapsedRealtime()
             val coroutine = currentCoroutineContext()
 
-            FloatPcmFile(mixFile).use { src ->
-                for ((pi, m) in models.withIndex()) {
-                    currentCoroutineContext().ensureActive()
-                    passIndex = pi
-                    currentModel = m
-                    chunkDone = 0
-                    val wanted = req.stems.filter { it.model == m }
-                    val targets = ArrayList<LocalMirror.Target>()
-                    val writers = HashMap<Stem, WavWriter>()
-                    try {
-                        for (s in wanted) {
-                            val rel = listOf(base, "$base - ${s.tag}.wav")
-                            val target = mirror.target(rel, overwrite = mirror.existingSize(rel) != null)
-                            targets += target
-                            writers[s] = WavWriter(BufferedOutputStream(mirror.openOut(target, true), 1 shl 18), frames)
-                        }
-                        val direct = writers.entries.firstOrNull { !it.key.complement }?.value
-                        val rest = writers.entries.firstOrNull { it.key.complement }?.value
-                        OrtMaskModel(StemModelStore.file(app, m), threads()).use { model ->
-                            StemPass(src, model).run(
-                                stem = direct,
-                                complement = rest,
-                                onChunk = { done, total ->
-                                    chunkDone = done
-                                    chunkTotal = total
-                                    val units = pi * total + done
-                                    setProgress(DECODE_SHARE + (1f - DECODE_SHARE) * units / totalUnits, tick)
-                                    if (units > 0) {
-                                        val elapsed = SystemClock.elapsedRealtime() - started
-                                        etaSeconds = elapsed * (totalUnits - units) / units / 1000
-                                    }
-                                },
-                                cancelled = { !coroutine.isActive },
-                            )
-                        }
-                        writers.values.forEach { it.close() }
-                        saved += wanted
-                    } catch (e: Throwable) {
-                        // Недописанные файлы этого прохода не оставляем; готовые проходы остаются
-                        writers.values.forEach { runCatching { it.close() } }
-                        targets.forEach { mirror.discard(it) }
-                        throw e
-                    }
+            // Один файл: сумма выбранных стемов
+            val rel = listOf(base, "$base - $fileTag.wav")
+            val target = mirror.target(rel, overwrite = mirror.existingSize(rel) != null)
+            var writer: WavWriter? = null
+            val sessions = ArrayList<OrtMaskModel>()
+            try {
+                val w = WavWriter(BufferedOutputStream(mirror.openOut(target, true), 1 shl 18), frames)
+                writer = w
+                for (m in models) {
+                    coroutine.ensureActive()
+                    sessions += OrtMaskModel(StemModelStore.file(app, m), threads())
                 }
+                val select = models.map { m -> req.stems.any { it.model == m } }
+                FloatPcmFile(mixFile).use { src ->
+                    StemPass(src, sessions, normalize = true, residual = models.indexOf(StemModel.OTHER)).run(
+                        select = select,
+                        output = w,
+                        onStep = { done, total ->
+                            chunkDone = done / models.size
+                            currentModel = models[done.coerceAtMost(total - 1) % models.size]
+                            setProgress(DECODE_SHARE + (1f - DECODE_SHARE) * done / steps, tick)
+                            if (done > 0) {
+                                val elapsed = SystemClock.elapsedRealtime() - started
+                                etaSeconds = elapsed * (steps - done) / done / 1000
+                            }
+                        },
+                        cancelled = { !coroutine.isActive },
+                    )
+                }
+                w.close()
+                saved = true
+            } catch (e: Throwable) {
+                // Недописанный файл не оставляем
+                runCatching { writer?.close() }
+                mirror.discard(target)
+                throw e
+            } finally {
+                sessions.forEach { runCatching { it.close() } }
             }
-            notice = StemNotice(StemNotice.Kind.DONE, saved = saved.sortedBy { it.ordinal }, folder = "$FOLDER/$base")
+            notice = StemNotice(StemNotice.Kind.DONE, file = "$base - $fileTag.wav", folder = "$FOLDER/$base")
         } catch (e: CancellationException) {
-            notice = StemNotice(StemNotice.Kind.CANCELLED, saved = saved.sortedBy { it.ordinal }, folder = "$FOLDER/$base")
+            notice = StemNotice(StemNotice.Kind.CANCELLED)
         } catch (e: Throwable) {
-            notice = StemNotice(StemNotice.Kind.ERROR, describe(app, e), saved.sortedBy { it.ordinal }, "$FOLDER/$base")
+            notice = StemNotice(StemNotice.Kind.ERROR, describe(app, e))
         } finally {
             cache.deleteRecursively()
-            if (saved.isNotEmpty()) onCreated?.invoke()
+            if (saved) onCreated?.invoke()
         }
     }
 }

@@ -285,13 +285,13 @@
     <string name="menu_create_stems">Crear stems</string>
     <string name="stems_title">Crear stems</string>
     <string name="stems_section_title">Stems (IA)</string>
-    <string name="stems_hint">Separa una pista en voz, instrumental, batería y bajo con Open-Unmix. Se ejecuta en el dispositivo y no en tiempo real: normalmente unos minutos por pista. Los resultados se guardan como archivos WAV en la carpeta «%1$s» dentro de tu carpeta de música.</string>
+    <string name="stems_hint">Separa una pista en voz, batería, bajo y el resto con Open-Unmix y luego mezcla las partes que elijas en una sola pista. Se ejecuta en el dispositivo y no en tiempo real: normalmente unos minutos por pista. El resultado es un archivo WAV en la carpeta «%1$s» dentro de tu carpeta de música.</string>
     <string name="stem_vocals">Voz</string>
     <string name="stem_instrumental">Instrumental</string>
     <string name="stem_drums">Batería</string>
     <string name="stem_bass">Bajo</string>
     <string name="stems_choose">Elige los stems</string>
-    <string name="stems_choose_hint">El instrumental es la pista sin voz. Cada modelo adicional (voz, batería, bajo) alarga el procesamiento.</string>
+    <string name="stems_choose_hint">Las partes marcadas se mezclan en una sola pista. Por ejemplo, todo excepto el bajo da la pista completa sin bajo.</string>
     <string name="stems_models_title">Modelos de IA</string>
     <string name="stems_models_missing">Modelos por descargar: %1$s (%2$s).</string>
     <string name="stems_model_installed">Instalado</string>
@@ -325,4 +325,5 @@
     <string name="stems_err_no_space">No hay espacio libre suficiente para archivos temporales.</string>
     <string name="stems_err_no_decoder">Este dispositivo no puede decodificar el formato (%1$s).</string>
     <string name="stems_license">Modelos: Open-Unmix umxhq, exportación a ONNX de MixDirective (licencia MIT, © 2019 Inria). La primera descarga necesita internet; después todo funciona sin conexión.</string>
+    <string name="stem_other">Resto</string>
 </resources>

@@ -36,6 +36,12 @@ enum class StemModel(
     BASS(
         R.string.stem_bass, "bass", "MixDirective/open-unmix-umxhq-bass-onnx",
         "8931033f04666fdcf300d610579351d74275a6c55dd4346009290c844033726f", 35_623_502L,
+    ),
+
+    /** Сеть «остальное». Отдельным стемом не выдаётся, но нужна режиму высокого качества: маски считаются по всем четырём сетям сразу. */
+    OTHER(
+        R.string.stem_other, "other", "MixDirective/open-unmix-umxhq-other-onnx",
+        "fe62c1d8fb8326c7e68540a675dfa186a2b131f763fb41050ea5e9a9859eb76e", 35_623_507L,
     );
 
     val fileName: String get() = "umxhq-$id.onnx"
