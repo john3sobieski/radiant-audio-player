@@ -476,6 +476,8 @@ class PlayerViewModel(app: Application) : AndroidViewModel(app) {
     var trackForPlaylist by mutableStateOf<Track?>(null)
     /** Трек, для которого открыто окно выбора очереди. */
     var trackForQueue by mutableStateOf<Track?>(null)
+    /** Трек, для которого открыто окно «Создать стемы». */
+    var stemsTrack by mutableStateOf<Track?>(null)
     var newPlaylistDialog by mutableStateOf(false)
     var newPlaylistFirstTrack by mutableStateOf<Track?>(null)
     var renameTarget by mutableStateOf<Playlist?>(null)
@@ -662,6 +664,9 @@ class PlayerViewModel(app: Application) : AndroidViewModel(app) {
     init {
         // После загрузки из облака в папку появились новые файлы: пересканируем её
         CloudSync.onDownloaded = { viewModelScope.launch { rescan() } }
+        // Стемы записаны в папку с музыкой: пересканируем, чтобы они появились в библиотеке
+        Stems.onCreated = { viewModelScope.launch { rescan() } }
+        Stems.refreshModels(app)
     }
 
     fun selectFolder(uri: Uri) {

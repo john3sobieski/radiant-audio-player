@@ -5,3 +5,7 @@
 # FFmpeg-декодер Media3 (ALAC): рендерер создаётся через рефлексию, а нативный код вызывает методы по имени.
 -keep class androidx.media3.decoder.ffmpeg.** { *; }
 -dontwarn androidx.media3.decoder.ffmpeg.**
+
+# ONNX Runtime: нативный код находит Java-классы по имени
+-keep class ai.onnxruntime.** { *; }
+-dontwarn ai.onnxruntime.**

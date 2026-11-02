@@ -478,7 +478,7 @@ private class DropboxProvider(private val ctx: Context) : CloudProvider {
 // =====================================================================
 
 /** Имя файла или папки, допустимое на любой файловой системе. */
-private fun safeName(s: String): String {
+internal fun safeName(s: String): String {
     var n = s.replace(Regex("[\\\\/:*?\"<>|\\u0000-\\u001F]"), "_").trim().trimEnd('.')
     if (n.isEmpty()) n = "_"
     if (n.length > 180) {
@@ -492,7 +492,7 @@ private fun safeName(s: String): String {
  * Отдельная папка облака ([rootName]) внутри выбранной пользователем папки с музыкой.
  * Структура вложенных папок в облаке повторяется. Ничего не удаляется.
  */
-private class LocalMirror(ctx: Context, private val tree: Uri, private val rootName: String) {
+internal class LocalMirror(ctx: Context, private val tree: Uri, private val rootName: String) {
 
     class Child(val docId: String, val size: Long, val dir: Boolean)
 

@@ -660,6 +660,7 @@ private fun AppMenuItem(index: Int, kind: MenuKind, onClick: () -> Unit) {
 enum class MenuKind(@StringRes val label: Int, val icon: ImageVector, val danger: Boolean = false) {
     ADD_TO_PLAYLIST(R.string.menu_add_to_playlist, Icons.AutoMirrored.Filled.PlaylistAdd),
     ADD_TO_QUEUE(R.string.menu_add_to_queue, Icons.AutoMirrored.Filled.QueueMusic),
+    CREATE_STEMS(R.string.menu_create_stems, Icons.Default.GraphicEq),
     RENAME(R.string.menu_rename, Icons.Default.Edit),
     DELETE(R.string.menu_delete, Icons.Default.Delete, danger = true),
     MOVE_UP(R.string.menu_move_up, Icons.Default.ArrowUpward),

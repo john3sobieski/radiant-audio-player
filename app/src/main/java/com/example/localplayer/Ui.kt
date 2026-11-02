@@ -277,6 +277,8 @@ fun App(vm: PlayerViewModel) {
             bottomBar = {
                 // Высота нижних панелей не анимируется: иначе весь экран пересчитывает размеры на каждом кадре перехода
                 Column {
+                    // Идёт создание стемов, а окно прогресса скрыто: тонкая полоса с процентом
+                    StemBanner()
                     AnimatedVisibility(
                         visible = vm.currentId != null,
                         enter = slideInVertically(mtween(250)) { it },
@@ -344,6 +346,11 @@ fun App(vm: PlayerViewModel) {
     vm.trackForQueue?.let { t ->
         AddToQueueDialog(vm, t)
     }
+    vm.stemsTrack?.let { t ->
+        StemStartDialog(vm, t) { vm.stemsTrack = null }
+    }
+    StemProgressDialog()
+    StemNoticeDialog { AppLock.skipNextLock(); folderPicker.launch(null) }
     if (vm.newPlaylistDialog) {
         NameDialog(
             title = stringResource(R.string.new_playlist),
@@ -694,6 +701,7 @@ private fun TracksTab(vm: PlayerViewModel) {
                     menu = listOf(
                         MenuKind.ADD_TO_PLAYLIST to { vm.trackForPlaylist = t },
                         MenuKind.ADD_TO_QUEUE to { vm.trackForQueue = t },
+                        MenuKind.CREATE_STEMS to { vm.stemsTrack = t },
                     ),
                     modifier = reorderableItem(reorder, t.uri),
                 )
@@ -872,6 +880,7 @@ private fun QueueList(vm: PlayerViewModel, queueId: Int) {
                 // Во время поиска порядок не меняем (как и при перетаскивании)
                 if (!searching && i > 0) add(MenuKind.MOVE_UP to { vm.moveInQueue(queue.id, t, -1) })
                 if (!searching && i in 0 until shown.lastIndex) add(MenuKind.MOVE_DOWN to { vm.moveInQueue(queue.id, t, 1) })
+                add(MenuKind.CREATE_STEMS to { vm.stemsTrack = t })
                 add(MenuKind.REMOVE_FROM_QUEUE to { vm.removeFromQueue(queue.id, t) })
             }
         },
@@ -954,6 +963,7 @@ private fun AlbumScreen(vm: PlayerViewModel, key: String) {
             listOf(
                 MenuKind.ADD_TO_PLAYLIST to { vm.trackForPlaylist = t },
                 MenuKind.ADD_TO_QUEUE to { vm.trackForQueue = t },
+                MenuKind.CREATE_STEMS to { vm.stemsTrack = t },
             )
         },
         sourceKey = "album:$key",
@@ -973,6 +983,7 @@ private fun PlaylistScreen(vm: PlayerViewModel, id: String) {
         menuFor = { t ->
             listOf(
                 MenuKind.ADD_TO_QUEUE to { vm.trackForQueue = t },
+                MenuKind.CREATE_STEMS to { vm.stemsTrack = t },
                 MenuKind.REMOVE_FROM_PLAYLIST to { vm.removeFromPlaylist(pl.id, t) },
             )
         },
@@ -1915,6 +1926,10 @@ private fun SettingsScreen(vm: PlayerViewModel, pickFolder: () -> Unit) {
 
         HorizontalDivider()
 
+        // ----- Стемы (ИИ): модели Open-Unmix -----
+        StemSettingsSection()
+        HorizontalDivider()
+
         // ----- Тема -----
         Text(
             stringResource(R.string.theme),
@@ -2106,7 +2121,7 @@ private fun SettingsScreen(vm: PlayerViewModel, pickFolder: () -> Unit) {
 
 /** Кнопка с двумя нажатиями: первое «взводит» её (4 секунды), второе выполняет действие. */
 @Composable
-private fun TwoStepButton(label: String, armedLabel: String, onConfirm: () -> Unit) {
+internal fun TwoStepButton(label: String, armedLabel: String, onConfirm: () -> Unit) {
     var armed by remember { mutableStateOf(false) }
     LaunchedEffect(armed) {
         if (armed) {

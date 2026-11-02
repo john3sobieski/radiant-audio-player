@@ -4,7 +4,7 @@
 
 A simple, native Android music player for your **local audio files**. It plays music only from the one folder you choose, so ringtones, voice messages and other sounds on your phone never end up in your library.
 
-No ads, no accounts, no internet access required. Everything stays on your device; the internet is used only if you choose to download music from your own cloud (Dropbox).
+No ads, no accounts, no internet access required. Everything stays on your device; the internet is used only if you choose to download music from your own cloud (Dropbox) or to download the AI models for stems (once; they can also be imported from files).
 
 > **Languages:** English, German, Russian, Ukrainian, Chinese, Japanese, French, Czech, Spanish and Polish. Choose one under **Settings → App language**, or leave it on *System* to follow the phone (English is used if the phone language isn't supported).
 
@@ -26,6 +26,7 @@ No ads, no accounts, no internet access required. Everything stays on your devic
 - **App lock** (Settings → Security, off by default): a 4-digit, 6-digit or custom code is asked every time you open the app. If you forget it, a recovery file with 12 random words unlocks the app. Details are in the *App lock* section below.
 - **Power saving** (Settings): *Off*, *Medium* (almost no animations, rarer progress updates) or *Intensive* (also forced black theme, volume capped at 40%, mono only, EQ/bass/treble/subsonic/normalization bypassed, wired or phone-speaker output only with no Bluetooth, manual folder scan, smaller cover cache).
 - **Track details:** tags, format, bitrate, sample rate, channels, file size and more.
+- **Stems (AI):** the *Create stems* item in a track's "⋮" menu splits it into **vocals, instrumental, drums and bass** with Open-Unmix (umxhq, ONNX). It runs on the device, not in real time, with a progress bar, remaining-time estimate and cancel; it keeps going in the background with a notification. The result is 16-bit / 44.1 kHz WAV in `Stems/<artist - title>/` inside your music folder, so stems appear in the library right away. See "Stems (AI)" below.
 - **Formats:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV and anything else Android can decode.
 
 ## App lock
@@ -45,6 +46,14 @@ Optional protection for the app, **off by default**. Turn it on under **Settings
 - **Forgot the code?** Tap *Forgot password* on the lock screen and pick the recovery file. If it matches, the lock is turned off and you can enable it again with a new code and a new file. Changing the code also creates a new file, and the old one stops working.
 - **Keep the file safe.** Anyone who has it can remove the lock, so don't leave it where others can find it. If you lose both the code and the file, the only way back is clearing the app's data, which also deletes playlists and settings. Nobody, including the developer, can recover the code: there are no accounts and no servers.
 - **What it does not do.** The lock protects the app's interface, not the audio files on your storage. Music keeps playing while the app is locked, and the notification controls keep working.
+
+## Stems (AI)
+
+- **What you get.** Vocals, drums and bass come straight from the umxhq networks. Instrumental is computed as "original − vocals", so vocals + instrumental add up exactly to the source track and instrumental needs only the vocals model. Any combination of the four can be chosen.
+- **Models.** Three ONNX files of ~34 MB each (vocals, drums, bass) are not bundled in the APK. In *Settings → Stems (AI)* you can download them (SHA-256 verified) or import them from files if you fetched them beforehand (`model.onnx` from the Hugging Face repos `MixDirective/open-unmix-umxhq-{vocals,drums,bass}-onnx`; files are recognised by checksum, so the name does not matter). After that everything works offline.
+- **How it works.** The track is decoded by the system decoder to 44.1 kHz stereo, cut into ~20 s blocks with 2 s of context on each side, each block goes through the network (STFT 4096/1024, mask = output / input) and the results are stitched seamlessly. Memory use does not depend on track length. Every model is a separate pass, so time grows with the number of models selected.
+- **Speed.** Typically a few minutes per track and model on a recent phone; CPU and battery are used heavily. Intensive power saving uses fewer threads.
+- **Limitations.** Plain ratio mask without Wiener filtering (slightly below reference umxhq quality); vocals, drums and bass are empty above ~16 kHz (the networks were trained up to that frequency); multichannel files use the first two channels; formats Android cannot decode (e.g. ALAC on some devices) cannot be separated. Write access to the music folder is required (choose the folder again if the app asks).
 
 ## Requirements
 
@@ -92,6 +101,8 @@ Issues and pull requests are welcome. For larger changes, please open an issue f
 ALAC (Apple Lossless) playback uses the FFmpeg decoder from AndroidX Media3. The **Build APK** workflow builds it from the unmodified [FFmpeg](https://ffmpeg.org) 6.0 source (only the ALAC decoder, no GPL components enabled) together with the Media3 1.5.1 extension (Apache-2.0), and links it into the app as a native library.
 
 FFmpeg stays under its own license, [LGPL 2.1 or later](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), not PolyForm Noncommercial. The source code is available at <https://github.com/FFmpeg/FFmpeg> (branch `release/6.0`). You can rebuild the app with your own modified FFmpeg by changing the workflow. Builds made without this step (for example locally, without an `.aar` in `app/libs`) work normally but cannot play ALAC.
+
+Stem separation uses [ONNX Runtime](https://onnxruntime.ai) (MIT) and the [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch) umxhq models (MIT, © 2019 Inria) as an ONNX export by MixDirective. The umxhq weights were trained on MUSDB18-HQ; check the terms of the training data and weights if you plan to use the app beyond personal use.
 
 ## License
 

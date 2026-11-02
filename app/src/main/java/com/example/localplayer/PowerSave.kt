@@ -29,8 +29,10 @@ enum class PowerMode(@StringRes val label: Int, @StringRes val description: Int)
  *  - [intensiveNow] — то же значение для аудиопотока и сервиса (обычное volatile-поле, без обращения к снимкам Compose);
  *  - слушатели ([addListener]) нужны сервису воспроизведения: пересчитать громкость и маршрут звука.
  *
- * Про WakeLock: в приложении нет ни WakeLock'ов, ни keepScreenOn, ни FLAG_KEEP_SCREEN_ON, а у ExoPlayer не включён
- * setWakeMode, поэтому экран и так гаснет во время игры. Отдельного кода для этого не требуется.
+ * Про WakeLock: во время воспроизведения в приложении нет ни WakeLock'ов, ни keepScreenOn, ни FLAG_KEEP_SCREEN_ON, а у
+ * ExoPlayer не включён setWakeMode, поэтому экран и так гаснет во время игры. Единственное исключение — [StemService]:
+ * пока создаются стемы, он держит частичную блокировку процессора (без неё при погашенном экране работа растягивается
+ * в разы), а по окончании сразу отпускает.
  */
 object PowerSave {
 

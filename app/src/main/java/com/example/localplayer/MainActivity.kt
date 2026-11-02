@@ -98,6 +98,7 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         CloudSync.appVisible = true
+        Stems.appVisible = true
         // Каждый вход в приложение (запуск или возврат из фона): проверяем папку на новые и удалённые файлы
         vm.refresh()
     }
@@ -105,6 +106,7 @@ class MainActivity : ComponentActivity() {
     override fun onStop() {
         super.onStop()
         CloudSync.appVisible = false
+        Stems.appVisible = false
         CoverStore.flush()
         // Каждый уход в фон закрывает приложение блокировкой. Пересоздание активности (смена языка, поворот)
         // и системное окно выбора папки, которое мы сами открыли, уходом не считаются.
