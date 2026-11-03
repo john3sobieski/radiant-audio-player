@@ -866,7 +866,10 @@ private const val QUEUE_SWITCH_MS = 150
 private fun QueueList(vm: PlayerViewModel, queueId: Int) {
     val queue = vm.queues.getOrNull(queueId) ?: return
     val query = vm.activeQuery
-    val all = vm.queueTracks(queue)
+    // Список треков очереди пересчитывается только при изменении самой очереди или библиотеки,
+    // а не на каждой перекомпоновке (иначе при проходе пейджера список заново строится каждый кадр)
+    val trackByUri = vm.trackByUri
+    val all = remember(queue.trackUris, trackByUri) { queue.trackUris.mapNotNull { trackByUri[it] } }
     val shown = remember(all, query) { if (query.isEmpty()) all else all.filter { it.matches(query) } }
     val searching = query.isNotEmpty()
     TrackListScreen(

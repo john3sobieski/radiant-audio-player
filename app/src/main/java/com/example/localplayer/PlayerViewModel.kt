@@ -458,7 +458,14 @@ class PlayerViewModel(app: Application) : AndroidViewModel(app) {
 
     val stack = mutableStateListOf<Screen>()
     val screen: Screen? get() = stack.lastOrNull()
-    fun push(s: Screen) { stack.add(s) }
+    /**
+     * Повторное нажатие на ту же кнопку, пока идёт анимация перехода, не должно открывать экран ещё раз:
+     * если нужный экран уже наверху стека, ничего не делаем.
+     */
+    fun push(s: Screen) {
+        if (stack.lastOrNull() == s) return
+        stack.add(s)
+    }
     fun pop() { if (stack.isNotEmpty()) stack.removeAt(stack.lastIndex) }
 
     /** Переход на вкладку библиотеки из любого экрана (нижняя навигация доступна везде). */
