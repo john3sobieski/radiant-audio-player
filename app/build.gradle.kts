@@ -22,6 +22,25 @@ android {
         buildConfigField("String", "DROPBOX_APP_KEY", "\"$dropboxKey\"")
         // Схема адреса, на который Dropbox возвращает в приложение после входа (см. AndroidManifest.xml)
         manifestPlaceholders["dropboxScheme"] = "db-" + dropboxKey.ifEmpty { "unconfigured" }
+
+        // Нативные библиотеки (ONNX Runtime, FFmpeg) входят в APK для каждой архитектуры отдельно. Оставляем только ARM
+        // (все современные и практически все старые телефоны); x86/x86_64 нужны лишь эмуляторам и занимают половину веса APK.
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
+    }
+
+    // Переводы библиотек (Compose, Material, Media3) только для языков приложения; остальные языки в APK не нужны:
+    // для них всё равно используется английский.
+    androidResources {
+        localeFilters += listOf("en", "de", "ru", "uk", "zh", "ja", "fr", "cs", "es", "pl")
+    }
+
+    packaging {
+        resources {
+            // Отладочные/служебные файлы библиотек, которые в работе приложения не участвуют
+            excludes += setOf("DebugProbesKt.bin", "kotlin-tooling-metadata.json")
+        }
     }
 
     // Ключ подписи release хранится вне репозитория: путь и пароль приходят из переменных окружения
