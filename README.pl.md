@@ -2,7 +2,7 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02) <a href="https://www.buymeacoffee.com/radiant_player"><img src="https://img.buymeacoffee.com/button-api/?text=Support%20the%20project&emoji=%F0%9F%92%BB&slug=radiant_player&button_colour=FFDD00&font_colour=000000&font_family=Comic&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me a Coffee" height="36"></a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02) [![Buy Me a Coffee](https://img.shields.io/badge/Support%20the%20project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/radiant_player)
 
 Prosty, natywny odtwarzacz muzyki na Androida dla Twoich **lokalnych plików audio**. Odtwarza muzykę tylko z jednego wybranego przez Ciebie folderu, dzięki czemu dzwonki, wiadomości głosowe i inne dźwięki z telefonu nigdy nie trafiają do biblioteki.
 
