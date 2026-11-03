@@ -56,6 +56,7 @@ fun StemStartDialog(vm: PlayerViewModel, track: Track, onDismiss: () -> Unit) {
     LaunchedEffect(Unit) { Stems.refreshModels(ctx) }
 
     val busy = Stems.busy
+    val locked = Stems.blocked
     val tree = vm.folder
     val missing = Stems.missingFor(selected)
 
@@ -74,17 +75,17 @@ fun StemStartDialog(vm: PlayerViewModel, track: Track, onDismiss: () -> Unit) {
                         modifier = Modifier.weight(1f),
                     )
                     // Быстрый выбор: всё, кроме вокала
-                    TextButton(onClick = { selected = Stem.INSTRUMENTAL }, enabled = !busy) {
+                    TextButton(onClick = { selected = Stem.INSTRUMENTAL }, enabled = !busy && !locked) {
                         Text(stringResource(R.string.stem_instrumental))
                     }
                 }
                 Stem.entries.forEach { s ->
                     Row(
                         Modifier.fillMaxWidth().heightIn(min = 48.dp)
-                            .clickable(enabled = !busy) { selected = if (s in selected) selected - s else selected + s },
+                            .clickable(enabled = !busy && !locked) { selected = if (s in selected) selected - s else selected + s },
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Checkbox(checked = s in selected, onCheckedChange = null, enabled = !busy)
+                        Checkbox(checked = s in selected, onCheckedChange = null, enabled = !busy && !locked)
                         Spacer(Modifier.width(12.dp))
                         Text(stringResource(s.label), style = MaterialTheme.typography.bodyLarge)
                     }
@@ -96,6 +97,11 @@ fun StemStartDialog(vm: PlayerViewModel, track: Track, onDismiss: () -> Unit) {
                 )
                 Spacer(Modifier.height(12.dp))
                 when {
+                    locked -> Text(
+                        stringResource(R.string.stems_locked_power),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                    )
                     tree == null -> Text(
                         stringResource(R.string.stems_need_folder),
                         style = MaterialTheme.typography.bodyMedium,
@@ -125,7 +131,7 @@ fun StemStartDialog(vm: PlayerViewModel, track: Track, onDismiss: () -> Unit) {
         },
         confirmButton = {
             TextButton(
-                enabled = tree != null && selected.isNotEmpty() && !busy,
+                enabled = !locked && tree != null && selected.isNotEmpty() && !busy,
                 onClick = {
                     Stems.saveSelection(ctx, selected)
                     if (missing.isNotEmpty()) {
@@ -261,6 +267,7 @@ fun StemSettingsSection() {
         if (uris.isNotEmpty()) Stems.importModels(ctx, uris)
     }
     val busy = Stems.busy
+    val locked = Stems.blocked
     val missing = StemModel.entries.filter { it !in Stems.installed }
 
     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -270,6 +277,20 @@ fun StemSettingsSection() {
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+        if (locked) {
+            Surface(
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    stringResource(R.string.stems_locked_power),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.padding(12.dp),
+                )
+            }
+        }
         Surface(
             color = MaterialTheme.colorScheme.surfaceContainer,
             shape = RoundedCornerShape(12.dp),
@@ -308,7 +329,7 @@ fun StemSettingsSection() {
         if (missing.isNotEmpty()) {
             Button(
                 onClick = { Stems.showProgress = false; Stems.downloadModels(ctx, missing) },
-                enabled = !busy,
+                enabled = !busy && !locked,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Icon(Icons.Default.CloudDownload, null)
@@ -328,7 +349,7 @@ fun StemSettingsSection() {
                 AppLock.skipNextLock()
                 importPicker.launch(arrayOf("*/*"))
             },
-            enabled = !busy,
+            enabled = !busy && !locked,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Icon(Icons.Default.FileOpen, null)

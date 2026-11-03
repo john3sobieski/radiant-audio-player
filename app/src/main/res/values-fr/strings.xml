@@ -130,7 +130,7 @@
     <string name="power_off">Désactivée</string>
     <string name="power_off_desc">Tout fonctionne normalement</string>
     <string name="power_medium">Moyenne</string>
-    <string name="power_medium_desc">Presque aucune animation (seules celles qui confirment une action restent), indicateurs et paroles mis à jour moins souvent, l\'écran n\'est pas maintenu allumé</string>
+    <string name="power_medium_desc">Presque aucune animation (seules celles qui confirment une action restent), indicateurs et paroles mis à jour moins souvent, l\'écran n\'est pas maintenu allumé, les stems par IA sont indisponibles</string>
     <string name="power_intensive">Intensive</string>
     <string name="power_intensive_desc" formatted="false">Tout ce que fait « Moyenne », et en plus :\n• thème toujours sombre\n• volume du lecteur limité à 40 %\n• mono uniquement\n• vitesse, égaliseur, basses, aigus, subsonique et normalisation verrouillés\n• son uniquement par câble ou haut-parleur du téléphone, pas de Bluetooth\n• dossier analysé uniquement sur demande\n• cache des pochettes réduit et moins de pages préparées à l\'avance</string>
     <string name="sound_title">Son</string>
@@ -326,4 +326,5 @@
     <string name="stems_err_no_decoder">Cet appareil ne sait pas décoder le format (%1$s).</string>
     <string name="stems_license">Modèles : Open-Unmix umxhq, export ONNX par MixDirective (licence MIT, © 2019 Inria). Le premier téléchargement nécessite Internet ; ensuite tout fonctionne hors ligne.</string>
     <string name="stem_other">Autres</string>
+    <string name="stems_locked_power">Les stems par IA sont indisponibles tant que l’économie d’énergie est activée (Moyenne ou Intensive). Réglez l’économie d’énergie sur « Désactivée » dans les réglages pour les utiliser.</string>
 </resources>

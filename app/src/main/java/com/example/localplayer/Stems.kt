@@ -99,6 +99,17 @@ object Stems {
     }
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    /**
+     * ИИ заблокирован в режимах энергосбережения «Средний» и «Интенсивный»: разбор и загрузка моделей сильно нагружают
+     * процессор и батарею. Читается в Compose (перерисовка при смене режима) и в обычном коде.
+     */
+    val blocked: Boolean get() = PowerSave.mode != PowerMode.OFF
+
+    init {
+        // Включили энергосбережение, пока идёт работа: останавливаем её (недописанные файлы удаляются)
+        PowerSave.addListener { if (blocked && busy) cancel() }
+    }
     private var job: Job? = null
     private var pending: Request? = null
 
@@ -168,12 +179,12 @@ object Stems {
     }
 
     fun downloadModels(ctx: Context, models: List<StemModel>) {
-        if (busy || models.isEmpty()) return
+        if (blocked || busy || models.isEmpty()) return
         begin(ctx, Request.Download(models), Phase.MODELS)
     }
 
     fun importModels(ctx: Context, uris: List<Uri>) {
-        if (busy || uris.isEmpty()) return
+        if (blocked || busy || uris.isEmpty()) return
         begin(ctx, Request.Import(uris), Phase.MODELS)
     }
 
@@ -194,7 +205,7 @@ object Stems {
 
     /** Запускает разбор трека. false, если запуск невозможен (причина показана в [notice] или не хватает моделей). */
     fun start(ctx: Context, track: Track, stems: Set<Stem>, tree: Uri): Boolean {
-        if (busy || stems.isEmpty()) return false
+        if (blocked || busy || stems.isEmpty()) return false
         val app = ctx.applicationContext
         val canWrite = app.contentResolver.persistedUriPermissions.any { it.uri == tree && it.isWritePermission }
         if (!canWrite) {
@@ -341,7 +352,7 @@ object Stems {
 
     // ---------- Разбор трека ----------
 
-    private fun threads(): Int = if (PowerSave.intensiveNow) 2 else Runtime.getRuntime().availableProcessors().coerceIn(2, 4)
+    private fun threads(): Int = Runtime.getRuntime().availableProcessors().coerceIn(2, 4)
 
     private fun trackBaseName(t: Track): String =
         safeName(if (t.artist.isBlank() || t.artist == NO_ARTIST) t.title else "${t.artist} - ${t.title}")

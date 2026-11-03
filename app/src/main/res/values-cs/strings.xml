@@ -130,7 +130,7 @@
     <string name="power_off">Vypnuto</string>
     <string name="power_off_desc">Vše funguje jako obvykle</string>
     <string name="power_medium">Střední</string>
-    <string name="power_medium_desc">Téměř žádné animace (zůstanou jen ty, které potvrzují akci), indikátory a text písně se aktualizují méně často, displej se nedrží zapnutý</string>
+    <string name="power_medium_desc">Téměř žádné animace (zůstanou jen ty, které potvrzují akci), indikátory a text písně se aktualizují méně často, displej se nedrží zapnutý, stemy pomocí AI nejsou dostupné</string>
     <string name="power_intensive">Intenzivní</string>
     <string name="power_intensive_desc" formatted="false">Vše ze středního režimu a navíc:\n• vždy tmavý motiv\n• hlasitost přehrávače nejvýše 40 %\n• pouze mono\n• rychlost, ekvalizér, basy, výšky, subsonic a normalizace jsou zablokovány\n• zvuk pouze přes kabel nebo reproduktor telefonu, bez Bluetooth\n• složka se prohledává jen tlačítkem\n• menší mezipaměť obalů a méně předem sestavených stránek</string>
     <string name="sound_title">Zvuk</string>
@@ -327,4 +327,5 @@
     <string name="stems_err_no_decoder">Toto zařízení neumí dekódovat formát (%1$s).</string>
     <string name="stems_license">Modely: Open-Unmix umxhq, export do ONNX od MixDirective (licence MIT, © 2019 Inria). První stažení vyžaduje internet, poté vše funguje offline.</string>
     <string name="stem_other">Zbytek</string>
+    <string name="stems_locked_power">Stemy pomocí AI nejsou dostupné, dokud je zapnuté úspora energie (Střední nebo Intenzivní). Chcete-li je používat, vypněte v nastavení úsporu energie.</string>
 </resources>

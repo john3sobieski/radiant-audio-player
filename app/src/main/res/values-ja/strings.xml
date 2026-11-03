@@ -130,7 +130,7 @@
     <string name="power_off">オフ</string>
     <string name="power_off_desc">すべて通常どおりに動作します</string>
     <string name="power_medium">中</string>
-    <string name="power_medium_desc">アニメーションはほぼなし（操作を確認するものだけ残ります）。インジケーターと歌詞の更新頻度が下がり、画面は点灯したままになりません</string>
+    <string name="power_medium_desc">アニメーションはほぼなし（操作を確認するものだけ残ります）。インジケーターと歌詞の更新頻度が下がり、画面は点灯したままになりません。AI ステムは使えません</string>
     <string name="power_intensive">強力</string>
     <string name="power_intensive_desc" formatted="false">「中」の内容に加えて：\n• 常にダークテーマ\n• プレーヤーの音量は最大40%\n• モノラルのみ\n• 速度、イコライザー、低音、高音、サブソニック、音量の正規化はロック\n• 音声は有線または本体スピーカーのみ（Bluetooth不可）\n• フォルダはボタンを押したときだけスキャン\n• カバーのキャッシュと先読みページを縮小</string>
     <string name="sound_title">サウンド</string>
@@ -324,4 +324,5 @@
     <string name="stems_err_no_decoder">この端末では形式（%1$s）をデコードできません。</string>
     <string name="stems_license">モデル：Open-Unmix umxhq、MixDirective による ONNX 書き出し（MIT ライセンス、© 2019 Inria）。初回のダウンロードにはインターネットが必要で、その後は完全にオフラインで動作します。</string>
     <string name="stem_other">その他</string>
+    <string name="stems_locked_power">省電力モード（中または強力）がオンの間は、AI ステムは使用できません。使うには、設定で省電力をオフにしてください。</string>
 </resources>

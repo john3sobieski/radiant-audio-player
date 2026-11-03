@@ -4,7 +4,7 @@
 
 Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální audio soubory**. Přehrává hudbu pouze z jediné složky, kterou si vyberete, takže vyzvánění, hlasové zprávy a další zvuky ve vašem telefonu se nikdy nedostanou do knihovny.
 
-Žádné reklamy, žádné účty, žádný přístup k internetu. Vše zůstává ve vašem zařízení; internet se používá jen tehdy, když sami zvolíte stažení hudby z vlastního cloudu (Dropbox).
+Žádné reklamy, žádné účty, žádný přístup k internetu. Vše zůstává ve vašem zařízení; internet se používá jen tehdy, když sami zvolíte stažení hudby z vlastního cloudu (Dropbox) nebo jednorázové stažení AI modelů pro stemy (lze je také naimportovat ze souborů).
 
 > **Jazyky:** angličtina, němčina, ruština, ukrajinština, čínština, japonština, francouzština, čeština, španělština a polština. Vyberte jazyk v **Nastavení → Jazyk aplikace**, nebo nechte *Systém* a aplikace bude používat jazyk telefonu (pokud jazyk telefonu není podporován, použije se angličtina).
 
@@ -24,8 +24,9 @@ Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální aud
 - **Jazyk rozhraní:** *Nastavení → Jazyk aplikace* otevře okno s položkou *Systém* nahoře a deseti jazyky pod ní v abecedním pořadí. Změna se projeví okamžitě, bez přerušení přehrávání.
 - **Motivy:** světlý, skutečně černý tmavý (skvělý pro OLED displeje) nebo podle systému, s dynamickými barvami na Androidu 12+.
 - **Zámek aplikace** (Nastavení → Zabezpečení, ve výchozím stavu vypnutý): 4místný, 6místný nebo vlastní kód se vyžaduje při každém otevření aplikace. Pokud ho zapomenete, aplikaci odemkne soubor pro obnovení s 12 náhodnými slovy. Podrobnosti jsou níže v sekci *Zámek aplikace*.
-- **Úspora energie** (Nastavení): *Vypnuto*, *Střední* (téměř žádné animace, řidší aktualizace průběhu) nebo *Intenzivní* (navíc vynucený černý motiv, hlasitost omezená na 40 %, pouze mono, vynechání ekvalizéru/basů/výšek/subsonického filtru/normalizace, výstup pouze přes kabel nebo reproduktor telefonu bez Bluetooth, ruční prohledání složky, menší mezipaměť obalů).
+- **Úspora energie** (Nastavení): *Vypnuto*, *Střední* (téměř žádné animace, řidší aktualizace průběhu) nebo *Intenzivní* (navíc vynucený černý motiv, hlasitost omezená na 40 %, pouze mono, vynechání ekvalizéru/basů/výšek/subsonického filtru/normalizace, výstup pouze přes kabel nebo reproduktor telefonu bez Bluetooth, ruční prohledání složky, menší mezipaměť obalů). **AI stemy jsou ve režimech Střední a Intenzivní nedostupné** (běžící úloha se při přepnutí zruší); pro vytváření stemů zvolte *Vypnuto*.
 - **Podrobnosti o skladbě:** tagy, formát, bitrate, vzorkovací frekvence, kanály, velikost souboru a další.
+- **Stemy (AI):** položka *Vytvořit stemy* v nabídce „⋮“ skladby ji rozdělí na **zpěv, bicí, basu a zbytek** pomocí Open-Unmix (umxhq, ONNX) a vybrané části smíchá do **jedné stopy**: vše kromě basy dá celou skladbu bez basy, vše kromě zpěvu dá instrumentál. Běží přímo v zařízení, ne v reálném čase, s ukazatelem průběhu, odhadem zbývajícího času a tlačítkem Zrušit; na pozadí pokračuje s upozorněním. Výsledkem je WAV 16 bitů / 44,1 kHz ve složce `Stems/<interpret - název>/` uvnitř vaší hudební složky, takže se hned objeví v knihovně. Viz „Stemy (AI)“ níže.
 - **Formáty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV a cokoli dalšího, co Android dokáže dekódovat.
 
 ## Zámek aplikace
@@ -46,9 +47,19 @@ Volitelná ochrana aplikace, **ve výchozím stavu vypnutá**. Zapnete ji v **Na
 - **Soubor dobře uschovejte.** Kdokoli, kdo ho má, může zámek odstranit, proto ho nenechávejte tam, kde ho najdou jiní. Pokud ztratíte kód i soubor, zbývá jen smazat data aplikace, čímž zmizí i playlisty a nastavení. Nikdo, ani vývojář, kód obnovit nemůže: nejsou žádné účty ani servery.
 - **Co zámek nedělá.** Chrání rozhraní aplikace, ne zvukové soubory v úložišti. Hudba hraje dál, i když je aplikace zamčená, a tlačítka v oznámení fungují.
 
+## Stemy (AI)
+
+- **Co dostanete.** Čtyři části (zpěv, bicí, basa, zbytek) dohromady přesně dávají originál, takže jakýkoli výběr je čistý podmix: zaškrtněte části, které chcete ponechat, a smíchají se do jednoho WAV. Opakované spuštění se stejným výběrem soubor přepíše.
+- **Modely.** Čtyři soubory ONNX po ~34 MB (zpěv, bicí, basa, zbytek) nejsou součástí APK. V *Nastavení → Stemy (AI)* je můžete stáhnout (ověřuje se SHA-256) nebo naimportovat ze souborů, pokud jste je stáhli předem (`model.onnx` z repozitářů Hugging Face `MixDirective/open-unmix-umxhq-{vocals,drums,bass,other}-onnx`; soubory se poznají podle kontrolního součtu, na názvu nezáleží). Poté vše funguje offline.
+- **Jak to funguje.** Skladba se systémovým dekodérem převede na stereo 44,1 kHz, rozřeže na bloky po ~12 s s 2 s kontextu po stranách, každý blok projde sítěmi (STFT 4096/1024) a výsledky se bezešvě spojí. Spotřeba paměti nezávisí na délce skladby.
+- **Kvalita.** Vždy běží všechny čtyři sítě a jejich odhady se vyvažují měkkou maskou (v² / Σv²), takže části dávají dohromady originál a žádná není příliš tichá. K tomu jsou potřeba všechny čtyři modely a asi 4 průchody sítě na blok; zpracování potřebuje zhruba 250 MB RAM.
+- **Rychlost.** Obvykle několik minut na skladbu na novějším telefonu; procesor a baterie se zatěžují výrazně. Práce běží jako služba v popředí s upozorněním (s tlačítkem *Zrušit*) a udržuje procesor vzhůru, dokud neskončí. Ve režimech úspory energie Střední a Intenzivní jsou stemy zablokované.
+- **Omezení.** Prostá poměrová maska bez Wienerova filtru (kvalita o něco nižší než referenční umxhq); zpěv, bicí a basa jsou nad ~16 kHz prázdné (sítě byly natrénovány jen do této frekvence); u vícekanálových souborů se berou první dva kanály; formáty, které Android neumí dekódovat (např. ALAC na některých zařízeních), nelze rozdělit. Je nutný zápis do hudební složky (pokud o to aplikace požádá, vyberte složku znovu).
+
 ## Požadavky
 
 - Android 8.0 (API 26) nebo novější
+- Pro stemy (volitelné): úspora energie nastavená na *Vypnuto*; asi 142 MB volného úložiště pro čtyři modely (~34 MB každý); asi 250 MB volné paměti RAM při zpracování; dočasné místo na disku asi 85 MB na 4 minuty zvuku (po dokončení se smaže); výsledkem je WAV zhruba 42 MB na 4 minuty. ONNX Runtime je součástí APK, nic dalšího se instalovat nemusí.
 
 ## Instalace
 
@@ -92,6 +103,8 @@ Issues a pull requesty jsou vítány. U větších změn prosím nejprve otevře
 Přehrávání ALAC (Apple Lossless) využívá dekodér FFmpeg z AndroidX Media3. Workflow **Build APK** jej sestaví z neupraveného zdrojového kódu [FFmpeg](https://ffmpeg.org) 6.0 (pouze dekodér ALAC, žádné komponenty GPL) spolu s rozšířením Media3 1.5.1 (Apache-2.0) a připojí do aplikace jako nativní knihovnu.
 
 FFmpeg zůstává pod vlastní licencí, [LGPL 2.1 nebo novější](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), nikoli PolyForm Noncommercial. Zdrojový kód je k dispozici na <https://github.com/FFmpeg/FFmpeg> (větev `release/6.0`). Aplikaci můžete sestavit s vlastním upraveným FFmpeg úpravou workflow. Sestavení bez tohoto kroku (například lokální, bez souboru `.aar` v `app/libs`) funguje normálně, ale nepřehraje ALAC.
+
+Dělení na stemy využívá [ONNX Runtime](https://onnxruntime.ai) (MIT) a modely [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch) umxhq (MIT, © 2019 Inria) v exportu do ONNX od MixDirective. Váhy umxhq byly natrénovány na MUSDB18-HQ; pokud plánujete použití nad rámec osobního, zkontrolujte podmínky trénovacích dat a vah.
 
 ## Licence
 

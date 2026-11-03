@@ -131,7 +131,7 @@
     <string name="power_off">Off</string>
     <string name="power_off_desc">Everything works as usual</string>
     <string name="power_medium">Medium</string>
-    <string name="power_medium_desc">Almost no animations (only those that confirm an action), indicators and lyrics update less often, the screen is not kept on</string>
+    <string name="power_medium_desc">Almost no animations (only those that confirm an action), indicators and lyrics update less often, the screen is not kept on, AI stem separation is unavailable</string>
     <string name="power_intensive">Intensive</string>
     <string name="power_intensive_desc" formatted="false">Everything from Medium, plus:\n• always the dark theme\n• player volume capped at 40%\n• mono only\n• speed, equalizer, bass, treble, subsonic and normalization are locked\n• sound only through a wire or the phone speaker, no Bluetooth\n• the folder is scanned only with the button\n• smaller cover cache and fewer pre-built pages</string>
     <string name="sound_title">Sound</string>
@@ -326,4 +326,5 @@
     <string name="stems_err_no_decoder">This device cannot decode the format (%1$s).</string>
     <string name="stems_license">Models: Open-Unmix umxhq, ONNX export by MixDirective (MIT license, © 2019 Inria). The first download needs internet; afterwards everything works offline.</string>
     <string name="stem_other">Other</string>
+    <string name="stems_locked_power">AI stems are unavailable while power saving is on (Medium or Intensive). Set power saving to Off in Settings to use them.</string>
 </resources>

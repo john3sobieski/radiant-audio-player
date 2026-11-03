@@ -4,7 +4,7 @@
 
 Un reproductor de música nativo y sencillo para Android, para tus **archivos de audio locales**. Reproduce música únicamente de la carpeta que elijas, así que los tonos de llamada, los mensajes de voz y otros sonidos de tu teléfono nunca acaban en tu biblioteca.
 
-Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en tu dispositivo; internet solo se usa si decides descargar música desde tu propia nube (Dropbox).
+Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en tu dispositivo; internet solo se usa si decides descargar música desde tu propia nube (Dropbox) o descargar los modelos de IA para los stems (una sola vez; también se pueden importar desde archivos).
 
 > **Idiomas:** inglés, alemán, ruso, ucraniano, chino, japonés, francés, checo, español y polaco. Elige uno en **Ajustes → Idioma de la aplicación**, o déjalo en *Sistema* para seguir el idioma del teléfono (se usa inglés si el idioma del teléfono no es compatible).
 
@@ -24,8 +24,9 @@ Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en
 - **Idioma de la interfaz:** *Ajustes → Idioma de la aplicación* abre una ventana con *Sistema* arriba y los diez idiomas debajo, en orden alfabético. El cambio se aplica al instante, sin interrumpir la reproducción.
 - **Temas:** claro, oscuro con negro puro (ideal para pantallas OLED) o el predeterminado del sistema, con colores dinámicos en Android 12+.
 - **Bloqueo de la aplicación** (Ajustes → Seguridad, desactivado por defecto): se pide un código de 4 dígitos, de 6 dígitos o personalizado cada vez que abres la app. Si lo olvidas, un archivo de recuperación con 12 palabras aleatorias la desbloquea. Los detalles están en la sección *Bloqueo de la aplicación* más abajo.
-- **Ahorro de energía** (Ajustes): *Desactivado*, *Medio* (casi sin animaciones, actualizaciones de progreso menos frecuentes) o *Intensivo* (además tema negro forzado, volumen limitado al 40 %, solo mono, ecualizador/graves/agudos/subsónico/normalización omitidos, salida solo por cable o altavoz del teléfono sin Bluetooth, análisis manual de la carpeta, caché de carátulas más pequeña).
+- **Ahorro de energía** (Ajustes): *Desactivado*, *Medio* (casi sin animaciones, actualizaciones de progreso menos frecuentes) o *Intensivo* (además tema negro forzado, volumen limitado al 40 %, solo mono, ecualizador/graves/agudos/subsónico/normalización omitidos, salida solo por cable o altavoz del teléfono sin Bluetooth, análisis manual de la carpeta, caché de carátulas más pequeña). **Los stems con IA no están disponibles en los modos Medio e Intensivo** (un trabajo en curso se cancela al cambiar); para crear stems elige *Desactivado*.
 - **Detalles de la canción:** etiquetas, formato, tasa de bits, frecuencia de muestreo, canales, tamaño del archivo y más.
+- **Stems (IA):** la opción *Crear stems* del menú «⋮» de una pista la separa en **voz, batería, bajo y el resto** con Open-Unmix (umxhq, ONNX) y mezcla las partes marcadas en **una sola pista**: todo menos el bajo da la pista completa sin bajo, todo menos la voz da el instrumental. Funciona en el dispositivo, no en tiempo real, con barra de progreso, estimación del tiempo restante y botón de cancelar; sigue en segundo plano con una notificación. El resultado es un WAV de 16 bits / 44,1 kHz en `Stems/<artista - título>/` dentro de tu carpeta de música, así que aparece enseguida en la biblioteca. Consulta «Stems (IA)» más abajo.
 - **Formatos:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV y cualquier otro que Android pueda decodificar.
 
 ## Bloqueo de la aplicación
@@ -46,9 +47,19 @@ Protección opcional de la app, **desactivada por defecto**. Actívala en **Ajus
 - **Guarda bien el archivo.** Quien lo tenga puede quitar el bloqueo, así que no lo dejes donde otros puedan encontrarlo. Si pierdes el código y el archivo, la única salida es borrar los datos de la app, lo que también elimina listas y ajustes. Nadie, ni siquiera el desarrollador, puede recuperar el código: no hay cuentas ni servidores.
 - **Lo que no hace.** El bloqueo protege la interfaz de la app, no los archivos de audio de tu almacenamiento. La música sigue sonando con la app bloqueada y los controles de la notificación siguen funcionando.
 
+## Stems (IA)
+
+- **Qué obtienes.** Las cuatro partes (voz, batería, bajo, resto) suman exactamente el original, así que cualquier selección es una submezcla limpia: marca las partes que quieres conservar y se mezclan en un solo WAV. Repetir con la misma selección sobrescribe el archivo.
+- **Modelos.** Cuatro archivos ONNX de ~34 MB cada uno (voz, batería, bajo, resto) no vienen en el APK. En *Ajustes → Stems (IA)* puedes descargarlos (se verifica SHA-256) o importarlos desde archivos si los obtuviste antes (`model.onnx` de los repositorios de Hugging Face `MixDirective/open-unmix-umxhq-{vocals,drums,bass,other}-onnx`; los archivos se reconocen por su suma de comprobación, el nombre no importa). Después todo funciona sin conexión.
+- **Cómo funciona.** El decodificador del sistema convierte la pista a estéreo de 44,1 kHz, se corta en bloques de ~12 s con 2 s de contexto a cada lado, cada bloque pasa por las redes (STFT 4096/1024) y los resultados se unen sin costuras. El uso de memoria no depende de la duración de la pista.
+- **Calidad.** Siempre se ejecutan las cuatro redes y sus estimaciones se equilibran con una máscara suave (v² / Σv²), de modo que las partes suman el original y ninguna queda demasiado baja. Eso requiere los cuatro modelos y unas 4 pasadas de red por bloque; el procesamiento necesita unos 250 MB de RAM.
+- **Velocidad.** Normalmente unos minutos por pista en un teléfono reciente; se usan mucho el procesador y la batería. El trabajo se ejecuta como servicio en primer plano con notificación (con botón *Cancelar*) y mantiene la CPU despierta hasta terminar. Los stems están bloqueados en los modos de ahorro de energía Medio e Intensivo.
+- **Limitaciones.** Máscara de razón simple sin filtro de Wiener (algo por debajo de la calidad de referencia de umxhq); voz, batería y bajo están vacíos por encima de ~16 kHz (las redes se entrenaron solo hasta esa frecuencia); en archivos multicanal se usan los dos primeros canales; los formatos que Android no puede decodificar (p. ej. ALAC en algunos dispositivos) no se pueden separar. Se necesita acceso de escritura a la carpeta de música (vuelve a elegirla si la app lo pide).
+
 ## Requisitos
 
 - Android 8.0 (API 26) o posterior
+- Para los stems (opcional): ahorro de energía en *Desactivado*; unos 142 MB de almacenamiento libre para los cuatro modelos (~34 MB cada uno); unos 250 MB de RAM libre durante el procesamiento; espacio temporal en disco de unos 85 MB por cada 4 minutos de audio (se elimina al terminar); el resultado es un WAV de unos 42 MB por cada 4 minutos. ONNX Runtime viene incluido en el APK, no hace falta instalar nada más.
 
 ## Instalación
 
@@ -92,6 +103,8 @@ Los issues y los pull requests son bienvenidos. Para cambios más grandes, abre 
 La reproducción de ALAC (Apple Lossless) usa el decodificador FFmpeg de AndroidX Media3. El flujo de trabajo **Build APK** lo compila a partir del código fuente sin modificar de [FFmpeg](https://ffmpeg.org) 6.0 (solo el decodificador ALAC, sin componentes GPL) junto con la extensión de Media3 1.5.1 (Apache-2.0), y lo enlaza en la aplicación como biblioteca nativa.
 
 FFmpeg sigue bajo su propia licencia, [LGPL 2.1 o posterior](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), y no bajo PolyForm Noncommercial. El código fuente está disponible en <https://github.com/FFmpeg/FFmpeg> (rama `release/6.0`). Puedes recompilar la aplicación con tu propio FFmpeg modificado cambiando el flujo de trabajo. Las compilaciones hechas sin este paso (por ejemplo, en local, sin un `.aar` en `app/libs`) funcionan con normalidad, pero no pueden reproducir ALAC.
+
+La separación en stems usa [ONNX Runtime](https://onnxruntime.ai) (MIT) y los modelos umxhq de [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch) (MIT, © 2019 Inria) en una exportación a ONNX de MixDirective. Los pesos de umxhq se entrenaron con MUSDB18-HQ; revisa las condiciones de los datos de entrenamiento y de los pesos si piensas usar la app más allá del uso personal.
 
 ## Licencia
 

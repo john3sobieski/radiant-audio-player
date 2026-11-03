@@ -130,7 +130,7 @@
     <string name="power_off">Wyłączone</string>
     <string name="power_off_desc">Wszystko działa normalnie</string>
     <string name="power_medium">Średni</string>
-    <string name="power_medium_desc">Prawie bez animacji (zostają tylko te potwierdzające działanie), wskaźniki i tekst piosenki odświeżają się rzadziej, ekran nie jest utrzymywany włączony</string>
+    <string name="power_medium_desc">Prawie bez animacji (zostają tylko te potwierdzające działanie), wskaźniki i tekst piosenki odświeżają się rzadziej, ekran nie jest utrzymywany włączony, stemy AI są niedostępne</string>
     <string name="power_intensive">Intensywny</string>
     <string name="power_intensive_desc" formatted="false">Wszystko z trybu średniego, a ponadto:\n• zawsze ciemny motyw\n• głośność odtwarzacza nie wyższa niż 40%\n• tylko mono\n• prędkość, korektor, basy, wysokie tony, subsoniczny i normalizacja są zablokowane\n• dźwięk tylko przez przewód lub głośnik telefonu, bez Bluetooth\n• folder jest skanowany tylko przyciskiem\n• mniejsza pamięć podręczna okładek i mniej wcześniej przygotowanych stron</string>
     <string name="sound_title">Dźwięk</string>
@@ -327,4 +327,5 @@
     <string name="stems_err_no_decoder">To urządzenie nie potrafi zdekodować formatu (%1$s).</string>
     <string name="stems_license">Modele: Open-Unmix umxhq, eksport do ONNX przez MixDirective (licencja MIT, © 2019 Inria). Pierwsze pobranie wymaga internetu, potem wszystko działa offline.</string>
     <string name="stem_other">Reszta</string>
+    <string name="stems_locked_power">Stemy AI są niedostępne, gdy włączone jest oszczędzanie energii (Średni lub Intensywny). Aby z nich korzystać, wyłącz oszczędzanie energii w ustawieniach.</string>
 </resources>

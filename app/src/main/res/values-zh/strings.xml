@@ -130,7 +130,7 @@
     <string name="power_off">关闭</string>
     <string name="power_off_desc">一切照常运行</string>
     <string name="power_medium">中等</string>
-    <string name="power_medium_desc">几乎没有动画（仅保留用于确认操作的动画），指示器和歌词刷新频率降低，屏幕不会保持常亮</string>
+    <string name="power_medium_desc">几乎没有动画（仅保留用于确认操作的动画），指示器和歌词刷新频率降低，屏幕不会保持常亮，AI 分轨不可用</string>
     <string name="power_intensive">强力</string>
     <string name="power_intensive_desc" formatted="false">包含中等模式的全部内容，另外：\n• 始终使用深色主题\n• 播放器音量不超过 40%\n• 仅单声道\n• 速度、均衡器、低音、高音、次声和音量标准化均被锁定\n• 仅通过有线或手机扬声器输出声音，不支持蓝牙\n• 仅在点击按钮时扫描文件夹\n• 封面缓存更小，预先构建的页面更少</string>
     <string name="sound_title">声音</string>
@@ -324,4 +324,5 @@
     <string name="stems_err_no_decoder">此设备无法解码该格式（%1$s）。</string>
     <string name="stems_license">模型：Open-Unmix umxhq，MixDirective 导出的 ONNX 版本（MIT 许可，© 2019 Inria）。首次下载需要联网，之后完全离线可用。</string>
     <string name="stem_other">其他</string>
+    <string name="stems_locked_power">开启节能模式（中等或强力）时无法使用 AI 分轨。请在设置中将节能模式设为关闭后再使用。</string>
 </resources>

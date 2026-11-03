@@ -6,6 +6,7 @@ local.properties
 .DS_Store
 *.jks
 *.keystore
+*.ini
 
 # FFmpeg-декодер (собирается в CI)
 app/libs/*.aar

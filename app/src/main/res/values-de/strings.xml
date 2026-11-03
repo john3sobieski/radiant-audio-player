@@ -130,7 +130,7 @@
     <string name="power_off">Aus</string>
     <string name="power_off_desc">Alles läuft wie gewohnt</string>
     <string name="power_medium">Mittel</string>
-    <string name="power_medium_desc">Fast keine Animationen (nur solche, die eine Aktion bestätigen), Anzeigen und Songtext werden seltener aktualisiert, der Bildschirm bleibt nicht eingeschaltet</string>
+    <string name="power_medium_desc">Fast keine Animationen (nur solche, die eine Aktion bestätigen), Anzeigen und Songtext werden seltener aktualisiert, der Bildschirm bleibt nicht eingeschaltet, KI-Stems sind nicht verfügbar</string>
     <string name="power_intensive">Intensiv</string>
     <string name="power_intensive_desc" formatted="false">Alles aus „Mittel“ und zusätzlich:\n• immer dunkles Design\n• Player-Lautstärke höchstens 40 %\n• nur Mono\n• Geschwindigkeit, Equalizer, Bass, Höhen, Subsonic und Normalisierung sind gesperrt\n• Ton nur über Kabel oder den Telefonlautsprecher, kein Bluetooth\n• Ordner wird nur auf Knopfdruck durchsucht\n• kleinerer Cover-Cache und weniger vorab aufgebaute Seiten</string>
     <string name="sound_title">Klang</string>
@@ -325,4 +325,5 @@
     <string name="stems_err_no_decoder">Dieses Gerät kann das Format (%1$s) nicht dekodieren.</string>
     <string name="stems_license">Modelle: Open-Unmix umxhq, ONNX-Export von MixDirective (MIT-Lizenz, © 2019 Inria). Der erste Download braucht Internet, danach funktioniert alles offline.</string>
     <string name="stem_other">Rest</string>
+    <string name="stems_locked_power">KI-Stems sind nicht verfügbar, solange Energiesparen aktiv ist (Mittel oder Intensiv). Stelle Energiesparen in den Einstellungen auf „Aus“, um sie zu nutzen.</string>
 </resources>

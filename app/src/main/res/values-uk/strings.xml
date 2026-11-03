@@ -130,7 +130,7 @@
     <string name="power_off">Вимкнено</string>
     <string name="power_off_desc">Усе працює як зазвичай</string>
     <string name="power_medium">Середній</string>
-    <string name="power_medium_desc">Майже без анімацій (залишається лише те, що підтверджує дію), індикатори й текст пісні оновлюються рідше, екран не утримується ввімкненим</string>
+    <string name="power_medium_desc">Майже без анімацій (залишається лише те, що підтверджує дію), індикатори й текст пісні оновлюються рідше, екран не утримується ввімкненим, ШІ для стемів недоступний</string>
     <string name="power_intensive">Інтенсивний</string>
     <string name="power_intensive_desc" formatted="false">Усе із середнього, а також:\n• завжди темна тема\n• гучність плеєра не вище 40%\n• лише моно\n• швидкість, еквалайзер, баси, високі, subsonic і нормалізація заблоковані\n• звук лише через дріт або динамік телефона, без Bluetooth\n• тека сканується лише за кнопкою\n• менше кешу обкладинок і заздалегідь зібраних сторінок</string>
     <string name="sound_title">Звук</string>
@@ -327,4 +327,5 @@
     <string name="stems_err_no_decoder">Цей пристрій не вміє декодувати формат (%1$s).</string>
     <string name="stems_license">Моделі: Open-Unmix umxhq, експорт в ONNX від MixDirective (ліцензія MIT, © 2019 Inria). Перше завантаження потребує інтернету, далі все працює без мережі.</string>
     <string name="stem_other">Решта</string>
+    <string name="stems_locked_power">ШІ для стемів недоступний, поки ввімкнено енергозбереження (Середній або Інтенсивний режим). Щоб ним користуватися, вимкніть енергозбереження в налаштуваннях.</string>
 </resources>

@@ -4,7 +4,7 @@
 
 Prosty, natywny odtwarzacz muzyki na Androida dla Twoich **lokalnych plików audio**. Odtwarza muzykę tylko z jednego wybranego przez Ciebie folderu, dzięki czemu dzwonki, wiadomości głosowe i inne dźwięki z telefonu nigdy nie trafiają do biblioteki.
 
-Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urządzeniu; internet jest używany tylko wtedy, gdy sam zdecydujesz się pobrać muzykę z własnej chmury (Dropbox).
+Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urządzeniu; internet jest używany tylko wtedy, gdy sam zdecydujesz się pobrać muzykę z własnej chmury (Dropbox) lub pobrać modele AI do stemów (jednorazowo; można je też zaimportować z plików).
 
 > **Języki:** angielski, niemiecki, rosyjski, ukraiński, chiński, japoński, francuski, czeski, hiszpański i polski. Wybierz język w **Ustawienia → Język aplikacji** lub zostaw *System*, aby aplikacja korzystała z języka telefonu (jeśli język telefonu nie jest obsługiwany, używany jest angielski).
 
@@ -24,8 +24,9 @@ Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urzą
 - **Język interfejsu:** *Ustawienia → Język aplikacji* otwiera okno z pozycją *System* na górze i dziesięcioma językami poniżej w kolejności alfabetycznej. Zmiana działa od razu, bez przerywania odtwarzania.
 - **Motywy:** jasny, ciemny z prawdziwą czernią (świetny do ekranów OLED) lub systemowy, z kolorami dynamicznymi na Androidzie 12+.
 - **Blokada aplikacji** (Ustawienia → Bezpieczeństwo, domyślnie wyłączona): 4-cyfrowy, 6-cyfrowy lub własny kod jest wymagany przy każdym otwarciu aplikacji. Jeśli go zapomnisz, aplikację odblokuje plik odzyskiwania z 12 losowymi słowami. Szczegóły w sekcji *Blokada aplikacji* poniżej.
-- **Oszczędzanie energii** (Ustawienia): *Wyłączone*, *Średnie* (prawie bez animacji, rzadsze aktualizacje postępu) lub *Intensywne* (dodatkowo wymuszony czarny motyw, głośność ograniczona do 40%, tylko mono, pominięcie korektora/basów/tonów wysokich/subsonicznego/normalizacji, wyjście tylko przewodowe lub głośnik telefonu bez Bluetooth, ręczne skanowanie folderu, mniejsza pamięć podręczna okładek).
+- **Oszczędzanie energii** (Ustawienia): *Wyłączone*, *Średnie* (prawie bez animacji, rzadsze aktualizacje postępu) lub *Intensywne* (dodatkowo wymuszony czarny motyw, głośność ograniczona do 40%, tylko mono, pominięcie korektora/basów/tonów wysokich/subsonicznego/normalizacji, wyjście tylko przewodowe lub głośnik telefonu bez Bluetooth, ręczne skanowanie folderu, mniejsza pamięć podręczna okładek). **Stemy AI są niedostępne w trybach Średni i Intensywny** (trwające zadanie jest anulowane po przełączeniu); aby tworzyć stemy, wybierz *Wyłączone*.
 - **Szczegóły utworu:** tagi, format, bitrate, częstotliwość próbkowania, kanały, rozmiar pliku i więcej.
+- **Stemy (AI):** pozycja *Utwórz stemy* w menu „⋮” utworu dzieli go za pomocą Open-Unmix (umxhq, ONNX) na **wokal, perkusję, bas i resztę** i miksuje zaznaczone części w **jeden utwór**: wszystko oprócz basu daje pełny utwór bez basu, wszystko oprócz wokalu daje podkład. Działa na urządzeniu, nie w czasie rzeczywistym, z paskiem postępu, szacowanym czasem do końca i przyciskiem anulowania; w tle kontynuuje z powiadomieniem. Wynikiem jest plik WAV 16 bitów / 44,1 kHz w `Stems/<wykonawca - tytuł>/` wewnątrz folderu z muzyką, więc od razu pojawia się w bibliotece. Zobacz „Stemy (AI)” poniżej.
 - **Formaty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV i wszystko, co Android potrafi odtworzyć.
 
 ## Blokada aplikacji
@@ -46,9 +47,19 @@ Opcjonalna ochrona aplikacji, **domyślnie wyłączona**. Włączysz ją w **Ust
 - **Przechowuj plik bezpiecznie.** Każdy, kto go ma, może zdjąć blokadę, więc nie zostawiaj go tam, gdzie inni go znajdą. Jeśli stracisz i kod, i plik, jedyne wyjście to wyczyszczenie danych aplikacji, co usuwa też playlisty i ustawienia. Nikt, także twórca, nie odzyska kodu: nie ma kont ani serwerów.
 - **Czego blokada nie robi.** Chroni interfejs aplikacji, a nie pliki audio w pamięci telefonu. Muzyka gra dalej przy zablokowanej aplikacji, a przyciski w powiadomieniu nadal działają.
 
+## Stemy (AI)
+
+- **Co otrzymujesz.** Cztery części (wokal, perkusja, bas, reszta) dają razem dokładnie oryginał, więc każdy wybór to czysty podmiks: zaznacz części do zachowania, a zostaną zmiksowane w jeden WAV. Ponowne uruchomienie z tym samym wyborem nadpisuje plik.
+- **Modele.** Cztery pliki ONNX po ~34 MB (wokal, perkusja, bas, reszta) nie są dołączone do APK. W *Ustawienia → Stemy (AI)* możesz je pobrać (weryfikacja SHA-256) lub zaimportować z plików, jeśli pobrałeś je wcześniej (`model.onnx` z repozytoriów Hugging Face `MixDirective/open-unmix-umxhq-{vocals,drums,bass,other}-onnx`; pliki rozpoznawane są po sumie kontrolnej, nazwa nie ma znaczenia). Potem wszystko działa offline.
+- **Jak to działa.** Utwór jest dekodowany przez dekoder systemowy do stereo 44,1 kHz, cięty na bloki po ~12 s z 2 s kontekstu po bokach, każdy blok przechodzi przez sieci (STFT 4096/1024), a wyniki są łączone bez szwów. Zużycie pamięci nie zależy od długości utworu.
+- **Jakość.** Zawsze pracują wszystkie cztery sieci, a ich oszacowania są wyrównywane miękką maską (v² / Σv²), dzięki czemu części dają razem oryginał i żadna nie jest zbyt cicha. Wymaga to wszystkich czterech modeli i około 4 przebiegów sieci na blok; przetwarzanie potrzebuje około 250 MB RAM.
+- **Szybkość.** Zwykle kilka minut na utwór na nowszym telefonie; procesor i bateria są mocno obciążone. Praca działa jako usługa pierwszoplanowa z powiadomieniem (z przyciskiem *Anuluj*) i nie pozwala procesorowi zasnąć do końca. W trybach oszczędzania energii Średni i Intensywny stemy są zablokowane.
+- **Ograniczenia.** Zwykła maska ilorazowa bez filtru Wienera (nieco poniżej referencyjnej jakości umxhq); wokal, perkusja i bas są puste powyżej ~16 kHz (sieci trenowano tylko do tej częstotliwości); w plikach wielokanałowych używane są pierwsze dwa kanały; formatów, których Android nie potrafi zdekodować (np. ALAC na części urządzeń), nie da się rozdzielić. Wymagany jest zapis w folderze z muzyką (wybierz go ponownie, jeśli aplikacja o to poprosi).
+
 ## Wymagania
 
 - Android 8.0 (API 26) lub nowszy
+- Do stemów (opcjonalnie): oszczędzanie energii ustawione na *Wyłączone*; około 142 MB wolnego miejsca na cztery modele (po ~34 MB); około 250 MB wolnej pamięci RAM podczas przetwarzania; tymczasowe miejsce na dysku około 85 MB na 4 minuty dźwięku (usuwane po zakończeniu); wynikiem jest WAV około 42 MB na 4 minuty. ONNX Runtime jest w APK, nic więcej nie trzeba instalować.
 
 ## Instalacja
 
@@ -92,6 +103,8 @@ Issues i pull requesty są mile widziane. W przypadku większych zmian najpierw 
 Odtwarzanie ALAC (Apple Lossless) korzysta z dekodera FFmpeg z AndroidX Media3. Workflow **Build APK** buduje go z niezmodyfikowanego kodu źródłowego [FFmpeg](https://ffmpeg.org) 6.0 (tylko dekoder ALAC, bez komponentów GPL) wraz z rozszerzeniem Media3 1.5.1 (Apache-2.0) i dołącza do aplikacji jako bibliotekę natywną.
 
 FFmpeg pozostaje na własnej licencji, [LGPL 2.1 lub nowszej](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), a nie PolyForm Noncommercial. Kod źródłowy jest dostępny pod adresem <https://github.com/FFmpeg/FFmpeg> (gałąź `release/6.0`). Możesz przebudować aplikację z własnym, zmodyfikowanym FFmpeg, zmieniając workflow. Kompilacje wykonane bez tego kroku (na przykład lokalnie, bez pliku `.aar` w `app/libs`) działają normalnie, ale nie odtwarzają ALAC.
+
+Rozdzielanie na stemy korzysta z [ONNX Runtime](https://onnxruntime.ai) (MIT) i modeli umxhq z [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch) (MIT, © 2019 Inria) w eksporcie do ONNX autorstwa MixDirective. Wagi umxhq trenowano na MUSDB18-HQ; jeśli planujesz użycie wykraczające poza osobiste, sprawdź warunki danych treningowych i wag.
 
 ## Licencja
 

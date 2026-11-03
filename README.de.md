@@ -4,7 +4,7 @@
 
 Ein einfacher, nativer Android-Musikplayer für deine **lokalen Audiodateien**. Er spielt Musik nur aus dem einen Ordner ab, den du auswählst, sodass Klingeltöne, Sprachnachrichten und andere Sounds auf deinem Handy nie in deiner Bibliothek landen.
 
-Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deinem Gerät; das Internet wird nur genutzt, wenn du Musik aus deiner eigenen Cloud (Dropbox) herunterladen möchtest.
+Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deinem Gerät; das Internet wird nur genutzt, wenn du Musik aus deiner eigenen Cloud (Dropbox) herunterladen oder die KI-Modelle für Stems laden möchtest (einmalig; sie lassen sich auch aus Dateien importieren).
 
 > **Sprachen:** Englisch, Deutsch, Russisch, Ukrainisch, Chinesisch, Japanisch, Französisch, Tschechisch, Spanisch und Polnisch. Wähle eine unter **Einstellungen → App-Sprache** oder lass sie auf *System*, um der Sprache des Handys zu folgen (wird die Handysprache nicht unterstützt, wird Englisch verwendet).
 
@@ -24,8 +24,9 @@ Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deine
 - **Oberflächensprache:** *Einstellungen → App-Sprache* öffnet ein Fenster mit *System* ganz oben und den zehn Sprachen alphabetisch darunter. Die Änderung wird sofort übernommen, ohne die Wiedergabe zu unterbrechen.
 - **Designs:** hell, echtes Schwarz (ideal für OLED-Displays) oder Systemstandard, mit dynamischen Farben ab Android 12.
 - **App-Sperre** (Einstellungen → Sicherheit, standardmäßig aus): Ein 4-stelliger, 6-stelliger oder eigener Code wird bei jedem Öffnen der App abgefragt. Wenn du ihn vergisst, entsperrt eine Wiederherstellungsdatei mit 12 zufälligen Wörtern die App. Details stehen unten im Abschnitt *App-Sperre*.
-- **Energiesparen** (Einstellungen): *Aus*, *Mittel* (kaum Animationen, seltenere Fortschrittsaktualisierungen) oder *Intensiv* (zusätzlich erzwungenes schwarzes Design, Lautstärke auf 40 % begrenzt, nur Mono, EQ/Bass/Höhen/Subsonic/Normalisierung umgangen, Ausgabe nur über Kabel oder Handylautsprecher ohne Bluetooth, manueller Ordnerscan, kleinerer Cover-Cache).
+- **Energiesparen** (Einstellungen): *Aus*, *Mittel* (kaum Animationen, seltenere Fortschrittsaktualisierungen) oder *Intensiv* (zusätzlich erzwungenes schwarzes Design, Lautstärke auf 40 % begrenzt, nur Mono, EQ/Bass/Höhen/Subsonic/Normalisierung umgangen, Ausgabe nur über Kabel oder Handylautsprecher ohne Bluetooth, manueller Ordnerscan, kleinerer Cover-Cache). **KI-Stems sind in den Stufen Mittel und Intensiv nicht verfügbar** (ein laufender Auftrag wird beim Umschalten abgebrochen); zum Erstellen von Stems wähle *Aus*.
 - **Titeldetails:** Tags, Format, Bitrate, Abtastrate, Kanäle, Dateigröße und mehr.
+- **Stems (KI):** der Eintrag *Stems erstellen* im „⋮“-Menü eines Titels teilt ihn mit Open-Unmix (umxhq, ONNX) in **Gesang, Schlagzeug, Bass und den Rest** und mischt die angehakten Teile zu **einem Titel**: alles außer Bass ergibt den vollständigen Titel ohne Bass, alles außer Gesang das Instrumental. Es läuft auf dem Gerät, nicht in Echtzeit, mit Fortschrittsbalken, Restzeitschätzung und Abbrechen-Taste und arbeitet im Hintergrund mit einer Benachrichtigung weiter. Das Ergebnis ist eine WAV-Datei (16 Bit / 44,1 kHz) in `Stems/<Interpret - Titel>/` in deinem Musikordner und erscheint sofort in der Bibliothek. Siehe „Stems (KI)“ unten.
 - **Formate:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV und alles, was Android sonst noch dekodieren kann.
 
 ## App-Sperre
@@ -46,9 +47,19 @@ Optionaler Schutz für die App, **standardmäßig ausgeschaltet**. Einschalten u
 - **Bewahre die Datei sicher auf.** Wer sie hat, kann die Sperre entfernen – lege sie also nicht dort ab, wo andere sie finden. Gehen Code und Datei beide verloren, hilft nur das Löschen der App-Daten, wodurch auch Wiedergabelisten und Einstellungen verschwinden. Niemand, auch nicht der Entwickler, kann den Code wiederherstellen: Es gibt keine Konten und keine Server.
 - **Was die Sperre nicht tut.** Sie schützt die Oberfläche der App, nicht die Audiodateien auf deinem Speicher. Die Musik läuft bei gesperrter App weiter, und die Steuerung in der Benachrichtigung funktioniert weiterhin.
 
+## Stems (KI)
+
+- **Was du bekommst.** Die vier Teile (Gesang, Schlagzeug, Bass, Rest) ergeben zusammen exakt das Original, jede Auswahl ist also ein sauberer Teilmix: hake die Teile an, die bleiben sollen, und sie werden zu einer WAV gemischt. Ein erneuter Lauf mit derselben Auswahl überschreibt die Datei.
+- **Modelle.** Vier ONNX-Dateien mit je ~34 MB (Gesang, Schlagzeug, Bass, Rest) sind nicht im APK enthalten. Unter *Einstellungen → Stems (KI)* kannst du sie herunterladen (SHA-256 geprüft) oder aus Dateien importieren, falls du sie vorher geholt hast (`model.onnx` aus den Hugging-Face-Repos `MixDirective/open-unmix-umxhq-{vocals,drums,bass,other}-onnx`; Dateien werden an der Prüfsumme erkannt, der Name ist egal). Danach funktioniert alles offline.
+- **So funktioniert es.** Der Titel wird vom System-Decoder in 44,1-kHz-Stereo umgewandelt, in Blöcke von ~12 s mit je 2 s Kontext an den Rändern geschnitten, jeder Block durchläuft die Netze (STFT 4096/1024), und die Ergebnisse werden nahtlos zusammengesetzt. Der Speicherbedarf hängt nicht von der Titellänge ab.
+- **Qualität.** Es laufen immer alle vier Netze, ihre Schätzungen werden mit einer weichen Maske (v² / Σv²) abgeglichen, sodass die Teile zusammen das Original ergeben und keiner zu leise ist. Dafür braucht es alle vier Modelle und etwa 4 Netzdurchläufe pro Block; die Verarbeitung benötigt etwa 250 MB RAM.
+- **Geschwindigkeit.** Auf einem aktuellen Handy meist einige Minuten pro Titel; Prozessor und Akku werden stark beansprucht. Die Arbeit läuft als Vordergrunddienst mit Benachrichtigung (mit *Abbrechen*-Taste) und hält den Prozessor wach, bis sie fertig ist. In den Energiesparstufen Mittel und Intensiv sind Stems gesperrt.
+- **Einschränkungen.** Einfache Verhältnismaske ohne Wiener-Filter (etwas unter der Referenzqualität von umxhq); Gesang, Schlagzeug und Bass sind oberhalb von ~16 kHz leer (die Netze wurden nur bis zu dieser Frequenz trainiert); bei Mehrkanaldateien werden die ersten beiden Kanäle verwendet; Formate, die Android nicht dekodieren kann (z. B. ALAC auf manchen Geräten), lassen sich nicht trennen. Schreibzugriff auf den Musikordner ist nötig (wähle den Ordner erneut, wenn die App danach fragt).
+
 ## Voraussetzungen
 
 - Android 8.0 (API 26) oder neuer
+- Für Stems (optional): Energiesparen auf *Aus*; etwa 142 MB freier Speicher für die vier Modelle (je ~34 MB); etwa 250 MB freier RAM während der Verarbeitung; temporärer Speicherplatz von etwa 85 MB je 4 Minuten Audio (wird danach gelöscht); das Ergebnis ist eine WAV von etwa 42 MB je 4 Minuten. ONNX Runtime ist im APK enthalten, es muss nichts weiter installiert werden.
 
 ## Installation
 
@@ -92,6 +103,8 @@ Issues und Pull Requests sind willkommen. Bei größeren Änderungen eröffne bi
 Die Wiedergabe von ALAC (Apple Lossless) nutzt den FFmpeg-Decoder aus AndroidX Media3. Der Workflow **Build APK** baut ihn aus dem unveränderten Quellcode von [FFmpeg](https://ffmpeg.org) 6.0 (nur der ALAC-Decoder, keine GPL-Komponenten aktiviert) zusammen mit der Media3-1.5.1-Erweiterung (Apache-2.0) und bindet ihn als native Bibliothek in die App ein.
 
 FFmpeg bleibt unter seiner eigenen Lizenz, [LGPL 2.1 oder neuer](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), und nicht unter PolyForm Noncommercial. Der Quellcode ist unter <https://github.com/FFmpeg/FFmpeg> verfügbar (Branch `release/6.0`). Du kannst die App mit deinem eigenen, veränderten FFmpeg neu bauen, indem du den Workflow anpasst. Builds ohne diesen Schritt (zum Beispiel lokal, ohne `.aar` in `app/libs`) funktionieren normal, können aber kein ALAC abspielen.
+
+Die Stem-Trennung nutzt [ONNX Runtime](https://onnxruntime.ai) (MIT) und die [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch)-umxhq-Modelle (MIT, © 2019 Inria) als ONNX-Export von MixDirective. Die umxhq-Gewichte wurden auf MUSDB18-HQ trainiert; prüfe die Bedingungen der Trainingsdaten und Gewichte, wenn du die App über die private Nutzung hinaus einsetzen willst.
 
 ## Lizenz
 
