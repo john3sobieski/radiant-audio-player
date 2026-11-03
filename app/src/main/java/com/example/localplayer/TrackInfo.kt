@@ -100,7 +100,7 @@ object TrackDetails {
         mime?.let { file += s(R.string.ti_mime) to it }
         if (size > 0) file += s(R.string.ti_file_size) to fileSize(ctx, ui, size)
         name?.takeIf { it.isNotBlank() }?.let { file += s(R.string.ti_file_name) to it }
-        coverSize?.let { file += s(R.string.ti_cover) to it }
+        file += s(R.string.ti_cover) to coverSize
         if (t.modified > 0) file += s(R.string.ti_file_date) to date(ui, t.modified)
         if (t.added > 0) file += s(R.string.ti_added) to date(ui, t.added)
 

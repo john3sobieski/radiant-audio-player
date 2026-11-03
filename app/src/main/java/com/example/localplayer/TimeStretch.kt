@@ -3,9 +3,9 @@ package com.example.localplayer
 import androidx.media3.common.C
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.audio.AudioProcessor
+import androidx.media3.common.audio.AudioProcessorChain
 import androidx.media3.common.audio.BaseAudioProcessor
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.audio.DefaultAudioSink
 import java.nio.ByteBuffer
 import kotlin.math.PI
 import kotlin.math.abs
@@ -22,7 +22,7 @@ import kotlin.math.sin
  * «рвёт» звук (повторяет куски по одному периоду основного тона); наш растяжитель устроен иначе, см. ниже.
  */
 @UnstableApi
-class SpeedAudioProcessorChain(vararg effects: AudioProcessor) : DefaultAudioSink.AudioProcessorChain {
+class SpeedAudioProcessorChain(vararg effects: AudioProcessor) : AudioProcessorChain {
 
     private val stretch = TimeStretchProcessor()
     private val processors: Array<AudioProcessor> = arrayOf<AudioProcessor>(*effects, stretch)
@@ -334,7 +334,7 @@ internal class PhaseVocoder(private val channels: Int, sampleRate: Int) {
             val lb = if (stereo) inBuf[b] else null
             for (i in 0 until n) {
                 val w = window[i]
-                re[i] = la[offset + i] * w.toDouble()
+                re[i] = la[offset + i] * w
                 im[i] = if (lb != null) lb[offset + i] * w else 0.0
             }
             fft(re, im)
