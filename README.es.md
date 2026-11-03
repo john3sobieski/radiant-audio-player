@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 Un reproductor de música nativo y sencillo para Android, para tus **archivos de audio locales**. Reproduce música únicamente de la carpeta que elijas, así que los tonos de llamada, los mensajes de voz y otros sonidos de tu teléfono nunca acaban en tu biblioteca.
 
 Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en tu dispositivo; internet solo se usa si decides descargar música desde tu propia nube (Dropbox) o descargar los modelos de IA para los stems (una sola vez; también se pueden importar desde archivos).

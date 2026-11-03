@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 Ein einfacher, nativer Android-Musikplayer für deine **lokalen Audiodateien**. Er spielt Musik nur aus dem einen Ordner ab, den du auswählst, sodass Klingeltöne, Sprachnachrichten und andere Sounds auf deinem Handy nie in deiner Bibliothek landen.
 
 Keine Werbung, keine Konten, kein Internetzugriff nötig. Alles bleibt auf deinem Gerät; das Internet wird nur genutzt, wenn du Musik aus deiner eigenen Cloud (Dropbox) herunterladen oder die KI-Modelle für Stems laden möchtest (einmalig; sie lassen sich auch aus Dateien importieren).

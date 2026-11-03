@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 一款简洁的原生 Android 音乐播放器，专为你的**本地音频文件**而设计。它只播放你所选的那一个文件夹中的音乐，因此手机上的铃声、语音消息和其他声音永远不会出现在你的音乐库中。
 
 无广告、无需账号、无需联网。一切数据都保留在你的设备上；只有当你选择从自己的云端（Dropbox）下载音乐，或下载用于分轨的 AI 模型时（仅需一次，也可从文件导入）才会使用网络。

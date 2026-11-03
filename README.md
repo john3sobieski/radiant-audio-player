@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 A simple, native Android music player for your **local audio files**. It plays music only from the one folder you choose, so ringtones, voice messages and other sounds on your phone never end up in your library.
 
 No ads, no accounts, no internet access required. Everything stays on your device; the internet is used only if you choose to download music from your own cloud (Dropbox) or to download the AI models for stems (once; they can also be imported from files).

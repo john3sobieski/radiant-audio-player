@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 Prosty, natywny odtwarzacz muzyki na Androida dla Twoich **lokalnych plików audio**. Odtwarza muzykę tylko z jednego wybranego przez Ciebie folderu, dzięki czemu dzwonki, wiadomości głosowe i inne dźwięki z telefonu nigdy nie trafiają do biblioteki.
 
 Bez reklam, bez kont, bez dostępu do internetu. Wszystko zostaje na Twoim urządzeniu; internet jest używany tylko wtedy, gdy sam zdecydujesz się pobrać muzykę z własnej chmury (Dropbox) lub pobrać modele AI do stemów (jednorazowo; można je też zaimportować z plików).

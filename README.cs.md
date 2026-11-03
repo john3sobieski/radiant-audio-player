@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální audio soubory**. Přehrává hudbu pouze z jediné složky, kterou si vyberete, takže vyzvánění, hlasové zprávy a další zvuky ve vašem telefonu se nikdy nedostanou do knihovny.
 
 Žádné reklamy, žádné účty, žádný přístup k internetu. Vše zůstává ve vašem zařízení; internet se používá jen tehdy, když sami zvolíte stažení hudby z vlastního cloudu (Dropbox) nebo jednorázové stažení AI modelů pro stemy (lze je také naimportovat ze souborů).

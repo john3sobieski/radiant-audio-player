@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 Un lecteur de musique Android natif et simple pour vos **fichiers audio locaux**. Il ne lit la musique que du seul dossier que vous choisissez, de sorte que les sonneries, les messages vocaux et autres sons de votre téléphone n'atterrissent jamais dans votre bibliothèque.
 
 Pas de publicités, pas de comptes, aucun accès à Internet requis. Tout reste sur votre appareil ; Internet n'est utilisé que si vous choisissez de télécharger de la musique depuis votre propre cloud (Dropbox) ou de télécharger les modèles d'IA pour les stems (une seule fois ; ils peuvent aussi être importés depuis des fichiers).

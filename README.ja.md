@@ -2,6 +2,8 @@
 
 [English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02)
+
 **ローカルの音声ファイル**のための、シンプルなネイティブ Android ミュージックプレーヤーです。選んだ1つのフォルダからのみ音楽を再生するため、着信音やボイスメッセージ、その他のサウンドがライブラリに混ざることはありません。
 
 広告なし、アカウント不要、インターネット接続も不要。すべてのデータは端末内に保存されます。自分のクラウド（Dropbox）から音楽をダウンロードする場合、またはステム用の AI モデルをダウンロードする場合（初回のみ。ファイルからのインポートも可能）にのみ、インターネットを使用します。
