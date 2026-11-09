@@ -92,7 +92,7 @@ dependencies {
     implementation("androidx.media3:media3-session:$media3")
 
     // ONNX Runtime: запуск сетей Open-Unmix (umxhq) для разделения на стемы. Версия 1.22+ нужна для страниц памяти 16 КБ (Android 15+).
-    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.31.1")
 
     // FFmpeg-декодер Media3 (ALAC). AAR собирается в CI (см. .github/workflows/build.yml) и кладётся в app/libs.
     // Если файла нет (обычная локальная сборка), приложение собирается и работает без ALAC.
