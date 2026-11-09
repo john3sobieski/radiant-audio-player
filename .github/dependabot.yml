@@ -39,6 +39,8 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "com.android.*"
         update-types: ["version-update:semver-major"]
+      # ONNX Runtime оставляем на 1.22.0: версия 1.31.1 раздула APK с 33 до 62 МБ, а нужного нам нет
+      - dependency-name: "com.microsoft.onnxruntime:onnxruntime-android"
 
   # Версии GitHub Actions в workflow-файлах
   - package-ecosystem: "github-actions"
