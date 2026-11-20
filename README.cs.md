@@ -1,117 +1,73 @@
-# Radiant
+<p align="center">
+  <img src="/git_images/Radiant.png" width="800" alt="Radiant">
+</p>
 
-[English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
+<h1 align="center">Radiant for Android</h1>
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02) [![Buy Me a Coffee](https://img.shields.io/badge/Support%20the%20project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/radiant_player)
+<p align="center">
+  Jednoduchý a soukromý přehrávač hudby pro vaše místní audiosoubory.<br>
+  Žádné reklamy. Žádné účty. Vaše hudba zůstává na vašem zařízení.
+</p>
 
-Jednoduchý nativní hudební přehrávač pro Android pro vaše **lokální audio soubory**. Přehrává hudbu pouze z jediné složky, kterou si vyberete, takže vyzvánění, hlasové zprávy a další zvuky ve vašem telefonu se nikdy nedostanou do knihovny.
+<p align="center">
+  <a href="../../releases/latest"><b>Stáhnout nejnovější APK</b></a> ·
+  <a href="README_pc.md">Verze pro PC</a>
+</p>
 
-Žádné reklamy, žádné účty, žádný přístup k internetu. Vše zůstává ve vašem zařízení; internet se používá jen tehdy, když sami zvolíte stažení hudby z vlastního cloudu (Dropbox) nebo jednorázové stažení AI modelů pro stemy (lze je také naimportovat ze souborů).
+<p align="center">
+  <a href="README.md">English</a> ·
+  <a href="README.cs.md">Čeština</a> ·
+  <a href="README.de.md">Deutsch</a> ·
+  <a href="README.es.md">Español</a> ·
+  <a href="README.fr.md">Français</a> ·
+  <a href="README.ja.md">日本語</a> ·
+  <a href="README.pl.md">Polski</a> ·
+  <a href="README.ru.md">Русский</a> ·
+  <a href="README.zh.md">中文</a>
+</p>
 
-> **Jazyky:** angličtina, němčina, ruština, ukrajinština, čínština, japonština, francouzština, čeština, španělština a polština. Vyberte jazyk v **Nastavení → Jazyk aplikace**, nebo nechte *Systém* a aplikace bude používat jazyk telefonu (pokud jazyk telefonu není podporován, použije se angličtina).
+<p align="center">
+  <a href="https://ko-fi.com/I5I829ZD02"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi"></a>
+  <a href="https://www.buymeacoffee.com/radiant_player"><img src="https://img.shields.io/badge/Support%20the%20project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee"></a>
+</p>
+
+---
+
+## Proč Radiant
+
+Radiant přehrává hudbu z **jedné složky, kterou si vyberete**. Prohledá tuto složku a její podsložky, aniž by do knihovny přidával vyzvánění, hlasové zprávy nebo jiné zvuky odjinud z telefonu. Systém Storage Access Framework v Androidu omezuje přístup jen na vybranou složku.
+
+Žádné reklamy ani účty. Přehrávání funguje offline; připojení k internetu je potřeba jen pro volitelné stahování z Dropboxu nebo jednorázové stažení AI modelů.
 
 ## Funkce
 
-- **Vaše hudba, vaše složka.** Složku vyberete jednou; Radiant prohledá ji i její podsložky a při každém spuštění aplikace ji prohledá znovu. Využívá Storage Access Framework systému Android, takže nevidí nic mimo tuto složku.
-- **Stahování z cloudu (volitelné).** V *Nastavení → Složka s hudbou* můžete připojit svůj Dropbox a stáhnout hudbu z vybrané složky v cloudu do samostatné složky `Dropbox` uvnitř složky s hudbou. Funguje jen jedním směrem: v cloudu se nic nenahrává, nemění ani nemaže a v zařízení se nic nemaže ani nepřepisuje. Přihlášení probíhá v prohlížeči, takže aplikace vaše heslo nikdy nevidí.
-- **Knihovna:** Playlisty, Alba (automaticky seskupená podle tagů v souborech) a Skladby, s vyhledáváním a řazením v každé sekci.
-- **Playlisty:** vytváření, přejmenování, mazání, přidávání a odebírání skladeb. *Oblíbené skladby* jsou vždy připnuty nahoře.
-- **Fronty:** čtvrtá sekce s přesně čtyřmi pevnými frontami (nelze je vytvářet ani mazat). Skladby přidáte tlačítkem v přehrávači nebo v nabídce „⋮“, můžete je odebírat a měnit jejich pořadí dlouhým stisknutím a přetažením nebo pomocí „posunout nahoru / dolů“.
-- **Změna pořadí přetažením** playlistů, alb a skladeb dlouhým stisknutím.
-- **Přehrávání na pozadí** s oznámením o médiích, ovládáním na zamykací obrazovce a podporou tlačítek sluchátek.
-- **Přehrávač:** přehrát/pozastavit, další/předchozí, posun, náhodné pořadí, opakování (vypnuto / vše / jedna), obal alba a štítek kvality s formátem souboru a bitrate.
-- **Texty písní:** tlačítko pod „i“ v přehrávači otevře text písně. Radiant hledá texty ve značkách (tazích) souboru (ID3 USLT/SYLT, Vorbis `LYRICS`, M4A `©lyr`) i v souborech `.lrc` / `.txt` se stejným názvem vedle skladby a kontroluje je při každém otevření aplikace. Synchronizované texty (`.lrc`) se posouvají společně s písní, zvýrazňují aktuální řádek a zeslabují již odzpívané řádky; klepnutím na řádek na něj přeskočíte. Prostý text se zobrazuje v kompaktním zobrazení.
-- **Rychlost přehrávání** od 3× pomaleji do 3× rychleji po krocích 0,1, se zachováním výšky tónu.
-- **Nastavení zvuku:** mono/stereo, normalizace hlasitosti, zesílení basů a výšek, subsonický filtr a 12pásmový ekvalizér s 10 předvolbami. Ekvalizér může použít jednu křivku pro všechny skladby, nebo si pamatovat samostatnou křivku pro každou skladbu.
-- **Jazyk rozhraní:** *Nastavení → Jazyk aplikace* otevře okno s položkou *Systém* nahoře a deseti jazyky pod ní v abecedním pořadí. Změna se projeví okamžitě, bez přerušení přehrávání.
-- **Motivy:** světlý, skutečně černý tmavý (skvělý pro OLED displeje) nebo podle systému, s dynamickými barvami na Androidu 12+.
-- **Zámek aplikace** (Nastavení → Zabezpečení, ve výchozím stavu vypnutý): 4místný, 6místný nebo vlastní kód se vyžaduje při každém otevření aplikace. Pokud ho zapomenete, aplikaci odemkne soubor pro obnovení s 12 náhodnými slovy. Podrobnosti jsou níže v sekci *Zámek aplikace*.
-- **Úspora energie** (Nastavení): *Vypnuto*, *Střední* (téměř žádné animace, řidší aktualizace průběhu) nebo *Intenzivní* (navíc vynucený černý motiv, hlasitost omezená na 40 %, pouze mono, vynechání ekvalizéru/basů/výšek/subsonického filtru/normalizace, výstup pouze přes kabel nebo reproduktor telefonu bez Bluetooth, ruční prohledání složky, menší mezipaměť obalů). **AI stemy jsou ve režimech Střední a Intenzivní nedostupné** (běžící úloha se při přepnutí zruší); pro vytváření stemů zvolte *Vypnuto*.
-- **Podrobnosti o skladbě:** tagy, formát, bitrate, vzorkovací frekvence, kanály, velikost souboru a další.
-- **Stemy (AI):** položka *Vytvořit stemy* v nabídce „⋮“ skladby ji rozdělí na **zpěv, bicí, basu a zbytek** pomocí Open-Unmix (umxhq, ONNX) a vybrané části smíchá do **jedné stopy**: vše kromě basy dá celou skladbu bez basy, vše kromě zpěvu dá instrumentál. Běží přímo v zařízení, ne v reálném čase, s ukazatelem průběhu, odhadem zbývajícího času a tlačítkem Zrušit; na pozadí pokračuje s upozorněním. Výsledkem je WAV 16 bitů / 44,1 kHz ve složce `Stems/<interpret - název>/` uvnitř vaší hudební složky, takže se hned objeví v knihovně. Viz „Stemy (AI)“ níže.
-- **Formáty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV a cokoli dalšího, co Android dokáže dekódovat.
+- **Vaše hudební knihovna:** procházejte Skladby, Alba a Playlisty s vyhledáváním a řazením. Vytvářejte a spravujte playlisty; *Oblíbené skladby* jsou vždy nahoře. K dispozici jsou čtyři pevné fronty pro rychlé seznamy k poslechu.
+- **Plné ovládání přehrávání:** přehrávání na pozadí, mediální oznámení, ovládání z uzamčené obrazovky a sluchátek, náhodné pořadí, opakování, převíjení a rychlost přehrávání od 3× pomalejší po 3× rychlejší beze změny výšky tónu.
+- **Texty písní:** zobrazují se z tagů skladby nebo z blízkých souborů `.lrc` / `.txt`. Synchronizované texty sledují skladbu a klepnutím na řádek se přesunete na dané místo.
+- **Nastavení zvuku:** 12pásmový ekvalizér s 10 předvolbami, zdůraznění basů a výšek, normalizace hlasitosti, mono/stereo a subsonický filtr. Nastavení ekvalizéru může být společné pro všechny skladby, nebo uložené pro každou skladbu zvlášť.
+- **AI separace stemů:** rozdělte skladbu na zpěv, bicí, basu a zbytek a vybrané části smíchejte do souboru WAV. Zpracování probíhá přímo ve vašem zařízení. Modely stačí jednou stáhnout nebo importovat; poté separace stemů funguje offline.
+- **Volitelné stahování z Dropboxu:** zkopírujte hudbu z vybrané složky na Dropboxu do své hudební složky. Jde o jednosměrný přenos: Radiant na Dropbox nic nenahrává, neupravuje ani nemaže.
+- **Soukromí a přizpůsobení:** volitelný zámek aplikace, světlý/tmavý/čistě černý motiv, dynamické barvy na Androidu 12+ a 10 jazyků rozhraní.
+- **Formáty:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV a další formáty podporované Androidem.
 
-## Zámek aplikace
+## Stažení a instalace
 
-Volitelná ochrana aplikace, **ve výchozím stavu vypnutá**. Zapnete ji v **Nastavení → Zabezpečení**.
+Radiant vyžaduje **Android 8.0 (API 26) nebo novější**.
 
-- **Tři druhy kódu:** 4 číslice, 6 číslic nebo vlastní kód (latinská písmena a číslice, 4–64 znaků, bez mezer).
-- **Kdy se ptá:** při každém spuštění a pokaždé, když se aplikace vrátí z pozadí. Otočení displeje ani změna jazyka ji nezamknou.
-- **Zamčená obrazovka:** jednolité bílé nebo čistě černé pozadí (podle motivu) s polem pro kód. Číselné kódy používají minimalistickou klávesnici na obrazovce, vlastní kód běžnou systémovou klávesnici. Tlačítko oka zobrazí nebo skryje zadané znaky. Snímky obrazovky a nahrávání obrazovky jsou blokované jen na této obrazovce.
-- **Změna nebo vypnutí:** *Nastavení → Zabezpečení → Změnit kód*, nebo zámek vypněte. V obou případech se nejdřív zadává aktuální kód.
+1. Otevřete na telefonu **[nejnovější vydání](../../releases/latest)** a stáhněte APK.
+2. Otevřete stažený soubor a pokud se Android zeptá, povolte instalaci z tohoto zdroje.
+3. Spusťte Radiant a vyberte složku s hudbou.
 
-### Jak ochrana funguje
-
-- **Kód se nikdy neukládá.** Radiant uchovává jen náhodnou sůl a hash PBKDF2-HMAC-SHA256 (30 000 iterací), který se porovnává v konstantním čase.
-- **Ochrana proti hrubé síle.** Po každých 5 chybných kódech za sebou je nutné počkat: 30 sekund, potom 1, 2, 4… minuty, nejvýše 15 minut. Pauza přetrvá i po restartu aplikace. V nejhorším případě při nejdelší pauze zkoušení všech 10 000 čtyřmístných kódů trvá asi 3 týdny a všech 1 000 000 šestimístných přes 5 let. Krátké kódy čerpají sílu z tohoto omezení, ne z entropie: 4místný kód má asi 13 bitů, 6místný asi 20 bitů. Pro větší odolnost zvolte vlastní kód: každý náhodný znak přidá asi 6 bitů, tedy 8 náhodných znaků je asi 48 bitů.
-- **Soubor pro obnovení s vysokou entropií.** Při vytvoření kódu Radiant vygeneruje **12 náhodných slov** z vestavěného seznamu 700 anglických slov, vybraných kryptograficky bezpečným generátorem náhodných čísel. To je 700¹² ≈ 2¹¹³ kombinací, zhruba **113 bitů entropie**, což je mimo dosah hrubé síly. Slova uložíte jako soubor `.txt` kamkoli chcete. Zámek se zapne až po zapsání souboru a aplikace uchovává jen hash slov, ne slova samotná.
-- **Zapomněli jste kód?** Na zamčené obrazovce klepněte na *Zapomenuté heslo* a vyberte soubor pro obnovení. Pokud odpovídá, zámek se vypne a můžete ho znovu zapnout s novým kódem a novým souborem. Změna kódu také vytvoří nový soubor a ten starý přestane fungovat.
-- **Soubor dobře uschovejte.** Kdokoli, kdo ho má, může zámek odstranit, proto ho nenechávejte tam, kde ho najdou jiní. Pokud ztratíte kód i soubor, zbývá jen smazat data aplikace, čímž zmizí i playlisty a nastavení. Nikdo, ani vývojář, kód obnovit nemůže: nejsou žádné účty ani servery.
-- **Co zámek nedělá.** Chrání rozhraní aplikace, ne zvukové soubory v úložišti. Hudba hraje dál, i když je aplikace zamčená, a tlačítka v oznámení fungují.
-
-## Stemy (AI)
-
-- **Co dostanete.** Čtyři části (zpěv, bicí, basa, zbytek) dohromady přesně dávají originál, takže jakýkoli výběr je čistý podmix: zaškrtněte části, které chcete ponechat, a smíchají se do jednoho WAV. Opakované spuštění se stejným výběrem soubor přepíše.
-- **Modely.** Čtyři soubory ONNX po ~34 MB (zpěv, bicí, basa, zbytek) nejsou součástí APK. V *Nastavení → Stemy (AI)* je můžete stáhnout (ověřuje se SHA-256) nebo naimportovat ze souborů, pokud jste je stáhli předem (`model.onnx` z repozitářů Hugging Face `MixDirective/open-unmix-umxhq-{vocals,drums,bass,other}-onnx`; soubory se poznají podle kontrolního součtu, na názvu nezáleží). Poté vše funguje offline.
-- **Jak to funguje.** Skladba se systémovým dekodérem převede na stereo 44,1 kHz, rozřeže na bloky po ~12 s s 2 s kontextu po stranách, každý blok projde sítěmi (STFT 4096/1024) a výsledky se bezešvě spojí. Spotřeba paměti nezávisí na délce skladby.
-- **Kvalita.** Vždy běží všechny čtyři sítě a jejich odhady se vyvažují měkkou maskou (v² / Σv²), takže části dávají dohromady originál a žádná není příliš tichá. K tomu jsou potřeba všechny čtyři modely a asi 4 průchody sítě na blok; zpracování potřebuje zhruba 250 MB RAM.
-- **Rychlost.** Obvykle několik minut na skladbu na novějším telefonu; procesor a baterie se zatěžují výrazně. Práce běží jako služba v popředí s upozorněním (s tlačítkem *Zrušit*) a udržuje procesor vzhůru, dokud neskončí. Ve režimech úspory energie Střední a Intenzivní jsou stemy zablokované.
-- **Omezení.** Prostá poměrová maska bez Wienerova filtru (kvalita o něco nižší než referenční umxhq); zpěv, bicí a basa jsou nad ~16 kHz prázdné (sítě byly natrénovány jen do této frekvence); u vícekanálových souborů se berou první dva kanály; formáty, které Android neumí dekódovat (např. ALAC na některých zařízeních), nelze rozdělit. Je nutný zápis do hudební složky (pokud o to aplikace požádá, vyberte složku znovu).
-
-## Požadavky
-
-- Android 8.0 (API 26) nebo novější
-- Pro stemy (volitelné): úspora energie nastavená na *Vypnuto*; asi 142 MB volného úložiště pro čtyři modely (~34 MB každý); asi 250 MB volné paměti RAM při zpracování; dočasné místo na disku asi 85 MB na 4 minuty zvuku (po dokončení se smaže); výsledkem je WAV zhruba 42 MB na 4 minuty. ONNX Runtime je součástí APK, nic dalšího se instalovat nemusí.
-
-## Instalace
-
-Nejnovější stabilní verze je vždy dostupná na stránce **[Releases](../../releases/latest)** jako soubor `.apk`.
-
-1. Stáhněte `.apk` z nejnovějšího vydání do telefonu.
-2. Otevřete jej a pokud se Android zeptá, povolte instalaci z neznámých zdrojů.
-3. Spusťte Radiant.
-
-Nové verze se instalují přes staré bez odinstalace, takže vaše playlisty a nastavení zůstanou zachovány.
+Nové verze lze instalovat přes stávající aplikaci, takže playlisty a nastavení zůstanou zachovány.
 
 ## Začínáme
 
-1. Otevřete aplikaci a klepněte na **Vybrat složku**.
-2. Vyberte složku s hudbou. Knihovna se naplní automaticky.
-3. Procházejte **Playlisty**, **Alba** a **Skladby** a klepnutím na skladbu ji přehrajte.
-4. Chcete-li vytvořit playlist, klepněte na **⋮** vedle libovolné skladby a zvolte **Přidat do playlistu**.
+1. Klepněte na **Vybrat složku** a vyberte složku s hudbou.
+2. Procházejte **Playlisty**, **Alba** nebo **Skladby** a klepnutím na skladbu ji přehrajte.
+3. Chcete-li vytvořit playlist, otevřete nabídku **⋮** u skladby a zvolte **Přidat do playlistu**.
 
-## Sestavení ze zdrojového kódu
-
-Potřebujete JDK 17 a buď Android Studio, nebo Android SDK s Gradle 8.9+.
-
-- **Android Studio:** otevřete projekt, přepněte variantu sestavení na **release** (debug sestavení jsou znatelně pomalejší) a zvolte *Build → Build APK(s)*.
-- **Příkazová řádka:** spusťte `gradle assembleRelease`.
-- **GitHub Actions:** vytvořte fork repozitáře a spusťte workflow **Build APK**; APK se k běhu připojí jako artefakt.
-
-APK se uloží do `app/build/outputs/apk/release/app-release.apk`.
-
-> **Podepisování.** Oficiální vydání jsou podepsána soukromým klíčem, který není součástí tohoto repozitáře. Sestavení, které si vytvoříte sami, je podepsáno standardním ladicím klíčem Androidu, takže se bez problémů nainstaluje, ale neaktualizuje oficiální vydání (před instalací jedné verze odinstalujte druhou). Chcete-li ve svém GitHub Actions vlastní podepsaná sestavení, přidejte tajné klíče repozitáře `KEYSTORE_BASE64` (váš soubor `.jks` zakódovaný v base64) a `KEYSTORE_PASSWORD`; alias klíče je ve výchozím nastavení `radiant`.
-
-## Vytvořeno pomocí
-
-Kotlin, Jetpack Compose (Material 3) a AndroidX Media3 (ExoPlayer).
-
-## Přispívání
-
-Issues a pull requesty jsou vítány. U větších změn prosím nejprve otevřete issue a probereme, co chcete změnit. Odesláním pull requestu souhlasíte s tím, že váš příspěvek je poskytnut pod stejnou licencí jako projekt.
-
-## Komponenty třetích stran
-
-Přehrávání ALAC (Apple Lossless) využívá dekodér FFmpeg z AndroidX Media3. Workflow **Build APK** jej sestaví z neupraveného zdrojového kódu [FFmpeg](https://ffmpeg.org) 6.0 (pouze dekodér ALAC, žádné komponenty GPL) spolu s rozšířením Media3 1.5.1 (Apache-2.0) a připojí do aplikace jako nativní knihovnu.
-
-FFmpeg zůstává pod vlastní licencí, [LGPL 2.1 nebo novější](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), nikoli PolyForm Noncommercial. Zdrojový kód je k dispozici na <https://github.com/FFmpeg/FFmpeg> (větev `release/6.0`). Aplikaci můžete sestavit s vlastním upraveným FFmpeg úpravou workflow. Sestavení bez tohoto kroku (například lokální, bez souboru `.aar` v `app/libs`) funguje normálně, ale nepřehraje ALAC.
-
-Dělení na stemy využívá [ONNX Runtime](https://onnxruntime.ai) (MIT) a modely [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch) umxhq (MIT, © 2019 Inria) v exportu do ONNX od MixDirective. Váhy umxhq byly natrénovány na MUSDB18-HQ; pokud plánujete použití nad rámec osobního, zkontrolujte podmínky trénovacích dat a vah.
+Jazyk aplikace změníte v **Nastavení → Jazyk aplikace**. Vyberte jazyk, nebo nechte **Systém**, aby aplikace používala jazyk telefonu.
 
 ## Licence
 
-Radiant je licencován pod [PolyForm Noncommercial License 1.0.0](LICENSE.md).
-
-Můžete jej svobodně používat, studovat, upravovat a sdílet pro jakékoli **nekomerční** účely, včetně osobního použití, hobby projektů, vzdělávání a neziskových organizací. **Komerční použití není bez samostatné dohody povoleno**, takže aplikaci nesmíte prodávat ani ji vydávat za účelem zisku. Pokud chcete Radiant používat komerčně, kontaktujte nás otevřením issue v tomto repozitáři.
-
-Ke každé kopii, kterou sdílíte, prosím ponechte soubor `LICENSE.md` a jeho řádek `Required Notice`.
+Radiant je licencován pod [PolyForm Noncommercial License 1.0.0](LICENSE.md). Je zdarma pro osobní a další nekomerční použití; komerční použití vyžaduje samostatnou dohodu.

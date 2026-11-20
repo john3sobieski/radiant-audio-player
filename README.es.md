@@ -1,117 +1,73 @@
-# Radiant
+<p align="center">
+  <img src="/git_images/Radiant.png" width="800" alt="Radiant">
+</p>
 
-[English](README.md) | [Čeština](README.cs.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Polski](README.pl.md) | [Русский](README.ru.md) | [中文](README.zh.md)
+<h1 align="center">Radiant for Android</h1>
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I5I829ZD02) [![Buy Me a Coffee](https://img.shields.io/badge/Support%20the%20project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/radiant_player)
+<p align="center">
+  Un reproductor de música sencillo y privado para tus archivos de audio locales.<br>
+  Sin anuncios. Sin cuentas. Tu música se queda en tu dispositivo.
+</p>
 
-Un reproductor de música nativo y sencillo para Android, para tus **archivos de audio locales**. Reproduce música únicamente de la carpeta que elijas, así que los tonos de llamada, los mensajes de voz y otros sonidos de tu teléfono nunca acaban en tu biblioteca.
+<p align="center">
+  <a href="../../releases/latest"><b>Descargar el último APK</b></a> ·
+  <a href="README_pc.md">Versión para PC</a>
+</p>
 
-Sin anuncios, sin cuentas, sin necesidad de acceso a internet. Todo permanece en tu dispositivo; internet solo se usa si decides descargar música desde tu propia nube (Dropbox) o descargar los modelos de IA para los stems (una sola vez; también se pueden importar desde archivos).
+<p align="center">
+  <a href="README.md">English</a> ·
+  <a href="README.cs.md">Čeština</a> ·
+  <a href="README.de.md">Deutsch</a> ·
+  <a href="README.es.md">Español</a> ·
+  <a href="README.fr.md">Français</a> ·
+  <a href="README.ja.md">日本語</a> ·
+  <a href="README.pl.md">Polski</a> ·
+  <a href="README.ru.md">Русский</a> ·
+  <a href="README.zh.md">中文</a>
+</p>
 
-> **Idiomas:** inglés, alemán, ruso, ucraniano, chino, japonés, francés, checo, español y polaco. Elige uno en **Ajustes → Idioma de la aplicación**, o déjalo en *Sistema* para seguir el idioma del teléfono (se usa inglés si el idioma del teléfono no es compatible).
+<p align="center">
+  <a href="https://ko-fi.com/I5I829ZD02"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi"></a>
+  <a href="https://www.buymeacoffee.com/radiant_player"><img src="https://img.shields.io/badge/Support%20the%20project-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee"></a>
+</p>
+
+---
+
+## Por qué Radiant
+
+Radiant reproduce música de **una carpeta que tú eliges**. Analiza esa carpeta y sus subcarpetas, sin añadir tonos de llamada, mensajes de voz ni otros sonidos de otras partes del teléfono. El Storage Access Framework de Android limita el acceso a la carpeta que seleccionaste.
+
+No hay anuncios ni cuentas. La reproducción funciona sin conexión; solo se necesita internet para las descargas opcionales de Dropbox o para la descarga única de los modelos de IA.
 
 ## Características
 
-- **Tu música, tu carpeta.** Elige una carpeta una sola vez; Radiant la analiza junto con sus subcarpetas y vuelve a analizarla cada vez que abres la aplicación. Usa el Storage Access Framework de Android, por lo que no puede ver nada fuera de esa carpeta.
-- **Descarga desde la nube (opcional).** En *Ajustes → Carpeta de música* puedes conectar tu Dropbox y descargar música de una carpeta de la nube que elijas a una carpeta aparte `Dropbox` dentro de tu carpeta de música. Funciona en un solo sentido: en la nube no se sube, cambia ni elimina nada, y en el dispositivo no se elimina ni sobrescribe nada. El inicio de sesión se hace en el navegador, así que la aplicación nunca ve tu contraseña.
-- **Biblioteca:** Listas de reproducción, Álbumes (agrupados automáticamente según las etiquetas de los archivos) y Canciones, con búsqueda y ordenación en cada sección.
-- **Listas de reproducción:** crear, renombrar, eliminar, añadir y quitar canciones. *Canciones que me gustan* siempre está fijada arriba.
-- **Colas:** una cuarta sección con exactamente cuatro colas fijas (no se pueden crear ni eliminar). Añade canciones desde el botón del reproductor o el menú «⋮», quítalas y reordénalas con una pulsación larga y arrastrando, o con «subir / bajar».
-- **Arrastrar para reordenar** listas de reproducción, álbumes y canciones con una pulsación larga.
-- **Reproducción en segundo plano** con notificación multimedia, controles en la pantalla de bloqueo y compatibilidad con los botones de los auriculares.
-- **Reproductor:** reproducir/pausar, siguiente/anterior, buscar, aleatorio, repetir (desactivado / todo / una), carátula y una insignia de calidad con el formato del archivo y la tasa de bits.
-- **Letras:** un botón debajo de la «i» en el reproductor abre la letra. Radiant busca letras en las etiquetas del archivo (ID3 USLT/SYLT, Vorbis `LYRICS`, M4A `©lyr`) y en archivos `.lrc` / `.txt` con el mismo nombre junto a la canción, y vuelve a comprobarlo cada vez que abres la aplicación. Las letras sincronizadas (`.lrc`) se desplazan con la canción, resaltan la línea actual y atenúan las líneas ya cantadas; toca una línea para saltar a ella. La letra sin sincronizar se muestra en una vista compacta.
-- **Velocidad de reproducción** desde 3× más lenta hasta 3× más rápida en pasos de 0,1, conservando el tono.
-- **Ajustes de sonido:** mono/estéreo, normalización de volumen, refuerzo de graves y agudos, filtro subsónico y un ecualizador de 12 bandas con 10 preajustes. El ecualizador puede aplicar una misma curva a todas las canciones o recordar una curva distinta para cada una.
-- **Idioma de la interfaz:** *Ajustes → Idioma de la aplicación* abre una ventana con *Sistema* arriba y los diez idiomas debajo, en orden alfabético. El cambio se aplica al instante, sin interrumpir la reproducción.
-- **Temas:** claro, oscuro con negro puro (ideal para pantallas OLED) o el predeterminado del sistema, con colores dinámicos en Android 12+.
-- **Bloqueo de la aplicación** (Ajustes → Seguridad, desactivado por defecto): se pide un código de 4 dígitos, de 6 dígitos o personalizado cada vez que abres la app. Si lo olvidas, un archivo de recuperación con 12 palabras aleatorias la desbloquea. Los detalles están en la sección *Bloqueo de la aplicación* más abajo.
-- **Ahorro de energía** (Ajustes): *Desactivado*, *Medio* (casi sin animaciones, actualizaciones de progreso menos frecuentes) o *Intensivo* (además tema negro forzado, volumen limitado al 40 %, solo mono, ecualizador/graves/agudos/subsónico/normalización omitidos, salida solo por cable o altavoz del teléfono sin Bluetooth, análisis manual de la carpeta, caché de carátulas más pequeña). **Los stems con IA no están disponibles en los modos Medio e Intensivo** (un trabajo en curso se cancela al cambiar); para crear stems elige *Desactivado*.
-- **Detalles de la canción:** etiquetas, formato, tasa de bits, frecuencia de muestreo, canales, tamaño del archivo y más.
-- **Stems (IA):** la opción *Crear stems* del menú «⋮» de una pista la separa en **voz, batería, bajo y el resto** con Open-Unmix (umxhq, ONNX) y mezcla las partes marcadas en **una sola pista**: todo menos el bajo da la pista completa sin bajo, todo menos la voz da el instrumental. Funciona en el dispositivo, no en tiempo real, con barra de progreso, estimación del tiempo restante y botón de cancelar; sigue en segundo plano con una notificación. El resultado es un WAV de 16 bits / 44,1 kHz en `Stems/<artista - título>/` dentro de tu carpeta de música, así que aparece enseguida en la biblioteca. Consulta «Stems (IA)» más abajo.
-- **Formatos:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV y cualquier otro que Android pueda decodificar.
+- **Tu biblioteca musical:** explora Canciones, Álbumes y Listas de reproducción, con búsqueda y ordenación. Crea y gestiona listas de reproducción; *Canciones que me gustan* siempre está arriba. Hay cuatro colas fijas para listas de escucha rápidas.
+- **Control de reproducción completo:** reproducción en segundo plano, notificación multimedia, controles en la pantalla de bloqueo y en los auriculares, modo aleatorio, repetición, búsqueda y velocidad de reproducción de 3× más lenta a 3× más rápida sin cambiar el tono.
+- **Letras:** lee las letras desde las etiquetas de la pista o desde archivos `.lrc` / `.txt` cercanos. Las letras sincronizadas siguen la canción, y al tocar una línea se salta a ese punto.
+- **Ajustes de sonido:** ecualizador de 12 bandas con 10 preajustes, realce de graves y agudos, normalización del volumen, mono/estéreo y filtro subsónico. Los ajustes del ecualizador pueden compartirse entre pistas o guardarse por pista.
+- **Separación de stems con IA:** divide una pista en voz, batería, bajo y el resto, y mezcla las partes que quieras en un archivo WAV. El procesamiento se ejecuta en tu dispositivo. Descarga o importa los modelos una sola vez; después, la separación de stems funciona sin conexión.
+- **Descarga opcional de Dropbox:** copia música de una carpeta de Dropbox que elijas a tu carpeta de música. Es en un solo sentido: Radiant no sube, modifica ni elimina nada en Dropbox.
+- **Privacidad y personalización:** bloqueo de la aplicación opcional, temas claro/oscuro/negro puro, colores dinámicos en Android 12+ y 10 idiomas de interfaz.
+- **Formatos:** MP3, FLAC, OGG/Opus, M4A/AAC, ALAC, WAV y otros formatos compatibles con Android.
 
-## Bloqueo de la aplicación
+## Descarga e instalación
 
-Protección opcional de la app, **desactivada por defecto**. Actívala en **Ajustes → Seguridad**.
+Radiant requiere **Android 8.0 (API 26) o posterior**.
 
-- **Tres tipos de código:** 4 dígitos, 6 dígitos o un código personalizado (letras latinas y dígitos, de 4 a 64 caracteres, sin espacios).
-- **Cuándo lo pide:** en cada inicio y cada vez que la app vuelve desde segundo plano. Girar la pantalla o cambiar el idioma no la bloquea.
-- **Pantalla de bloqueo:** un fondo blanco liso o negro puro (según el tema) con un campo de código. Los códigos numéricos usan un teclado minimalista en pantalla; un código personalizado usa el teclado normal del sistema. El botón del ojo muestra u oculta lo escrito. Las capturas y la grabación de pantalla se bloquean solo en esta pantalla.
-- **Cambiar o desactivar:** *Ajustes → Seguridad → Cambiar código*, o desactiva el bloqueo. En ambos casos se pide primero el código actual.
+1. Abre la **[última versión](../../releases/latest)** en tu teléfono y descarga el APK.
+2. Abre el archivo descargado y permite la instalación desde este origen si Android lo solicita.
+3. Abre Radiant y elige la carpeta que contiene tu música.
 
-### Cómo funciona la protección
-
-- **El código nunca se guarda.** Radiant solo conserva una sal aleatoria y un hash PBKDF2-HMAC-SHA256 (30 000 iteraciones), comparado en tiempo constante.
-- **Protección contra fuerza bruta.** Tras cada 5 códigos incorrectos seguidos hay que esperar: 30 segundos, luego 1, 2, 4… minutos, hasta 15 minutos. La pausa se mantiene aunque reinicies la app. En el peor caso, con la pausa más larga, probar los 10 000 códigos de 4 dígitos lleva unas 3 semanas, y los 1 000 000 de códigos de 6 dígitos más de 5 años. Los códigos cortos obtienen su fuerza de este límite y no de la entropía: un código de 4 dígitos son unos 13 bits y uno de 6 dígitos unos 20 bits. Para más, elige un código personalizado: cada carácter aleatorio aporta unos 6 bits, así que 8 caracteres aleatorios son unos 48 bits.
-- **Archivo de recuperación con alta entropía.** Al crear un código, Radiant genera **12 palabras aleatorias** de una lista integrada de 700 palabras en inglés, elegidas con un generador aleatorio criptográficamente seguro. Son 700¹² ≈ 2¹¹³ combinaciones, unos **113 bits de entropía**, fuera del alcance de la fuerza bruta. Guardas las palabras en un archivo `.txt` donde quieras. El bloqueo solo se activa cuando el archivo se ha escrito, y la app conserva únicamente un hash de las palabras, no las palabras.
-- **¿Olvidaste el código?** Toca *Olvidé la contraseña* en la pantalla de bloqueo y elige el archivo de recuperación. Si coincide, el bloqueo se desactiva y puedes volver a activarlo con un código y un archivo nuevos. Cambiar el código también crea un archivo nuevo, y el anterior deja de funcionar.
-- **Guarda bien el archivo.** Quien lo tenga puede quitar el bloqueo, así que no lo dejes donde otros puedan encontrarlo. Si pierdes el código y el archivo, la única salida es borrar los datos de la app, lo que también elimina listas y ajustes. Nadie, ni siquiera el desarrollador, puede recuperar el código: no hay cuentas ni servidores.
-- **Lo que no hace.** El bloqueo protege la interfaz de la app, no los archivos de audio de tu almacenamiento. La música sigue sonando con la app bloqueada y los controles de la notificación siguen funcionando.
-
-## Stems (IA)
-
-- **Qué obtienes.** Las cuatro partes (voz, batería, bajo, resto) suman exactamente el original, así que cualquier selección es una submezcla limpia: marca las partes que quieres conservar y se mezclan en un solo WAV. Repetir con la misma selección sobrescribe el archivo.
-- **Modelos.** Cuatro archivos ONNX de ~34 MB cada uno (voz, batería, bajo, resto) no vienen en el APK. En *Ajustes → Stems (IA)* puedes descargarlos (se verifica SHA-256) o importarlos desde archivos si los obtuviste antes (`model.onnx` de los repositorios de Hugging Face `MixDirective/open-unmix-umxhq-{vocals,drums,bass,other}-onnx`; los archivos se reconocen por su suma de comprobación, el nombre no importa). Después todo funciona sin conexión.
-- **Cómo funciona.** El decodificador del sistema convierte la pista a estéreo de 44,1 kHz, se corta en bloques de ~12 s con 2 s de contexto a cada lado, cada bloque pasa por las redes (STFT 4096/1024) y los resultados se unen sin costuras. El uso de memoria no depende de la duración de la pista.
-- **Calidad.** Siempre se ejecutan las cuatro redes y sus estimaciones se equilibran con una máscara suave (v² / Σv²), de modo que las partes suman el original y ninguna queda demasiado baja. Eso requiere los cuatro modelos y unas 4 pasadas de red por bloque; el procesamiento necesita unos 250 MB de RAM.
-- **Velocidad.** Normalmente unos minutos por pista en un teléfono reciente; se usan mucho el procesador y la batería. El trabajo se ejecuta como servicio en primer plano con notificación (con botón *Cancelar*) y mantiene la CPU despierta hasta terminar. Los stems están bloqueados en los modos de ahorro de energía Medio e Intensivo.
-- **Limitaciones.** Máscara de razón simple sin filtro de Wiener (algo por debajo de la calidad de referencia de umxhq); voz, batería y bajo están vacíos por encima de ~16 kHz (las redes se entrenaron solo hasta esa frecuencia); en archivos multicanal se usan los dos primeros canales; los formatos que Android no puede decodificar (p. ej. ALAC en algunos dispositivos) no se pueden separar. Se necesita acceso de escritura a la carpeta de música (vuelve a elegirla si la app lo pide).
-
-## Requisitos
-
-- Android 8.0 (API 26) o posterior
-- Para los stems (opcional): ahorro de energía en *Desactivado*; unos 142 MB de almacenamiento libre para los cuatro modelos (~34 MB cada uno); unos 250 MB de RAM libre durante el procesamiento; espacio temporal en disco de unos 85 MB por cada 4 minutos de audio (se elimina al terminar); el resultado es un WAV de unos 42 MB por cada 4 minutos. ONNX Runtime viene incluido en el APK, no hace falta instalar nada más.
-
-## Instalación
-
-La última versión estable siempre está disponible en la página de **[Releases](../../releases/latest)** como archivo `.apk`.
-
-1. Descarga el `.apk` de la última versión en tu teléfono.
-2. Ábrelo y permite la instalación desde orígenes desconocidos si Android lo solicita.
-3. Abre Radiant.
-
-Las versiones nuevas se instalan sobre las anteriores sin desinstalar, por lo que se conservan tus listas de reproducción y ajustes.
+Las nuevas versiones se pueden instalar sobre la aplicación existente, así que tus listas de reproducción y ajustes se conservan.
 
 ## Primeros pasos
 
-1. Abre la aplicación y toca **Elegir carpeta**.
-2. Selecciona la carpeta con tu música. La biblioteca se llena automáticamente.
-3. Explora **Listas de reproducción**, **Álbumes** y **Canciones** y toca una canción para reproducirla.
-4. Para crear una lista de reproducción, toca **⋮** junto a cualquier canción y elige **Añadir a lista de reproducción**.
+1. Toca **Elegir carpeta** y selecciona tu carpeta de música.
+2. Explora **Listas de reproducción**, **Álbumes** o **Canciones** y toca una canción para reproducirla.
+3. Para crear una lista de reproducción, abre el menú **⋮** junto a una canción y elige **Añadir a lista de reproducción**.
 
-## Compilar desde el código fuente
-
-Necesitas JDK 17 y Android Studio o el SDK de Android con Gradle 8.9+.
-
-- **Android Studio:** abre el proyecto, cambia la variante de compilación a **release** (las compilaciones debug son notablemente más lentas) y elige *Build → Build APK(s)*.
-- **Línea de comandos:** ejecuta `gradle assembleRelease`.
-- **GitHub Actions:** haz un fork del repositorio y ejecuta el flujo de trabajo **Build APK**; el APK se adjunta a la ejecución como artefacto.
-
-El APK se genera en `app/build/outputs/apk/release/app-release.apk`.
-
-> **Firma.** Las versiones oficiales se firman con una clave privada que no forma parte de este repositorio. Una compilación que hagas tú mismo se firma con la clave de depuración estándar de Android, por lo que se instala sin problemas pero no se actualizará sobre una versión oficial (desinstala una antes de instalar la otra). Si quieres tus propias compilaciones firmadas en GitHub Actions, añade los secretos del repositorio `KEYSTORE_BASE64` (tu archivo `.jks` codificado en base64) y `KEYSTORE_PASSWORD`; el alias de la clave es `radiant` por defecto.
-
-## Desarrollado con
-
-Kotlin, Jetpack Compose (Material 3) y AndroidX Media3 (ExoPlayer).
-
-## Contribuir
-
-Los issues y los pull requests son bienvenidos. Para cambios más grandes, abre primero un issue para comentar qué te gustaría cambiar. Al enviar un pull request aceptas que tu contribución se proporcione bajo la misma licencia que el proyecto.
-
-## Componentes de terceros
-
-La reproducción de ALAC (Apple Lossless) usa el decodificador FFmpeg de AndroidX Media3. El flujo de trabajo **Build APK** lo compila a partir del código fuente sin modificar de [FFmpeg](https://ffmpeg.org) 6.0 (solo el decodificador ALAC, sin componentes GPL) junto con la extensión de Media3 1.5.1 (Apache-2.0), y lo enlaza en la aplicación como biblioteca nativa.
-
-FFmpeg sigue bajo su propia licencia, [LGPL 2.1 o posterior](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html), y no bajo PolyForm Noncommercial. El código fuente está disponible en <https://github.com/FFmpeg/FFmpeg> (rama `release/6.0`). Puedes recompilar la aplicación con tu propio FFmpeg modificado cambiando el flujo de trabajo. Las compilaciones hechas sin este paso (por ejemplo, en local, sin un `.aar` en `app/libs`) funcionan con normalidad, pero no pueden reproducir ALAC.
-
-La separación en stems usa [ONNX Runtime](https://onnxruntime.ai) (MIT) y los modelos umxhq de [Open-Unmix](https://github.com/sigsep/open-unmix-pytorch) (MIT, © 2019 Inria) en una exportación a ONNX de MixDirective. Los pesos de umxhq se entrenaron con MUSDB18-HQ; revisa las condiciones de los datos de entrenamiento y de los pesos si piensas usar la app más allá del uso personal.
+Para cambiar el idioma de la aplicación, abre **Ajustes → Idioma de la aplicación**. Elige un idioma o déjalo en **Sistema** para seguir el idioma del teléfono.
 
 ## Licencia
 
-Radiant se distribuye bajo la [PolyForm Noncommercial License 1.0.0](LICENSE.md).
-
-Eres libre de usarlo, estudiarlo, modificarlo y compartirlo para cualquier fin **no comercial**, incluidos el uso personal, los proyectos de aficionados, la educación y las organizaciones sin ánimo de lucro. **No se permite el uso comercial** sin un acuerdo aparte, por lo que no puedes vender la aplicación ni publicarla con ánimo de lucro. Si quieres usar Radiant con fines comerciales, ponte en contacto abriendo un issue en este repositorio.
-
-Conserva el archivo `LICENSE.md` y su línea `Required Notice` en cualquier copia que compartas.
+Radiant se distribuye bajo la [PolyForm Noncommercial License 1.0.0](LICENSE.md). Es gratuito para uso personal y otros usos no comerciales; el uso comercial requiere un acuerdo aparte.
