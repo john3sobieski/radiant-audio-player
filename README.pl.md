@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="../../releases/latest"><b>Pobierz najnowszy APK</b></a> ·
-  <a href="README_pc.md">Wersja na PC</a>
+  <a href="https://github.com/john3sobieski/radiant-audio-player-pc">Wersja na PC</a>
 </p>
 
 <p align="center">
